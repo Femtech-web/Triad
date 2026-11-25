@@ -36,3 +36,11 @@ export const RELATION_LABEL: Record<string, string> = {
   same: 'trusted domain', subdomain: 'trusted subdomain', lookalike: 'look-alike', brand_in_other_domain: 'brand on another domain', free_mail: 'free mail', unrelated: 'unrelated domain',
 };
 export const SOLANA_TX = (sig: string) => `https://explorer.solana.com/tx/${sig}?cluster=devnet`;
+
+export const money = (usd: number) => (usd >= 1e9 ? `$${(usd / 1e9).toFixed(2)}bn` : usd >= 1e6 ? `$${(usd / 1e6).toFixed(1)}m` : `$${Math.round(usd).toLocaleString('en-US')}`);
+// A shipment's cargo on paper: quantity in tonnes at the benchmark's dated reference price.
+export function paperValue(commodity: string, quantity: string, prices: Record<string, number>): number | null {
+  const tonnes = Number(/^([\d.]+)\s*t$/.exec(quantity)?.[1]);
+  const price = prices[commodity];
+  return price && Number.isFinite(tonnes) ? Math.round(tonnes * price) : null;
+}

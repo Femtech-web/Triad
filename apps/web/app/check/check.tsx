@@ -65,6 +65,8 @@ export function Check() {
   const [busy, setBusy] = useState<null | 'check' | 'callback'>(null);
   const [error, setError] = useState<string | null>(null);
   const [started, setStarted] = useState(0);
+  const [amount, setAmount] = useState('');
+  const amountUsd = Number(amount.replace(/[^\d.]/g, ''));
   const [now, setNow] = useState(0);
 
   useEffect(() => {
@@ -94,6 +96,7 @@ export function Check() {
     const found = EXAMPLES.find((e) => e.id === id);
     if (!found) return;
     setForm(fromInput(found.input));
+    setAmount(found.amountUsd);
     setExample(id);
     setHistory([]);
     setError(null);
@@ -179,6 +182,11 @@ export function Check() {
               {field('supplier', 'registrationId', 'Company ID (optional)', { placeholder: 'LEI or registration number', mono: true })}
               {field('account', 'holder', 'Account holder', { placeholder: 'Name on the account you pay today' })}
               {field('account', 'number', 'Account number or IBAN', { placeholder: 'CH93 0076 2011 6238 5295 7', mono: true })}
+              <label className="field">
+                <span>Payment amount in USD (optional)</span>
+                <input className="input mono" inputMode="decimal" value={amount} placeholder="1,250,000" onChange={(e) => setAmount(e.target.value)} />
+                <span className="hint">Only shown beside the cost of the checks; never sent anywhere</span>
+              </label>
             </div>
             <p className={s.sub}>Your contact there</p>
             <div className={s.cols3}>
@@ -243,10 +251,10 @@ export function Check() {
               </div>
             ) : latest ? (
               <>
-                <Decision history={history.map((h) => h.evidence)} onCallback={answer} busy={busy === 'callback'} />
+                <Decision history={history.map((h) => h.evidence)} onCallback={answer} busy={busy === 'callback'} atStake={amountUsd > 0 ? { usd: amountUsd, paper: false } : null} />
                 <div className={s.panelFoot}>
                   <a className="btn secondary sm" download={`triad-${latest.evidence_sha256.slice(2, 14)}.json`} href={`data:application/json;charset=utf-8,${encodeURIComponent(JSON.stringify({ evidence_sha256: latest.evidence_sha256, evidence: latest.evidence }, null, 2))}`}>Download evidence</a>
-                  <span className="mono muted">{latest.evidence.cost.purchases} checks · {usdc(latest.evidence.cost.telegraphUusdc)}</span>
+                  <span className="mono muted">{latest.evidence_sha256.slice(0, 14)}…</span>
                 </div>
               </>
             ) : pre ? (

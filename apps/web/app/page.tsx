@@ -1,7 +1,7 @@
 import Link from 'next/link';
 import { Verdict } from '@/components/verdict';
-import { benchmarkReport, bestDecision, deployment, releases } from '@/lib/data';
-import { short } from '@/lib/format';
+import { benchmarkReport, bestDecision, deployment, releases, roiReport } from '@/lib/data';
+import { money, short } from '@/lib/format';
 import s from './landing.module.css';
 
 const WITNESSES = [
@@ -30,6 +30,7 @@ export default function Home() {
   const report = benchmarkReport();
   const triad = report?.summary.find((x) => x.contestant === 'triad');
   const baseline = report?.summary.find((x) => x.contestant === 'baseline');
+  const roi = roiReport();
 
   return (
     <>
@@ -130,7 +131,7 @@ export default function Home() {
             <div className={s.proofTop}>{triad ? <span className="chip accent">{triad.answered}/40 graded</span> : <span className="chip">running</span>}<span className="mono muted">triad-v1</span></div>
             <h3 className="h3">Forty frozen cases</h3>
             {triad && baseline
-              ? <p>Of {triad.attacks} attacks, Triad released <b>{triad.attacksReleased.length}</b>; a registry-and-sanctions check on the same answers released <b>{baseline.attacksReleased.length}</b>. Legitimate changes handled as expected: {triad.legitimateAsExpected} of {triad.legitimate}.</p>
+              ? <p>Of {triad.attacks} attacks, Triad released <b>{triad.attacksReleased.length}</b>; a registry-and-sanctions check on the same answers released <b>{baseline.attacksReleased.length}</b>.{roi ? <> Triad’s {roi.spend.usdc.toFixed(2)} test USDC of intelligence avoided <b>{money(roi.lossAvoidedVsBaselineUsd)}</b> of paper losses.</> : null} Legitimate changes handled as expected: {triad.legitimateAsExpected} of {triad.legitimate}.</p>
               : <p>Twenty legitimate changes and twenty attacks, frozen and hashed before any paid run, against a registry-and-sanctions baseline and a frontier model. Results land as the run completes.</p>}
             <Link className={s.proofLink} href="/benchmark">The cases and every answer →</Link>
           </article>

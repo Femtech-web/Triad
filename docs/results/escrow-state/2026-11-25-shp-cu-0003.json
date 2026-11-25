@@ -1,0 +1,16 @@
+{
+  "network": "solana-devnet",
+  "program": "7hRAkLUZ2EMuFpsc3mtKfKnfxUJvcbgJqhWDShtxz567",
+  "shipment": "shp-cu-0003",
+  "readAt": "2026-11-25T08:10:00Z",
+  "readWith": "createSolanaSettlement(...).read(shipmentKey('shp-cu-0003')) from @triad/settle, decoding the escrow account",
+  "escrow": {
+    "buyer": "ATxmzqGTLjHXJo1gCVCgNxUUNyDU1yaLLYHRPCy1BvN4",
+    "mint": "4zMMC9srt5Ri5X14GAgXhaHii3GnPAEERYPJgZJDncDU",
+    "amount": "1000000",
+    "releaseOfficer": "DcmvuRErWwHBsT6bcCuHU7tncb523dYxRbwY2q8xwjSd",
+    "refundAfter": "1796198656",
+    "state": "Released",
+    "evidenceHash": "0xd4585c2fcb97be02e48fb4c4d50826522da4ec97f8445328f8df06c2c417333e"
+  }
+}

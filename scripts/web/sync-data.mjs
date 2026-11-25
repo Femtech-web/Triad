@@ -20,6 +20,10 @@ copy('deployments', 'deployments');
 copy('benchmark/triad-v1/scenarios.jsonl', 'benchmark/scenarios.jsonl');
 copy('benchmark/triad-v1/manifest.json', 'benchmark/manifest.json');
 copy('benchmark/triad-v1/report.json', 'benchmark/report.json');
+copy('benchmark/triad-v1/roi.json', 'benchmark/roi.json');
+copy('benchmark/triad-v1/prices.json', 'benchmark/prices.json');
+copy('benchmark/independent/lookalikes/results.json', 'benchmark/lookalikes.json');
+copy('benchmark/independent/lookalikes/manifest.json', 'benchmark/lookalikes-manifest.json');
 copy('benchmark/triad-v1/evidence', 'benchmark/evidence');
 copy('benchmark/scenarios', 'showcase');
 // The console screens against this snapshot; its hash goes into every evidence file it issues.

@@ -1,14 +1,15 @@
 'use client';
 import type { EvidenceFile } from '@triad/evidence/canonical';
-import { EFFECT_LABEL, EFFECT_TONE } from '@/lib/format';
+import { EFFECT_LABEL, EFFECT_TONE, money } from '@/lib/format';
 import { headline, nextSteps } from '@/lib/plain';
 import { Verdict } from './verdict';
 import s from './decision.module.css';
 
 // One decision as the person acting on it needs it: the verdict, what it means, what to do, and why.
 // `role` decides who answers the callback: the payer recording the call, or the viewer playing the contact.
-export function Decision({ history, onCallback, busy, role = 'record', children }: {
-  history: EvidenceFile[]; onCallback?: (outcome: 'confirmed' | 'denied') => void; busy?: boolean; role?: 'record' | 'play'; children?: React.ReactNode;
+export function Decision({ history, onCallback, busy, role = 'record', atStake, children }: {
+  history: EvidenceFile[]; onCallback?: (outcome: 'confirmed' | 'denied') => void; busy?: boolean; role?: 'record' | 'play';
+  atStake?: { usd: number; paper: boolean } | null; children?: React.ReactNode;
 }) {
   const evidence = history.at(-1)!;
   const d = evidence.decision;
@@ -60,6 +61,11 @@ export function Decision({ history, onCallback, busy, role = 'record', children 
           </ul>
         </div>
       )}
+      <dl className={s.ledger}>
+        <div><dt>Intelligence bought</dt><dd>{evidence.cost.purchases} check{evidence.cost.purchases === 1 ? '' : 's'} · {(Number(evidence.cost.telegraphUusdc) / 1e6).toFixed(2)} test USDC</dd></div>
+        {atStake && atStake.usd > 0 && <div><dt>{atStake.paper ? 'At stake (paper)' : 'At stake'}</dt><dd>{money(atStake.usd)}</dd></div>}
+        {atStake && atStake.usd > 0 && evidence.cost.purchases > 0 && <div><dt>Per $1m at stake</dt><dd>{(Number(evidence.cost.telegraphUusdc) / atStake.usd).toFixed(4)} USDC</dd></div>}
+      </dl>
       {children}
     </div>
   );

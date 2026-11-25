@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import { consoleCases } from '@/lib/cases';
+import { paperPrices } from '@/lib/data';
 import { LiveUnavailable, operatorAccount, releaseOfficerAccount } from '@/lib/server/runtime';
 import { Console } from './console';
 
@@ -17,5 +18,5 @@ function liveStatus(): { enabled: boolean; reason: string | null } {
 }
 
 export default function ConsolePage() {
-  return <Console cases={consoleCases()} live={liveStatus()} />;
+  return <Console cases={consoleCases()} live={liveStatus()} prices={paperPrices()} />;
 }

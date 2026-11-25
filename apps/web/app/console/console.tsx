@@ -7,7 +7,7 @@ import { Decision } from '@/components/decision';
 import { EvidenceView } from '@/components/evidence-view';
 import { Verdict } from '@/components/verdict';
 import type { ConsoleCase } from '@/lib/cases';
-import { CATEGORY_LABEL, checkTitle, RELATION_LABEL, short, usdc } from '@/lib/format';
+import { CATEGORY_LABEL, checkTitle, paperValue, RELATION_LABEL, short, usdc } from '@/lib/format';
 import { MOVES } from '@/lib/moves';
 import { preflight } from '@/lib/preflight';
 import s from './console.module.css';
@@ -256,7 +256,7 @@ function Preflight({ shipment, draft }: { shipment: Shipment; draft: Instruction
 
 /* The lab */
 
-export function Console({ cases, live }: { cases: ConsoleCase[]; live: { enabled: boolean; reason: string | null } }) {
+export function Console({ cases, live, prices }: { cases: ConsoleCase[]; live: { enabled: boolean; reason: string | null }; prices: Record<string, number> }) {
   const [caseName, setCaseName] = useState(cases[0]!.name);
   const current = cases.find((c) => c.name === caseName) ?? cases[0]!;
   const [draft, setDraft] = useState<Instruction>(current.instruction);
@@ -355,7 +355,8 @@ export function Console({ cases, live }: { cases: ConsoleCase[]; live: { enabled
               <div className="card-head"><span className="card-title">{run!.mode === 'live' ? 'Live decision' : 'Recorded decision'}</span><span className="mono muted">{short(latest.evidence_sha256, 8, 6)}</span></div>
               <div className="card-body">
                 {stale && <p className={s.stale}>You have edited the instruction since this run.</p>}
-                <Decision history={run!.steps.map((x) => x.evidence)} onCallback={callback} busy={Boolean(busy)} role="play">
+                <Decision history={run!.steps.map((x) => x.evidence)} onCallback={callback} busy={Boolean(busy)} role="play"
+                  atStake={(() => { const v = paperValue(current.shipment.commodity, current.shipment.quantity, prices); return v ? { usd: v, paper: true } : null; })()}>
                   {decision.decision === 'CLEAR' && (
                     <div className={s.releaseBox}>
                       <p className="label">Release on Ethereum Sepolia</p>

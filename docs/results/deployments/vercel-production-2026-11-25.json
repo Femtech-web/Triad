@@ -1,0 +1,66 @@
+{
+  "checked_at": "2026-11-25T08:58:03.774810+00:00",
+  "project": "triad",
+  "scope": "bossfemzy10gmailcoms-projects",
+  "production_url": "https://triad-five-steel.vercel.app",
+  "deployment_url": "https://triad-201k5ulkr-bossfemzy10gmailcoms-projects.vercel.app",
+  "deployment_id": "dpl_96teKBovE2j9xwFeAcigcYRTAXBf",
+  "node_runtime": "nodejs22.x",
+  "project_root_directory": "apps/web",
+  "deployment_cli_directory": "repository root",
+  "fluid_compute": true,
+  "environment_variable_names": [
+    "TRIAD_EVM_OPERATOR_KEY",
+    "TRIAD_EVM_RELEASE_OFFICER_KEY",
+    "TRIAD_SEAL_SECRET"
+  ],
+  "build": {
+    "status": "passed",
+    "nextjs": "16.4.6",
+    "webpack": true,
+    "generated_static_pages": 102,
+    "bundled_decisions": 6,
+    "bundled_releases": 2,
+    "bundled_benchmark_evidence_files": 40
+  },
+  "http_statuses": {
+    "/": 200,
+    "/check": 200,
+    "/console": 200,
+    "/benchmark": 200,
+    "/evidence": 200,
+    "/evidence/0x7f83957f16dea1bb5b15c002f408ef5c4317a04bcaf1c126e1129c9174dea93d": 200,
+    "/api/evidence/0x7f83957f16dea1bb5b15c002f408ef5c4317a04bcaf1c126e1129c9174dea93d": 200
+  },
+  "public_evidence_api_sha256": "0x7f83957f16dea1bb5b15c002f408ef5c4317a04bcaf1c126e1129c9174dea93d",
+  "browser_evidence_verified_badge": true,
+  "console_run_it_live_enabled": true,
+  "no_cost_example": {
+    "name": "Look-alike domain",
+    "decision": "BLOCK",
+    "checks": 0,
+    "cost_test_usdc": "0.00"
+  },
+  "single_paid_smoke": {
+    "name": "Real mailbox, new account",
+    "first_decision": "HOLD",
+    "after_example_callback": "CLEAR",
+    "checks": 3,
+    "cost_test_usdc": "0.03",
+    "callback_is_simulated_fixture_not_actual_phone_call": true,
+    "independent_chain_receipt_audit_performed": false
+  },
+  "escrow_funding_or_supplier_release_clicked": false,
+  "committed_or_pushed": false,
+  "screenshot": "docs/results/deployments/production-smoke-2026-11-25.png",
+  "resolved_blockers": [
+    "Vercel CLI missing: used npm-cached official CLI 66.6.0 without adding an app dependency.",
+    "Prebuilt filePathMap could not resolve workspace dependencies when deployed from apps/web: linked and built/deployed at repository root with project rootDirectory apps/web.",
+    "New project defaulted to Node 26: set project runtime to Node 22."
+  ],
+  "warnings": [
+    "Vercel Secret values are not pulled locally; placeholders were not substituted with real secrets. Production keys were verified by enabled console and successful paid smoke.",
+    "Python local CA bundle failed verification; HTTP checks used Node with TLS verification enabled instead.",
+    "This is testnet validation, not production financial readiness."
+  ]
+}

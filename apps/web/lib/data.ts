@@ -51,3 +51,28 @@ export function benchmarkManifest(): BenchmarkManifest | null {
 }
 
 export const releasesFor = (hash: string): StoredRelease[] => releases().filter((r) => r.authorization.evidenceHash.toLowerCase() === hash.toLowerCase());
+
+export interface RoiOutcome { attacksReleased: number; paperLossUsd: number; legitimateBlocked: number; legitimateBlockedUsd: number; legitimateHeldInsteadOfCleared: number; legitimateHeldUsd: number }
+export interface RoiReport {
+  basis: string; pricesAsOf: string; note: string; spend: { usdc: number; answers: number; currency: string };
+  attacks: { count: number; paperValueUsd: number }; legitimate: { count: number; paperValueUsd: number };
+  triad: RoiOutcome; baseline: RoiOutcome; lossAvoidedVsBaselineUsd: number; lossAvoidedPerUsdc: number; medianSpendPerMillionUsd: number;
+  prices: Record<string, { usdPerTonne: number; basis: string; source: string }>;
+}
+export function roiReport(): RoiReport | null {
+  const path = join(DATA, 'benchmark/roi.json');
+  return existsSync(path) ? readJson(path) : null;
+}
+export type PaperPrices = Record<string, number>;
+export function paperPrices(): PaperPrices {
+  const path = join(DATA, 'benchmark/prices.json');
+  if (!existsSync(path)) return {};
+  const { commodities } = readJson<{ commodities: Record<string, { usdPerTonne: number }> }>(path);
+  return Object.fromEntries(Object.entries(commodities).map(([k, v]) => [k, v.usdPerTonne]));
+}
+
+export interface LookalikeResults { permutations: number; permutationsSha256: string; neutralName: { total: Record<string, number> }; copiedName: { total: Record<string, number> } }
+export function lookalikeResults(): LookalikeResults | null {
+  const path = join(DATA, 'benchmark/lookalikes.json');
+  return existsSync(path) ? readJson(path) : null;
+}

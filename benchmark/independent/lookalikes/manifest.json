@@ -1,0 +1,14 @@
+{
+  "generator": "dnstwist",
+  "version": "20250130",
+  "sellers": [
+    "antofagasta.co.uk",
+    "aurubis.com",
+    "boliden.com",
+    "fcx.com",
+    "glencore.com"
+  ],
+  "permutations": 12585,
+  "permutationsSha256": "503d627b04a96466152eb40a8f59977580295979def2838397addea9b559a9e2",
+  "generatedAt": "2026-11-25T09:04:52Z"
+}

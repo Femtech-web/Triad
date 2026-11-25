@@ -24,3 +24,6 @@ programs/solana/.anchor/
 .pglite/
 .cache/
 .DS_Store
+.vercel
+.env*
+marketing/

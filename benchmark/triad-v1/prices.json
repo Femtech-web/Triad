@@ -1,0 +1,32 @@
+{
+  "asOf": "2026-11-23",
+  "basis": "paper",
+  "note": "A paper valuation for the benchmark: the positions are not real and Triad's spend is testnet USDC. It values each shipment's cargo so the intelligence spent can be compared with what it protected.",
+  "commodities": {
+    "Copper cathodes, LME grade A": {
+      "usdPerTonne": 12165,
+      "basis": "LME copper official cash settlement, 23 Nov 2026",
+      "source": "https://www.westmetall.com/en/markdaten.php"
+    },
+    "Copper cathodes, COMEX grade 1": {
+      "usdPerTonne": 12165,
+      "basis": "LME copper official cash settlement, 23 Nov 2026, used as a proxy for COMEX grade 1",
+      "source": "https://www.westmetall.com/en/markdaten.php"
+    },
+    "Zinc ingots, SHG": {
+      "usdPerTonne": 3630.5,
+      "basis": "LME zinc official cash settlement, 23 Nov 2026",
+      "source": "https://www.westmetall.com/en/markdaten.php"
+    },
+    "Copper concentrate": {
+      "usdPerTonne": 2935,
+      "basis": "contained copper: an assumed 25% Cu grade and 96.5% payable, at LME cash $12,165/t; treatment and refining charges ignored",
+      "source": "https://www.westmetall.com/en/markdaten.php"
+    },
+    "Cobalt hydroxide": {
+      "usdPerTonne": 6035,
+      "basis": "contained cobalt: an assumed 30% Co and 60% payable, at a cobalt metal price of $33,525/t (19 Nov 2026; a market data series, not an LME settlement)",
+      "source": "https://cbonds.com/indexes/181083/"
+    }
+  }
+}

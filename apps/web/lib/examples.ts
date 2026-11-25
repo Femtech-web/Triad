@@ -9,17 +9,17 @@ const glencore = {
 };
 const newAccount = { kind: 'payout' as const, holder: 'GLENCORE INTERNATIONAL AG', number: 'CH56 0483 5012 3456 7800 9' };
 
-export const EXAMPLES: { id: string; label: string; input: CheckInput }[] = [
+export const EXAMPLES: { id: string; label: string; amountUsd: string; input: CheckInput }[] = [
   {
-    id: 'lookalike', label: 'Look-alike domain',
+    id: 'lookalike', label: 'Look-alike domain', amountUsd: '2,740,000',
     input: { ...glencore, change: newAccount, email: { fromName: 'Glencore Treasury Desk', from: 'treasury.desk@glencor.com', message: 'Due to an internal audit our bank account has changed with immediate effect. Please remit the open invoice to the account below and confirm by return.' } },
   },
   {
-    id: 'genuine', label: 'Real mailbox, new account',
+    id: 'genuine', label: 'Real mailbox, new account', amountUsd: '2,740,000',
     input: { ...glencore, change: newAccount, email: { fromName: 'Glencore Treasury Desk', from: 'treasury.desk@glencore.com', message: 'We have moved our USD receiving account to a new bank. Please use the details below for all open invoices.' } },
   },
   {
-    id: 'sanctioned', label: 'Sanctioned pickup agent',
+    id: 'sanctioned', label: 'Sanctioned pickup agent', amountUsd: '3,520,000',
     input: {
       supplier: { legalName: 'ANTOFAGASTA PLC', country: 'GB', domain: 'antofagasta.co.uk', registrationId: '213800MY6QVH4FVLD628' },
       account: { holder: 'ANTOFAGASTA PLC', number: 'GB29 NWBK 6016 1331 9268 19' },
@@ -29,7 +29,7 @@ export const EXAMPLES: { id: string; label: string; input: CheckInput }[] = [
     },
   },
   {
-    id: 'asagreed', label: 'Pay as agreed',
+    id: 'asagreed', label: 'Pay as agreed', amountUsd: '910,000',
     input: {
       supplier: { legalName: 'Aurubis AG', country: 'DE', domain: 'aurubis.com', registrationId: '5299005SHIN9ZK7GW242' },
       account: { holder: 'Aurubis AG', number: 'DE89 3704 0044 0532 0130 00' },

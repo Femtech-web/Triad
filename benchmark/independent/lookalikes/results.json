@@ -1,0 +1,183 @@
+{
+  "permutations": 12585,
+  "permutationsSha256": "503d627b04a96466152eb40a8f59977580295979def2838397addea9b559a9e2",
+  "ranAt": "2026-11-25T09:05:16.470Z",
+  "neutralName": {
+    "total": {
+      "BLOCK": 12343,
+      "HOLD": 242,
+      "CLEAR": 0,
+      "REJECTED": 0
+    },
+    "byFuzzer": {
+      "addition": {
+        "BLOCK": 144,
+        "HOLD": 36,
+        "CLEAR": 0,
+        "REJECTED": 0
+      },
+      "bitsquatting": {
+        "BLOCK": 151,
+        "HOLD": 15,
+        "CLEAR": 0,
+        "REJECTED": 0
+      },
+      "homoglyph": {
+        "BLOCK": 11412,
+        "HOLD": 118,
+        "CLEAR": 0,
+        "REJECTED": 0
+      },
+      "hyphenation": {
+        "BLOCK": 31,
+        "HOLD": 0,
+        "CLEAR": 0,
+        "REJECTED": 0
+      },
+      "insertion": {
+        "BLOCK": 325,
+        "HOLD": 17,
+        "CLEAR": 0,
+        "REJECTED": 0
+      },
+      "omission": {
+        "BLOCK": 33,
+        "HOLD": 3,
+        "CLEAR": 0,
+        "REJECTED": 0
+      },
+      "plural": {
+        "BLOCK": 10,
+        "HOLD": 0,
+        "CLEAR": 0,
+        "REJECTED": 0
+      },
+      "repetition": {
+        "BLOCK": 21,
+        "HOLD": 0,
+        "CLEAR": 0,
+        "REJECTED": 0
+      },
+      "replacement": {
+        "BLOCK": 165,
+        "HOLD": 11,
+        "CLEAR": 0,
+        "REJECTED": 0
+      },
+      "subdomain": {
+        "BLOCK": 5,
+        "HOLD": 21,
+        "CLEAR": 0,
+        "REJECTED": 0
+      },
+      "transposition": {
+        "BLOCK": 10,
+        "HOLD": 20,
+        "CLEAR": 0,
+        "REJECTED": 0
+      },
+      "various": {
+        "BLOCK": 5,
+        "HOLD": 1,
+        "CLEAR": 0,
+        "REJECTED": 0
+      },
+      "vowel-swap": {
+        "BLOCK": 31,
+        "HOLD": 0,
+        "CLEAR": 0,
+        "REJECTED": 0
+      }
+    },
+    "cleared": []
+  },
+  "copiedName": {
+    "total": {
+      "BLOCK": 12585,
+      "HOLD": 0,
+      "CLEAR": 0,
+      "REJECTED": 0
+    },
+    "byFuzzer": {
+      "addition": {
+        "BLOCK": 180,
+        "HOLD": 0,
+        "CLEAR": 0,
+        "REJECTED": 0
+      },
+      "bitsquatting": {
+        "BLOCK": 166,
+        "HOLD": 0,
+        "CLEAR": 0,
+        "REJECTED": 0
+      },
+      "homoglyph": {
+        "BLOCK": 11530,
+        "HOLD": 0,
+        "CLEAR": 0,
+        "REJECTED": 0
+      },
+      "hyphenation": {
+        "BLOCK": 31,
+        "HOLD": 0,
+        "CLEAR": 0,
+        "REJECTED": 0
+      },
+      "insertion": {
+        "BLOCK": 342,
+        "HOLD": 0,
+        "CLEAR": 0,
+        "REJECTED": 0
+      },
+      "omission": {
+        "BLOCK": 36,
+        "HOLD": 0,
+        "CLEAR": 0,
+        "REJECTED": 0
+      },
+      "plural": {
+        "BLOCK": 10,
+        "HOLD": 0,
+        "CLEAR": 0,
+        "REJECTED": 0
+      },
+      "repetition": {
+        "BLOCK": 21,
+        "HOLD": 0,
+        "CLEAR": 0,
+        "REJECTED": 0
+      },
+      "replacement": {
+        "BLOCK": 176,
+        "HOLD": 0,
+        "CLEAR": 0,
+        "REJECTED": 0
+      },
+      "subdomain": {
+        "BLOCK": 26,
+        "HOLD": 0,
+        "CLEAR": 0,
+        "REJECTED": 0
+      },
+      "transposition": {
+        "BLOCK": 30,
+        "HOLD": 0,
+        "CLEAR": 0,
+        "REJECTED": 0
+      },
+      "various": {
+        "BLOCK": 6,
+        "HOLD": 0,
+        "CLEAR": 0,
+        "REJECTED": 0
+      },
+      "vowel-swap": {
+        "BLOCK": 31,
+        "HOLD": 0,
+        "CLEAR": 0,
+        "REJECTED": 0
+      }
+    },
+    "cleared": []
+  }
+}
