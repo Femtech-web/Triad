@@ -16,6 +16,7 @@ rmSync(out, { recursive: true, force: true });
 const copy = (from, to) => { if (existsSync(resolve(root, from))) { mkdirSync(resolve(out, to, '..'), { recursive: true }); cpSync(resolve(root, from), resolve(out, to), { recursive: true }); } };
 copy('docs/results/decisions', 'decisions');
 copy('docs/results/releases', 'releases');
+copy('docs/results/x402-sales', 'sales');
 copy('deployments', 'deployments');
 copy('benchmark/triad-v1/scenarios.jsonl', 'benchmark/scenarios.jsonl');
 copy('benchmark/triad-v1/manifest.json', 'benchmark/manifest.json');

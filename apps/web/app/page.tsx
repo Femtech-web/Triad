@@ -1,6 +1,6 @@
 import Link from 'next/link';
 import { Verdict } from '@/components/verdict';
-import { benchmarkReport, bestDecision, deployment, releases, roiReport } from '@/lib/data';
+import { benchmarkReport, bestDecision, deployment, releases, roiReport, sales } from '@/lib/data';
 import { money, short } from '@/lib/format';
 import s from './landing.module.css';
 
@@ -31,6 +31,7 @@ export default function Home() {
   const triad = report?.summary.find((x) => x.contestant === 'triad');
   const baseline = report?.summary.find((x) => x.contestant === 'baseline');
   const roi = roiReport();
+  const firstSale = sales()[0];
 
   return (
     <>
@@ -134,6 +135,34 @@ export default function Home() {
               ? <p>Of {triad.attacks} attacks, Triad released <b>{triad.attacksReleased.length}</b>; a registry-and-sanctions check on the same answers released <b>{baseline.attacksReleased.length}</b>.{roi ? <> Triad’s {roi.spend.usdc.toFixed(2)} test USDC of intelligence avoided <b>{money(roi.lossAvoidedVsBaselineUsd)}</b> of paper losses.</> : null} Legitimate changes handled as expected: {triad.legitimateAsExpected} of {triad.legitimate}.</p>
               : <p>Twenty legitimate changes and twenty attacks, frozen and hashed before any paid run, against a registry-and-sanctions baseline and a frontier model. Results land as the run completes.</p>}
             <Link className={s.proofLink} href="/benchmark">The cases and every answer →</Link>
+          </article>
+        </div>
+      </section>
+
+      <section className={`wrap ${s.section}`}>
+        <div className={s.sectionHead}>
+          <p className="label">Where it runs</p>
+          <h2 className="h2">Solana and Ethereum, end to end.</h2>
+          <p className={s.brief}>Triad answers use case 4 of Telegraph’s Solana brief, Verified Global Trade &amp; Autonomous Commerce: a buyer-to-supplier payment that independent intelligence holds when something is wrong, and that settles in stablecoins when the record, the network and the person agree.</p>
+        </div>
+        <div className={s.chains}>
+          <article className={`card ${s.chain}`}>
+            <div className={s.chainTop}><span className="chip accent">Solana devnet</span><span className="mono muted">x402 · Anchor</span></div>
+            <h3 className="h3">Buys, settles and sells in USDC</h3>
+            <ul className={s.chainList}>
+              <li><span className="label">Buys</span><span>Every Telegraph check, paid per answer over x402.{roi ? <> The benchmark bought {roi.spend.answers} answers for {roi.spend.usdc.toFixed(2)} USDC.</> : null}</span></li>
+              <li><span className="label">Settles</span><span>The trade sits in the <span className="mono">triad_escrow</span> program; an ed25519 authorization naming the evidence hash releases it.{svm && <> <a className="mono" href={svm.explorer} target="_blank" rel="noreferrer">{short(svm.transaction, 6, 4)}</a></>}</span></li>
+              <li><span className="label">Sells</span><span>Its own checks to agents over x402, $0.05 each.{firstSale && <> First sale: <a className="mono" href={firstSale.explorer} target="_blank" rel="noreferrer">{short(firstSale.transaction, 6, 4)}</a></>}</span></li>
+            </ul>
+          </article>
+          <article className={`card ${s.chain}`}>
+            <div className={s.chainTop}><span className="chip">Ethereum Sepolia</span><span className="mono muted">escrow · Foundry</span></div>
+            <h3 className="h3">Pays, settles and signs</h3>
+            <ul className={s.chainList}>
+              <li><span className="label">Pays</span><span>Telegraph through its escrow rail, one EIP-191 authorization per call.</span></li>
+              <li><span className="label">Settles</span><span>The trade sits in <span className="mono">ShipmentEscrow</span>; an EIP-712 authorization releases it.{evm && <> <a className="mono" href={evm.explorer} target="_blank" rel="noreferrer">{short(evm.transaction, 6, 4)}</a></>}</span></li>
+              <li><span className="label">Signs</span><span>Every evidence file’s hash, with Triad’s issuer key, so anyone can check where a file came from. <Link href="/evidence">Verify one →</Link></span></li>
+            </ul>
           </article>
         </div>
       </section>

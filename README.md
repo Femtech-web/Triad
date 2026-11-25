@@ -62,6 +62,10 @@ Triad holds the payment in an escrow on either chain and releases it only agains
 | Paying Telegraph | Escrow deposit, EIP-191 authorization per call | x402 `exact`, a USDC transfer per call |
 | Holding the payment | [`ShipmentEscrow`](contracts/evm/src/ShipmentEscrow.sol) (Foundry, OpenZeppelin 5.6.1), [0x3130…8d7eb](https://sepolia.etherscan.io/address/0x313060d737a2ba1f2eb5e62278a61286bff8d7eb), source [verified on Sourcify](https://repo.sourcify.dev/11155111/0x313060d737a2ba1F2eB5e62278A61286bFf8D7Eb) | [`triad_escrow`](programs/solana/programs/triad-escrow/src/lib.rs) (Anchor), program [`7hRAkLUZ…xz567`](https://explorer.solana.com/address/7hRAkLUZ2EMuFpsc3mtKfKnfxUJvcbgJqhWDShtxz567?cluster=devnet) |
 | Releasing it | EIP-712 authorization recovered on-chain | ed25519 authorization checked through the Ed25519 program and instruction introspection |
+| Selling checks to agents | | x402 `exact`, $0.05 per check through the public x402 facilitator ([first sale](https://explorer.solana.com/tx/mgsyaJcHqfVdhUu9bDBqmQdcBCJKSdAvTxTQkF8TSdrrGGXXCpYohHRC2BbMn4oVXxtHcrUnCdy7jBUhyS3wp6a?cluster=devnet)) |
+| Signing evidence | EIP-191 issuer key | |
+
+**Why Solana.** Triad answers use case 4 of Telegraph's Solana brief, *Verified Global Trade & Autonomous Commerce*: "a complete buyer-to-supplier workflow where independent intelligence identifies a material problem, correctly holds or escalates a payment, and verifies authorized settlement when conditions are satisfied." On Solana, Triad buys every Telegraph check over x402, holds and releases the trade in its own Anchor escrow, and sells its checks to other agents over x402. The benchmark's 208 paid answers all settled on Solana devnet.
 
 Both escrows pay exactly what was signed or revert, release a shipment once, and refund the buyer after the deadline. The signed message is pinned by cross-language test vectors in TypeScript, Solidity and Rust.
 

@@ -26,6 +26,12 @@ export function releases(): StoredRelease[] {
   return list('releases').map((file) => ({ file, ...readJson<Omit<StoredRelease, 'file'>>(join(DATA, 'releases', file)) }));
 }
 
+// Checks sold to agents over x402, oldest first.
+export interface StoredSale { file: string; network: string; amountUusdc: string; payer: string; transaction: string; explorer: string; decision: string; evidence_sha256: string; at: string }
+export function sales(): StoredSale[] {
+  return list('sales').map((file) => ({ file, ...readJson<Omit<StoredSale, 'file'>>(join(DATA, 'sales', file)) }));
+}
+
 export function deployment(network: 'sepolia' | 'solana-devnet'): { address?: string; programId?: string; transaction?: string } | null {
   const path = join(DATA, 'deployments', `${network}.json`);
   return existsSync(path) ? readJson(path) : null;
