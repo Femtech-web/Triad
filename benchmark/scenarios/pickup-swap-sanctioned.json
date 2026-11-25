@@ -1,0 +1,39 @@
+{
+  "name": "pickup-swap-sanctioned",
+  "description": "The seller's genuine logistics contact asks to release the cargo to a new pickup agent, PAO Sovcomflot, which is on OFAC's SDN list. Every automated sender check passes.",
+  "synthetic": ["shipment", "buyer", "seller", "seller contacts", "vessel", "payout address"],
+  "shipment": {
+    "id": "shp-cu-0001",
+    "reference": "CU-2026-0117",
+    "commodity": "Copper cathodes, LME grade A",
+    "quantity": "2,000 t",
+    "amount": { "value": "25000000000", "currency": "USDC", "decimals": 6 },
+    "buyer": { "id": "buyer", "legalName": "Halden Metals Trading AG", "country": "CH", "domain": "haldenmetals.ch", "contacts": [] },
+    "seller": {
+      "id": "seller", "legalName": "Andesite Copper SA", "country": "CL", "registrationId": "96.555.123-4", "domain": "andesitecopper.cl",
+      "contacts": [
+        { "id": "maria", "name": "María Rojas", "email": "m.rojas@andesitecopper.cl", "phone": "+56221234567", "role": "Head of treasury" },
+        { "id": "tomas", "name": "Tomás Vidal", "email": "t.vidal@andesitecopper.cl", "role": "Logistics" }
+      ]
+    },
+    "consignee": { "id": "consignee", "legalName": "Halden Metals Trading AG", "country": "CH", "contacts": [] },
+    "pickupParty": { "id": "pickup", "legalName": "Rotterdam Bulk Agency BV", "country": "NL", "contacts": [] },
+    "payout": { "holderName": "Andesite Copper SA", "rail": "sepolia", "address": "0x1111111111111111111111111111111111111111", "bankRef": "CL-BCI-0001" },
+    "vessel": { "name": "Pacific Ore", "imo": "IMO9412345" },
+    "loadPort": "San Antonio, CL",
+    "dischargePort": "Rotterdam, NL",
+    "documents": [{ "kind": "bill_of_lading", "reference": "BL-SA-77812", "sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa" }],
+    "authorizedContactIds": ["maria", "tomas"],
+    "releaseOfficer": { "name": "Halden release desk", "rail": "sepolia", "publicKey": "0x2222222222222222222222222222222222222222" }
+  },
+  "instruction": {
+    "id": "ins-pickup-0001",
+    "shipmentId": "shp-cu-0001",
+    "receivedAt": "2026-11-24T08:12:00Z",
+    "channel": { "kind": "email", "from": "t.vidal@andesitecopper.cl", "displayName": "Tomás Vidal" },
+    "summary": "Change of forwarding agent: please release the cathodes at Rotterdam to our new agent, PAO Sovcomflot, who will collect on arrival.",
+    "changes": {
+      "pickupParty": { "id": "pickup-new", "legalName": "PAO Sovcomflot", "country": "RU", "contacts": [] }
+    }
+  }
+}

@@ -1,0 +1,24 @@
+.intro { padding: 56px 0 18px; }
+.intro > * { max-width: 920px; }
+.headline { font-size: clamp(38px, 5.2vw, 64px); margin: 6px 0 14px; }
+
+.drop { margin-bottom: 40px; }
+.dropZone { position: relative; display: grid; gap: 4px; padding: 22px 24px; border: 1.5px dashed var(--rule-strong); border-radius: var(--radius); background: color-mix(in srgb, var(--paper-raised) 60%, transparent); cursor: pointer; transition: border-color 120ms ease, background 120ms ease; }
+.dropZone:hover, .over { border-color: var(--ink); background: var(--paper-raised); }
+.dropZone:focus-within { outline: 2px solid var(--ink); outline-offset: 2px; }
+.fileInput { position: absolute; inset: 0; opacity: 0; cursor: pointer; }
+.dropTitle { font-family: var(--serif); font-size: 24px; }
+.dropText { color: var(--ink-soft); max-width: 75ch; }
+.dropError { margin: 12px 0 0; color: var(--block); }
+.dropped { margin-top: 26px; }
+
+.table table { width: 100%; border-collapse: collapse; font-size: 14px; }
+.table th { text-align: left; font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--ink-faint); font-weight: 500; padding: 8px 12px 8px 0; border-bottom: 1px solid var(--rule-strong); }
+.table td { padding: 10px 12px 10px 0; border-bottom: 1px solid var(--rule); vertical-align: middle; }
+.scroll { overflow-x: auto; }
+.mini { font-size: 12px; padding: 3px 7px 2px; border-width: 2px; }
+
+.detail { padding-top: 40px; }
+.crumbs { margin: 0 0 18px; font-size: 13px; color: var(--ink-faint); }
+.actions { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 28px; }
+.released { margin-top: 22px; }

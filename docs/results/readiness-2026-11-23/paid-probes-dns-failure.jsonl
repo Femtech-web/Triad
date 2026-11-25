@@ -1,0 +1,8 @@
+{"intent":"CORPORATE_REGISTRY_LOOKUP_GENERAL","params":{"company":"Glencore International AG","jurisdiction":"Switzerland"},"latency_ms":10550,"status":"error","reason":"fetch failed","at":"2026-11-24T06:11:00.719Z"}
+{"intent":"SANCTIONS_SCREENING_MATCH_GENERAL","params":{"name":"Glencore International AG"},"latency_ms":10505,"status":"error","reason":"fetch failed","at":"2026-11-24T06:11:11.228Z"}
+{"intent":"SANCTIONS_SCREENING_MATCH_GENERAL","params":{"name":"PAO Sovcomflot"},"latency_ms":10514,"status":"error","reason":"fetch failed","at":"2026-11-24T06:11:21.744Z"}
+{"intent":"VENDOR_VERIFY_GENERAL","params":{"vendor":"Aurubis AG","vat_number":"DE118585036"},"latency_ms":10509,"status":"error","reason":"fetch failed","at":"2026-11-24T06:11:32.255Z"}
+{"intent":"B2B_IDENTITY_ENRICHMENT_GENERAL","params":{"company":"Glencore International AG"},"latency_ms":10510,"status":"error","reason":"fetch failed","at":"2026-11-24T06:11:42.768Z"}
+{"intent":"EMAIL_SECURITY_GENERAL","params":{"domain":"glencore.com","record_type":"MX"},"latency_ms":10509,"status":"error","reason":"fetch failed","at":"2026-11-24T06:11:53.279Z"}
+{"intent":"DOCUMENT_AUTHENTICITY_GENERAL","params":{"document":"BANK CONFIRMATION LETTER. We confirm that account CH93 0076 2011 6238 5295 7 at UBS Switzerland AG is held by Glencore International AG, Baar. Signed, Payments Operations, 12 November 2026."},"latency_ms":10517,"status":"error","reason":"fetch failed","at":"2026-11-24T06:12:03.796Z"}
+{"intent":"VESSEL_TELEMETRY_VERIFY_GENERAL","params":{"vessel":"IMO9811000"},"latency_ms":10509,"status":"error","reason":"fetch failed","at":"2026-11-24T06:12:14.315Z"}

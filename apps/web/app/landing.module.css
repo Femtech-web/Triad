@@ -1,0 +1,30 @@
+.hero { display: grid; grid-template-columns: 1.15fr 0.85fr; gap: 56px; align-items: center; padding: 72px 0 56px; }
+.heroText { max-width: 640px; }
+.actions { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 28px; }
+
+.email { margin: 0; transform: rotate(1.2deg); padding-bottom: 40px; }
+.body { margin: 14px 0 16px; font-size: 15.5px; color: var(--ink-soft); }
+.reason { margin: 12px 0 0; color: var(--block); }
+.flag { background: transparent; color: var(--block); text-decoration: underline wavy color-mix(in srgb, var(--block) 60%, transparent); text-underline-offset: 3px; }
+.stamp { position: absolute; right: -16px; bottom: -22px; animation-delay: 700ms; background: color-mix(in srgb, var(--paper-raised) 70%, transparent); }
+
+.witnesses { padding: 40px 0 24px; }
+.triad { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; margin-top: 16px; }
+.triad article:nth-child(2) { transform: translateY(18px); }
+.num { font-family: var(--serif); font-style: italic; font-size: 30px; color: var(--block); }
+.wTitle { font-family: var(--serif); font-weight: 400; font-size: 28px; margin: 2px 0 8px; }
+
+.proof { padding-top: 72px; }
+.proofGrid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; margin-top: 18px; }
+.proofGrid article { display: flex; flex-direction: column; }
+.proofGrid :global(.doc-head) { align-items: center; }
+.proofGrid :global(.doc-title) { font-size: 19px; line-height: 1.2; }
+.proofGrid :global(.stamp) { font-size: 13px; padding: 4px 8px 3px; border-width: 2px; flex-shrink: 0; }
+.proofGrid :global(.fields) { margin-top: 12px; }
+
+@media (max-width: 960px) {
+  .hero { grid-template-columns: 1fr; gap: 40px; padding-top: 44px; }
+  .triad, .proofGrid { grid-template-columns: 1fr; }
+  .triad article:nth-child(2) { transform: none; }
+  .stamp { right: -4px; font-size: 28px; }
+}

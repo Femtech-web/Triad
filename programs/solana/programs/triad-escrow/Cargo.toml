@@ -1,0 +1,42 @@
+[package]
+name = "triad-escrow"
+version = "0.1.0"
+description = "Holds a buyer's payment for one shipment until Triad's release officer signs, with ed25519, the exact payee, amount and evidence hash."
+edition = "2021"
+license = "MIT"
+
+[lib]
+crate-type = ["cdylib", "lib"]
+name = "triad_escrow"
+
+[features]
+default = []
+cpi = ["no-entrypoint"]
+no-entrypoint = []
+no-idl = []
+no-log-ix-name = []
+idl-build = ["anchor-lang/idl-build", "anchor-spl/idl-build"]
+anchor-debug = []
+custom-heap = []
+custom-panic = []
+
+[dependencies]
+anchor-lang = "1.0.2"
+anchor-spl = { version = "1.0.2", default-features = false, features = ["solana-v3", "token", "token_2022", "associated_token"] }
+
+[dev-dependencies]
+litesvm = { version = "0.10.0", features = ["precompiles"] }
+solana-message = "3.0.1"
+solana-transaction = "3.0.2"
+solana-signer = "3.0.0"
+solana-keypair = "3.0.1"
+solana-ed25519-program = "3.0.0"
+solana-account = "3.4.0"
+solana-clock = "3.2.1"
+solana-program-option = "3.1.0"
+solana-program-pack = "3.1.0"
+spl-token-interface = "2.0.0"
+spl-associated-token-account-interface = "2.0.0"
+
+[lints.rust]
+unexpected_cfgs = { level = "warn", check-cfg = ['cfg(target_os, values("solana"))'] }

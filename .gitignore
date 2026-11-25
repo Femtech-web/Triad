@@ -1,0 +1,26 @@
+# ---- secrets and local configuration: never committed ----
+.env
+.env.*
+!.env.example
+.secrets/
+/private-notes/
+*.key
+*.pem
+*.secret
+*.secret.json
+
+# ---- dependencies, build output, caches ----
+node_modules/
+dist/
+.next/
+coverage/
+.turbo/
+*.tsbuildinfo
+contracts/evm/out/
+contracts/evm/cache/
+contracts/evm/broadcast/*/31337/
+programs/solana/target/
+programs/solana/.anchor/
+.pglite/
+.cache/
+.DS_Store

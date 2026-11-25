@@ -1,0 +1,19 @@
+{
+  "rail": "sepolia",
+  "escrow": "0x313060d737a2ba1f2eb5e62278a61286bff8d7eb",
+  "transaction": "0xd46048560cd6c9c2ca909c30258a5486144830ac354344f6180defcfbb93ce58",
+  "blockNumber": "12207413",
+  "explorer": "https://sepolia.etherscan.io/tx/0xd46048560cd6c9c2ca909c30258a5486144830ac354344f6180defcfbb93ce58",
+  "evidenceFile": "2026-11-25T0507Z-release-on-schedule-sepolia.json",
+  "authorization": {
+    "rail": "sepolia",
+    "shipmentKey": "0x6f6a7e144a40c507c28079543ec74d2f977c16e6c9c4a64005368855948b0505",
+    "payee": "0x55DC7481b7EAdB5E01b692de36E78aD8E2F5F945",
+    "amount": "1000000",
+    "evidenceHash": "0x75ec263ece75c27546a316ce6c9efcd93652a122551eab724ebb21fa4ff00f09",
+    "validUntil": 1795584179,
+    "signer": "0x152661B3192173Fd6CD7801C8F2241654F8270f4",
+    "signature": "0x03aeaa04fdcc712c5bcba713e36c07c6226036c7790d6f353e848b1331ff94665b86b41922fd2e1c8556114602007fd06fd40ba08e6198a45bbd8774e9b20d411c"
+  },
+  "releasedAt": "2026-11-25T05:08:04.937Z"
+}

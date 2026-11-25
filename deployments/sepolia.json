@@ -1,0 +1,12 @@
+{
+  "network": "sepolia",
+  "chainId": 11155111,
+  "contract": "ShipmentEscrow",
+  "address": "0x313060d737a2ba1f2eb5e62278a61286bff8d7eb",
+  "transaction": "0x92a2f351471930499f003186483ce9b343e03d7027b6cd456d96d4711a0a78be",
+  "blockNumber": "12207290",
+  "deployer": "0xb545a45454754d5c8687231B52704cc689D2739d",
+  "compiler": "0.8.28+commit.7893614a",
+  "bytecodeSha256": "dfb2d96df355de3421b2bf1df151685e1d61bd204495784a2c83223ad9de8918",
+  "deployedAt": "2026-11-25T04:42:49.879Z"
+}

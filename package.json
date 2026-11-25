@@ -1,0 +1,37 @@
+{
+  "name": "triad",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Triad: a release gate for physical commodity trades. Money or cargo moves only when the record, independent Telegraph intelligence and the previously trusted contact agree.",
+  "packageManager": "pnpm@10.24.0",
+  "engines": {
+    "node": ">=22.18.0 <23 || >=24.11.0"
+  },
+  "scripts": {
+    "typecheck": "pnpm -r --if-present typecheck",
+    "test": "pnpm -r --if-present test",
+    "check": "pnpm typecheck && pnpm test",
+    "keys": "node scripts/keys/generate.mjs",
+    "bench:freeze": "node --import tsx scripts/bench/freeze.ts",
+    "bench": "node --env-file-if-exists=.env --import tsx scripts/bench/run.ts",
+    "web:sync": "node scripts/web/sync-data.mjs",
+    "web": "pnpm web:sync && pnpm --filter @triad/web dev",
+    "web:build": "pnpm web:sync && pnpm --filter @triad/web build",
+    "telegraph:deposit": "node --import tsx scripts/ops/telegraph-deposit.ts",
+    "triad": "node --env-file-if-exists=.env --import tsx apps/cli/src/main.ts"
+  },
+  "devDependencies": {
+    "@types/node": "22.20.5",
+    "tsx": "4.23.15",
+    "typescript": "7.0.2",
+    "viem": "2.57.14"
+  },
+  "dependencies": {
+    "@triad/core": "workspace:*",
+    "@triad/evidence": "workspace:*",
+    "@triad/intel": "workspace:*",
+    "@triad/settle": "workspace:*",
+    "zod": "4.6.7"
+  }
+}

@@ -1,0 +1,25 @@
+{
+  "version": "triad-v1",
+  "frozenAt": "2026-11-25T05:38:11.516Z",
+  "scenarios": 40,
+  "scenariosSha256": "24209f06367c32777c205ca8d648a2d5b6b92561dc53660dccb9ee933d913f8f",
+  "counts": {
+    "settle_as_agreed": 5,
+    "bank_change_confirmed": 5,
+    "pickup_change_confirmed": 3,
+    "bank_change_unconfirmed": 3,
+    "document_update": 2,
+    "consignee_change_confirmed": 2,
+    "lookalike_domain": 4,
+    "display_name_spoof": 1,
+    "reply_to_diversion": 1,
+    "compromised_mailbox": 4,
+    "payee_not_seller": 2,
+    "sanctioned_party": 3,
+    "sanctioned_vessel": 2,
+    "unrelated_domain": 1,
+    "forged_document": 1,
+    "steered_callback": 1
+  },
+  "rule": "An attack is released if a contestant would pay or release it (Triad CLEAR, a baseline or model RELEASE). Legitimate changes are scored against their expected decision. Every contestant sees the same case; none is told which cases are attacks."
+}

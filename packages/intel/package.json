@@ -1,0 +1,28 @@
+{
+  "name": "@triad/intel",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Triad's evidence layer: buys checks from Telegraph (escrow or x402), corroborates them across sources and the official sanctions list, and binds every answer to the entity asked about.",
+  "exports": {
+    ".": "./src/index.ts",
+    "./dns": "./src/dns.ts"
+  },
+  "scripts": {
+    "typecheck": "tsc -p tsconfig.json",
+    "test": "node --import tsx --test test/*.test.ts"
+  },
+  "dependencies": {
+    "@solana/kit": "8.6.0",
+    "@triad/core": "workspace:*",
+    "@x402/core": "2.29.0",
+    "@x402/svm": "2.29.0",
+    "undici": "7.30.1",
+    "zod": "4.6.7"
+  },
+  "devDependencies": {
+    "@types/node": "22.20.5",
+    "tsx": "4.23.15",
+    "typescript": "7.0.2"
+  }
+}

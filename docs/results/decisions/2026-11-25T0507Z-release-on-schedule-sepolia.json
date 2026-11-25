@@ -1,0 +1,133 @@
+{
+  "evidence_sha256": "0x75ec263ece75c27546a316ce6c9efcd93652a122551eab724ebb21fa4ff00f09",
+  "evidence": {
+    "format": "triad-evidence-v1",
+    "generatedAt": "2026-11-25T05:07:51.087Z",
+    "provenance": {
+      "scenario": "release-on-schedule-sepolia",
+      "synthetic": [
+        "shipment",
+        "buyer",
+        "seller",
+        "seller contacts",
+        "vessel",
+        "payout address (a Triad-controlled demo wallet)"
+      ],
+      "network": "testnet"
+    },
+    "shipment": {
+      "id": "shp-cu-0002",
+      "reference": "CU-2026-0124",
+      "commodity": "Copper cathodes, LME grade A",
+      "quantity": "80 t",
+      "amount": {
+        "value": "1000000",
+        "currency": "USDC",
+        "decimals": 6
+      },
+      "buyer": {
+        "id": "buyer",
+        "legalName": "Halden Metals Trading AG",
+        "country": "CH",
+        "domain": "haldenmetals.ch",
+        "contacts": []
+      },
+      "seller": {
+        "id": "seller",
+        "legalName": "Andesite Copper SA",
+        "country": "CL",
+        "registrationId": "96.555.123-4",
+        "domain": "andesitecopper.cl",
+        "contacts": [
+          {
+            "id": "maria",
+            "name": "María Rojas",
+            "email": "m.rojas@andesitecopper.cl",
+            "phone": "+56221234567",
+            "role": "Head of treasury"
+          }
+        ]
+      },
+      "consignee": {
+        "id": "consignee",
+        "legalName": "Halden Metals Trading AG",
+        "country": "CH",
+        "contacts": []
+      },
+      "payout": {
+        "holderName": "Andesite Copper SA",
+        "rail": "sepolia",
+        "address": "0x55DC7481b7EAdB5E01b692de36E78aD8E2F5F945"
+      },
+      "vessel": {
+        "name": "Pacific Ore",
+        "imo": "IMO9412345"
+      },
+      "loadPort": "San Antonio, CL",
+      "dischargePort": "Rotterdam, NL",
+      "documents": [
+        {
+          "kind": "bill_of_lading",
+          "reference": "BL-SA-77830",
+          "sha256": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+        }
+      ],
+      "authorizedContactIds": [
+        "maria"
+      ],
+      "releaseOfficer": {
+        "name": "Halden release desk",
+        "rail": "sepolia",
+        "publicKey": "0x152661B3192173Fd6CD7801C8F2241654F8270f4"
+      }
+    },
+    "instruction": {
+      "id": "ins-schedule-0002",
+      "shipmentId": "shp-cu-0002",
+      "receivedAt": "2026-11-25T09:00:00Z",
+      "channel": {
+        "kind": "email",
+        "from": "m.rojas@andesitecopper.cl",
+        "displayName": "María Rojas"
+      },
+      "summary": "Delivery confirmed at Rotterdam. Please settle invoice CU-2026-0124 as agreed.",
+      "changes": {}
+    },
+    "changeSet": {
+      "sender": {
+        "from": "m.rojas@andesitecopper.cl",
+        "domain": {
+          "sender": "andesitecopper.cl",
+          "trusted": "andesitecopper.cl",
+          "relation": "same",
+          "reason": "andesitecopper.cl is the trusted domain"
+        },
+        "authorizedContactId": "maria",
+        "displayNameImpersonates": null,
+        "replyTo": null
+      },
+      "changes": [],
+      "destinationChanged": false
+    },
+    "plan": [],
+    "outcomes": [],
+    "decision": {
+      "policy": "triad-release-v1",
+      "decision": "CLEAR",
+      "needs": [],
+      "hits": [],
+      "facts": [],
+      "warnings": [],
+      "unknowns": [],
+      "callback": {
+        "target": null,
+        "result": null,
+        "accepted": false
+      }
+    },
+    "cost": {
+      "telegraphUusdc": "0",
+      "purchases": 0
+    }
+  }
+}

@@ -1,0 +1,400 @@
+{
+  "evidence_sha256": "0x92ad0d9bd96c9acaa49f9e4c5dc80872064e88da3568df84aca0c1973268a3bf",
+  "evidence": {
+    "format": "triad-evidence-v1",
+    "generatedAt": "2026-11-25T05:17:06.751Z",
+    "provenance": {
+      "scenario": "pickup-swap-sanctioned",
+      "synthetic": [
+        "shipment",
+        "buyer",
+        "seller",
+        "seller contacts",
+        "vessel",
+        "payout address"
+      ],
+      "network": "testnet"
+    },
+    "shipment": {
+      "id": "shp-cu-0001",
+      "reference": "CU-2026-0117",
+      "commodity": "Copper cathodes, LME grade A",
+      "quantity": "2,000 t",
+      "amount": {
+        "value": "25000000000",
+        "currency": "USDC",
+        "decimals": 6
+      },
+      "buyer": {
+        "id": "buyer",
+        "legalName": "Halden Metals Trading AG",
+        "country": "CH",
+        "domain": "haldenmetals.ch",
+        "contacts": []
+      },
+      "seller": {
+        "id": "seller",
+        "legalName": "Andesite Copper SA",
+        "country": "CL",
+        "registrationId": "96.555.123-4",
+        "domain": "andesitecopper.cl",
+        "contacts": [
+          {
+            "id": "maria",
+            "name": "María Rojas",
+            "email": "m.rojas@andesitecopper.cl",
+            "phone": "+56221234567",
+            "role": "Head of treasury"
+          },
+          {
+            "id": "tomas",
+            "name": "Tomás Vidal",
+            "email": "t.vidal@andesitecopper.cl",
+            "role": "Logistics"
+          }
+        ]
+      },
+      "consignee": {
+        "id": "consignee",
+        "legalName": "Halden Metals Trading AG",
+        "country": "CH",
+        "contacts": []
+      },
+      "pickupParty": {
+        "id": "pickup",
+        "legalName": "Rotterdam Bulk Agency BV",
+        "country": "NL",
+        "contacts": []
+      },
+      "payout": {
+        "holderName": "Andesite Copper SA",
+        "rail": "sepolia",
+        "address": "0x1111111111111111111111111111111111111111",
+        "bankRef": "CL-BCI-0001"
+      },
+      "vessel": {
+        "name": "Pacific Ore",
+        "imo": "IMO9412345"
+      },
+      "loadPort": "San Antonio, CL",
+      "dischargePort": "Rotterdam, NL",
+      "documents": [
+        {
+          "kind": "bill_of_lading",
+          "reference": "BL-SA-77812",
+          "sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+        }
+      ],
+      "authorizedContactIds": [
+        "maria",
+        "tomas"
+      ],
+      "releaseOfficer": {
+        "name": "Halden release desk",
+        "rail": "sepolia",
+        "publicKey": "0x2222222222222222222222222222222222222222"
+      }
+    },
+    "instruction": {
+      "id": "ins-pickup-0001",
+      "shipmentId": "shp-cu-0001",
+      "receivedAt": "2026-11-24T08:12:00Z",
+      "channel": {
+        "kind": "email",
+        "from": "t.vidal@andesitecopper.cl",
+        "displayName": "Tomás Vidal"
+      },
+      "summary": "Change of forwarding agent: please release the cathodes at Rotterdam to our new agent, PAO Sovcomflot, who will collect on arrival.",
+      "changes": {
+        "pickupParty": {
+          "id": "pickup-new",
+          "legalName": "PAO Sovcomflot",
+          "country": "RU",
+          "contacts": []
+        }
+      }
+    },
+    "changeSet": {
+      "sender": {
+        "from": "t.vidal@andesitecopper.cl",
+        "domain": {
+          "sender": "andesitecopper.cl",
+          "trusted": "andesitecopper.cl",
+          "relation": "same",
+          "reason": "andesitecopper.cl is the trusted domain"
+        },
+        "authorizedContactId": "tomas",
+        "displayNameImpersonates": null,
+        "replyTo": null
+      },
+      "changes": [
+        {
+          "kind": "pickup_party",
+          "before": {
+            "id": "pickup",
+            "legalName": "Rotterdam Bulk Agency BV",
+            "country": "NL",
+            "contacts": []
+          },
+          "after": {
+            "id": "pickup-new",
+            "legalName": "PAO Sovcomflot",
+            "country": "RU",
+            "contacts": []
+          }
+        }
+      ],
+      "destinationChanged": true
+    },
+    "plan": [
+      {
+        "id": "registry:pickup_party",
+        "check": "registry",
+        "intent": "CORPORATE_REGISTRY_LOOKUP_GENERAL",
+        "params": {
+          "company": "PAO Sovcomflot",
+          "jurisdiction": "RU"
+        },
+        "role": "pickup_party",
+        "subject": {
+          "kind": "entity",
+          "name": "PAO Sovcomflot",
+          "country": "RU"
+        },
+        "required": true,
+        "purpose": "Pickup party changed: is PAO Sovcomflot a registered, active company?"
+      },
+      {
+        "id": "sanctions:pickup_party",
+        "check": "sanctions",
+        "intent": "SANCTIONS_SCREENING_MATCH_GENERAL",
+        "params": {
+          "name": "PAO Sovcomflot"
+        },
+        "role": "pickup_party",
+        "subject": {
+          "kind": "entity",
+          "name": "PAO Sovcomflot",
+          "country": "RU"
+        },
+        "required": true,
+        "purpose": "Pickup party changed: is PAO Sovcomflot on a sanctions list?"
+      },
+      {
+        "id": "sanctions:vessel",
+        "check": "sanctions",
+        "intent": "SANCTIONS_SCREENING_MATCH_GENERAL",
+        "params": {
+          "name": "Pacific Ore"
+        },
+        "role": "vessel",
+        "subject": {
+          "kind": "vessel",
+          "name": "Pacific Ore",
+          "imo": "IMO9412345"
+        },
+        "required": true,
+        "purpose": "Is the vessel Pacific Ore (IMO9412345) sanctioned?"
+      },
+      {
+        "id": "vessel:vessel",
+        "check": "vessel",
+        "intent": "VESSEL_TELEMETRY_VERIFY_GENERAL",
+        "params": {
+          "vessel": "IMO9412345"
+        },
+        "role": "vessel",
+        "subject": {
+          "kind": "vessel",
+          "name": "Pacific Ore",
+          "imo": "IMO9412345"
+        },
+        "required": false,
+        "purpose": "Where is Pacific Ore (IMO9412345) now?"
+      }
+    ],
+    "outcomes": [
+      {
+        "checkId": "registry:pickup_party",
+        "sources": [
+          {
+            "kind": "telegraph",
+            "name": "Ranked routing",
+            "status": "unavailable",
+            "fields": {},
+            "detail": "HTTP error (429): Too Many Requests",
+            "purchase": null
+          },
+          {
+            "kind": "telegraph",
+            "name": "Miner 98001",
+            "status": "unavailable",
+            "fields": {},
+            "detail": "Expected a 402 payment challenge, got HTTP 503.",
+            "purchase": null
+          }
+        ],
+        "status": "unavailable",
+        "fields": {},
+        "detail": "HTTP error (429): Too Many Requests Expected a 402 payment challenge, got HTTP 503."
+      },
+      {
+        "checkId": "sanctions:pickup_party",
+        "sources": [
+          {
+            "kind": "telegraph",
+            "name": "Ranked routing",
+            "status": "unavailable",
+            "fields": {},
+            "detail": "HTTP error (429): Too Many Requests",
+            "purchase": null
+          },
+          {
+            "kind": "telegraph",
+            "name": "Miner 84392",
+            "status": "unavailable",
+            "fields": {},
+            "detail": "HTTP error (429): Too Many Requests",
+            "purchase": null
+          },
+          {
+            "kind": "official",
+            "name": "OFAC SDN list",
+            "status": "answered",
+            "purchase": null,
+            "fields": {
+              "matched": true,
+              "lists": "OFAC SDN",
+              "matches": "JOINT STOCK COMPANY SOVCOMFLOT (SDN 34741; UKRAINE-EO13662] [RUSSIA-EO14024)"
+            },
+            "detail": "OFAC's SDN list matches PAO Sovcomflot: JOINT STOCK COMPANY SOVCOMFLOT (SDN 34741; UKRAINE-EO13662] [RUSSIA-EO14024).",
+            "snapshot": {
+              "url": "https://www.treasury.gov/ofac/downloads/sdn.csv",
+              "sha256": "e83c93e6159498ce0352549f750023eaa47e561e54c496ba1b0c32e3e33872d6",
+              "retrievedAt": "2026-11-25T05:16:13.052Z"
+            }
+          }
+        ],
+        "status": "answered",
+        "fields": {
+          "matched": true,
+          "lists": "OFAC SDN",
+          "matches": "JOINT STOCK COMPANY SOVCOMFLOT (SDN 34741; UKRAINE-EO13662] [RUSSIA-EO14024)"
+        },
+        "detail": "OFAC's SDN list matches PAO Sovcomflot: JOINT STOCK COMPANY SOVCOMFLOT (SDN 34741; UKRAINE-EO13662] [RUSSIA-EO14024)."
+      },
+      {
+        "checkId": "sanctions:vessel",
+        "sources": [
+          {
+            "kind": "telegraph",
+            "name": "Ranked routing",
+            "status": "unavailable",
+            "fields": {},
+            "detail": "HTTP error (429): Too Many Requests",
+            "purchase": null
+          },
+          {
+            "kind": "telegraph",
+            "name": "Miner 84392",
+            "status": "unavailable",
+            "fields": {},
+            "detail": "HTTP error (429): Too Many Requests",
+            "purchase": null
+          },
+          {
+            "kind": "official",
+            "name": "OFAC SDN list",
+            "status": "answered",
+            "purchase": null,
+            "fields": {
+              "matched": false,
+              "lists": "OFAC SDN",
+              "matches": null
+            },
+            "detail": "No entry for Pacific Ore (IMO9412345) on OFAC's SDN list.",
+            "snapshot": {
+              "url": "https://www.treasury.gov/ofac/downloads/sdn.csv",
+              "sha256": "e83c93e6159498ce0352549f750023eaa47e561e54c496ba1b0c32e3e33872d6",
+              "retrievedAt": "2026-11-25T05:16:13.052Z"
+            }
+          }
+        ],
+        "status": "answered",
+        "fields": {
+          "matched": false,
+          "lists": "OFAC SDN",
+          "matches": null,
+          "sources_agreeing": 1
+        },
+        "detail": "No entry for Pacific Ore (IMO9412345) on OFAC's SDN list. (official list only)"
+      },
+      {
+        "checkId": "vessel:vessel",
+        "sources": [
+          {
+            "kind": "telegraph",
+            "name": "Ranked routing",
+            "status": "unavailable",
+            "fields": {},
+            "detail": "HTTP error (429): Too Many Requests",
+            "purchase": null
+          }
+        ],
+        "status": "unavailable",
+        "fields": {},
+        "detail": "HTTP error (429): Too Many Requests"
+      }
+    ],
+    "decision": {
+      "policy": "triad-release-v1",
+      "decision": "BLOCK",
+      "needs": [],
+      "hits": [
+        {
+          "rule": "R-CARGO-PARTY-CHANGED",
+          "effect": "hold_callback",
+          "text": "The pickup party would change from Rotterdam Bulk Agency BV to PAO Sovcomflot"
+        },
+        {
+          "rule": "R-EVIDENCE-MISSING",
+          "effect": "hold_evidence",
+          "text": "Pickup party changed: is PAO Sovcomflot a registered, active company? HTTP error (429): Too Many Requests Expected a 402 payment challenge, got HTTP 503.",
+          "checkId": "registry:pickup_party"
+        },
+        {
+          "rule": "R-SANCTIONS-MATCH",
+          "effect": "block",
+          "text": "PAO Sovcomflot matches a sanctions list entry (OFAC SDN)",
+          "checkId": "sanctions:pickup_party"
+        }
+      ],
+      "facts": [
+        "No sanctions match for IMO9412345."
+      ],
+      "warnings": [
+        "The pickup party would change from Rotterdam Bulk Agency BV to PAO Sovcomflot",
+        "Pickup party changed: is PAO Sovcomflot a registered, active company? HTTP error (429): Too Many Requests Expected a 402 payment challenge, got HTTP 503.",
+        "PAO Sovcomflot matches a sanctions list entry (OFAC SDN)"
+      ],
+      "unknowns": [
+        "Pickup party changed: is PAO Sovcomflot a registered, active company? HTTP error (429): Too Many Requests Expected a 402 payment challenge, got HTTP 503.",
+        "Where is Pacific Ore (IMO9412345) now? HTTP error (429): Too Many Requests"
+      ],
+      "callback": {
+        "target": {
+          "contactId": "maria",
+          "name": "María Rojas",
+          "channel": "phone",
+          "address": "+56221234567"
+        },
+        "result": null,
+        "accepted": false
+      }
+    },
+    "cost": {
+      "telegraphUusdc": "0",
+      "purchases": 0
+    }
+  }
+}

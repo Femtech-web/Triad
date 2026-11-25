@@ -1,0 +1,421 @@
+{
+  "evidence_sha256": "0xd995cb6157410b344738816b3111305182e646f9296462ee187a541aaaa299aa",
+  "evidence": {
+    "format": "triad-evidence-v1",
+    "generatedAt": "2026-11-24T06:24:01.618Z",
+    "provenance": {
+      "scenario": "pickup-swap-sanctioned",
+      "synthetic": [
+        "shipment",
+        "buyer",
+        "seller",
+        "seller contacts",
+        "vessel",
+        "payout address"
+      ],
+      "network": "testnet"
+    },
+    "shipment": {
+      "id": "shp-cu-0001",
+      "reference": "CU-2026-0117",
+      "commodity": "Copper cathodes, LME grade A",
+      "quantity": "2,000 t",
+      "amount": {
+        "value": "25000000000",
+        "currency": "USDC",
+        "decimals": 6
+      },
+      "buyer": {
+        "id": "buyer",
+        "legalName": "Halden Metals Trading AG",
+        "country": "CH",
+        "domain": "haldenmetals.ch",
+        "contacts": []
+      },
+      "seller": {
+        "id": "seller",
+        "legalName": "Andesite Copper SA",
+        "country": "CL",
+        "registrationId": "96.555.123-4",
+        "domain": "andesitecopper.cl",
+        "contacts": [
+          {
+            "id": "maria",
+            "name": "María Rojas",
+            "email": "m.rojas@andesitecopper.cl",
+            "phone": "+56221234567",
+            "role": "Head of treasury"
+          },
+          {
+            "id": "tomas",
+            "name": "Tomás Vidal",
+            "email": "t.vidal@andesitecopper.cl",
+            "role": "Logistics"
+          }
+        ]
+      },
+      "consignee": {
+        "id": "consignee",
+        "legalName": "Halden Metals Trading AG",
+        "country": "CH",
+        "contacts": []
+      },
+      "pickupParty": {
+        "id": "pickup",
+        "legalName": "Rotterdam Bulk Agency BV",
+        "country": "NL",
+        "contacts": []
+      },
+      "payout": {
+        "holderName": "Andesite Copper SA",
+        "rail": "sepolia",
+        "address": "0x1111111111111111111111111111111111111111",
+        "bankRef": "CL-BCI-0001"
+      },
+      "vessel": {
+        "name": "Pacific Ore",
+        "imo": "IMO9412345"
+      },
+      "loadPort": "San Antonio, CL",
+      "dischargePort": "Rotterdam, NL",
+      "documents": [
+        {
+          "kind": "bill_of_lading",
+          "reference": "BL-SA-77812",
+          "sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+        }
+      ],
+      "authorizedContactIds": [
+        "maria",
+        "tomas"
+      ],
+      "releaseOfficer": {
+        "name": "Halden release desk",
+        "rail": "sepolia",
+        "publicKey": "0x2222222222222222222222222222222222222222"
+      }
+    },
+    "instruction": {
+      "id": "ins-pickup-0001",
+      "shipmentId": "shp-cu-0001",
+      "receivedAt": "2026-11-24T08:12:00Z",
+      "channel": {
+        "kind": "email",
+        "from": "t.vidal@andesitecopper.cl",
+        "displayName": "Tomás Vidal"
+      },
+      "summary": "Change of forwarding agent: please release the cathodes at Rotterdam to our new agent, PAO Sovcomflot, who will collect on arrival.",
+      "changes": {
+        "pickupParty": {
+          "id": "pickup-new",
+          "legalName": "PAO Sovcomflot",
+          "country": "RU",
+          "contacts": []
+        }
+      }
+    },
+    "changeSet": {
+      "sender": {
+        "from": "t.vidal@andesitecopper.cl",
+        "domain": {
+          "sender": "andesitecopper.cl",
+          "trusted": "andesitecopper.cl",
+          "relation": "same",
+          "reason": "andesitecopper.cl is the trusted domain"
+        },
+        "authorizedContactId": "tomas",
+        "displayNameImpersonates": null,
+        "replyTo": null
+      },
+      "changes": [
+        {
+          "kind": "pickup_party",
+          "before": {
+            "id": "pickup",
+            "legalName": "Rotterdam Bulk Agency BV",
+            "country": "NL",
+            "contacts": []
+          },
+          "after": {
+            "id": "pickup-new",
+            "legalName": "PAO Sovcomflot",
+            "country": "RU",
+            "contacts": []
+          }
+        }
+      ],
+      "destinationChanged": true
+    },
+    "plan": [
+      {
+        "id": "registry:pickup_party",
+        "check": "registry",
+        "intent": "CORPORATE_REGISTRY_LOOKUP_GENERAL",
+        "params": {
+          "company": "PAO Sovcomflot",
+          "jurisdiction": "RU"
+        },
+        "role": "pickup_party",
+        "subject": {
+          "kind": "entity",
+          "name": "PAO Sovcomflot",
+          "country": "RU"
+        },
+        "required": true,
+        "purpose": "Pickup party changed: is PAO Sovcomflot a registered, active company?"
+      },
+      {
+        "id": "sanctions:pickup_party",
+        "check": "sanctions",
+        "intent": "SANCTIONS_SCREENING_MATCH_GENERAL",
+        "params": {
+          "name": "PAO Sovcomflot"
+        },
+        "role": "pickup_party",
+        "subject": {
+          "kind": "entity",
+          "name": "PAO Sovcomflot",
+          "country": "RU"
+        },
+        "required": true,
+        "purpose": "Pickup party changed: is PAO Sovcomflot on a sanctions list?"
+      },
+      {
+        "id": "sanctions:vessel",
+        "check": "sanctions",
+        "intent": "SANCTIONS_SCREENING_MATCH_GENERAL",
+        "params": {
+          "name": "Pacific Ore"
+        },
+        "role": "vessel",
+        "subject": {
+          "kind": "vessel",
+          "name": "Pacific Ore",
+          "imo": "IMO9412345"
+        },
+        "required": true,
+        "purpose": "Is the vessel Pacific Ore (IMO9412345) sanctioned?"
+      },
+      {
+        "id": "vessel:vessel",
+        "check": "vessel",
+        "intent": "VESSEL_TELEMETRY_VERIFY_GENERAL",
+        "params": {
+          "vessel": "IMO9412345"
+        },
+        "role": "vessel",
+        "subject": {
+          "kind": "vessel",
+          "name": "Pacific Ore",
+          "imo": "IMO9412345"
+        },
+        "required": false,
+        "purpose": "Where is Pacific Ore (IMO9412345) now?"
+      }
+    ],
+    "outcomes": [
+      {
+        "checkId": "registry:pickup_party",
+        "sources": [
+          {
+            "kind": "telegraph",
+            "name": "Praman Desk Compliance & Procurement Auditor",
+            "status": "unbound",
+            "fields": {
+              "active": false,
+              "legal_name": null,
+              "registration_id": null
+            },
+            "detail": "Praman Desk Compliance & Procurement Auditor said \"inactive\" without naming the company or its registration.",
+            "purchase": {
+              "rail": "sepolia-escrow",
+              "receiptHash": "0x6c3c3b599d43a189727d3baea2e4289b4e664b4c39a229d24043afe16d6f0757",
+              "signalHash": "0xe956eaef299ec100624ac0ba35850b49037fbc5c859855dd1e0feeba434649cb",
+              "amountUusdc": "10000",
+              "minerId": "6164",
+              "latencyMs": 8536
+            }
+          }
+        ],
+        "status": "unbound",
+        "fields": {},
+        "detail": "Praman Desk Compliance & Procurement Auditor said \"inactive\" without naming the company or its registration."
+      },
+      {
+        "checkId": "sanctions:pickup_party",
+        "sources": [
+          {
+            "kind": "telegraph",
+            "name": "ChainSight — Universal Intelligence & Data Oracle",
+            "status": "answered",
+            "fields": {
+              "matched": false,
+              "lists": "OFAC SDN",
+              "matches": null
+            },
+            "detail": "ChainSight — Universal Intelligence & Data Oracle: no match for PAO Sovcomflot on OFAC SDN.",
+            "purchase": {
+              "rail": "sepolia-escrow",
+              "receiptHash": "0xaa601753205cf92bb87a63be566e979659e4476aad8725eec018efa9b58fafa0",
+              "signalHash": "0xa687e998150e390260bd0746da0c5a07bf068a97111c1d796ccd902c3ce6a453",
+              "amountUusdc": "10000",
+              "minerId": "302",
+              "latencyMs": 7392
+            }
+          },
+          {
+            "kind": "official",
+            "name": "OFAC SDN list",
+            "status": "answered",
+            "purchase": null,
+            "fields": {
+              "matched": true,
+              "lists": "OFAC SDN",
+              "matches": "JOINT STOCK COMPANY SOVCOMFLOT (SDN 34741; UKRAINE-EO13662] [RUSSIA-EO14024)"
+            },
+            "detail": "OFAC's SDN list matches PAO Sovcomflot: JOINT STOCK COMPANY SOVCOMFLOT (SDN 34741; UKRAINE-EO13662] [RUSSIA-EO14024).",
+            "snapshot": {
+              "url": "https://www.treasury.gov/ofac/downloads/sdn.csv",
+              "sha256": "e83c93e6159498ce0352549f750023eaa47e561e54c496ba1b0c32e3e33872d6",
+              "retrievedAt": "2026-11-24T06:23:46.550Z"
+            }
+          }
+        ],
+        "status": "answered",
+        "fields": {
+          "matched": true,
+          "lists": "OFAC SDN",
+          "matches": "JOINT STOCK COMPANY SOVCOMFLOT (SDN 34741; UKRAINE-EO13662] [RUSSIA-EO14024)"
+        },
+        "detail": "OFAC's SDN list matches PAO Sovcomflot: JOINT STOCK COMPANY SOVCOMFLOT (SDN 34741; UKRAINE-EO13662] [RUSSIA-EO14024). ChainSight — Universal Intelligence & Data Oracle said no match."
+      },
+      {
+        "checkId": "sanctions:vessel",
+        "sources": [
+          {
+            "kind": "telegraph",
+            "name": "ChainSight — Universal Intelligence & Data Oracle",
+            "status": "answered",
+            "fields": {
+              "matched": false,
+              "lists": "OFAC SDN",
+              "matches": null
+            },
+            "detail": "ChainSight — Universal Intelligence & Data Oracle: no match for Pacific Ore on OFAC SDN.",
+            "purchase": {
+              "rail": "sepolia-escrow",
+              "receiptHash": "0x739d1b342d24191891c4886888ec83859d976f8f48b4d18f46dca0b342ec05b5",
+              "signalHash": "0xdfa0c800a99f3255d4e9a7d9857989a3e201f7133d231f46ba1f0590c9f99ae9",
+              "amountUusdc": "10000",
+              "minerId": "302",
+              "latencyMs": 9569
+            }
+          },
+          {
+            "kind": "official",
+            "name": "OFAC SDN list",
+            "status": "answered",
+            "purchase": null,
+            "fields": {
+              "matched": false,
+              "lists": "OFAC SDN",
+              "matches": null
+            },
+            "detail": "No entry for Pacific Ore (IMO9412345) on OFAC's SDN list.",
+            "snapshot": {
+              "url": "https://www.treasury.gov/ofac/downloads/sdn.csv",
+              "sha256": "e83c93e6159498ce0352549f750023eaa47e561e54c496ba1b0c32e3e33872d6",
+              "retrievedAt": "2026-11-24T06:23:46.550Z"
+            }
+          }
+        ],
+        "status": "answered",
+        "fields": {
+          "matched": false,
+          "lists": "OFAC SDN",
+          "matches": null,
+          "sources_agreeing": 2
+        },
+        "detail": "ChainSight — Universal Intelligence & Data Oracle: no match for Pacific Ore on OFAC SDN. (2 sources agree)"
+      },
+      {
+        "checkId": "vessel:vessel",
+        "sources": [
+          {
+            "kind": "telegraph",
+            "name": "PREFLIGHT Infrastructure Signals",
+            "status": "unreadable",
+            "fields": {
+              "latitude": null,
+              "longitude": null,
+              "speed_knots": null,
+              "observed_at": null
+            },
+            "detail": "PREFLIGHT Infrastructure Signals returned no position for Pacific Ore.",
+            "purchase": {
+              "rail": "sepolia-escrow",
+              "receiptHash": "0x400e251ef346552d49bdf29bf8b36d2968718e44c70a31eebdd67438039148e6",
+              "signalHash": "0x8ca28bcb36c8016ad5bf2a752c647db684e0de0b783ff7d6bee61321caceeae1",
+              "amountUusdc": "10000",
+              "minerId": "20260828",
+              "latencyMs": 7191
+            }
+          }
+        ],
+        "status": "unreadable",
+        "fields": {},
+        "detail": "PREFLIGHT Infrastructure Signals returned no position for Pacific Ore."
+      }
+    ],
+    "decision": {
+      "policy": "triad-release-v1",
+      "decision": "BLOCK",
+      "needs": [],
+      "hits": [
+        {
+          "rule": "R-CARGO-PARTY-CHANGED",
+          "effect": "hold_callback",
+          "text": "The pickup party would change from Rotterdam Bulk Agency BV to PAO Sovcomflot"
+        },
+        {
+          "rule": "R-EVIDENCE-MISSING",
+          "effect": "hold_evidence",
+          "text": "Pickup party changed: is PAO Sovcomflot a registered, active company? Praman Desk Compliance & Procurement Auditor said \"inactive\" without naming the company or its registration.",
+          "checkId": "registry:pickup_party"
+        },
+        {
+          "rule": "R-SANCTIONS-MATCH",
+          "effect": "block",
+          "text": "PAO Sovcomflot matches a sanctions list entry (OFAC SDN)",
+          "checkId": "sanctions:pickup_party"
+        }
+      ],
+      "facts": [
+        "No sanctions match for IMO9412345."
+      ],
+      "warnings": [
+        "The pickup party would change from Rotterdam Bulk Agency BV to PAO Sovcomflot",
+        "Pickup party changed: is PAO Sovcomflot a registered, active company? Praman Desk Compliance & Procurement Auditor said \"inactive\" without naming the company or its registration.",
+        "PAO Sovcomflot matches a sanctions list entry (OFAC SDN)"
+      ],
+      "unknowns": [
+        "Pickup party changed: is PAO Sovcomflot a registered, active company? Praman Desk Compliance & Procurement Auditor said \"inactive\" without naming the company or its registration.",
+        "Where is Pacific Ore (IMO9412345) now? PREFLIGHT Infrastructure Signals returned no position for Pacific Ore."
+      ],
+      "callback": {
+        "target": {
+          "contactId": "maria",
+          "name": "María Rojas",
+          "channel": "phone",
+          "address": "+56221234567"
+        },
+        "result": null,
+        "accepted": false
+      }
+    },
+    "cost": {
+      "telegraphUusdc": "40000",
+      "purchases": 4
+    }
+  }
+}
