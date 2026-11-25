@@ -56,7 +56,6 @@ export default function Home() {
 
       <section className={`wrap rise d4 ${s.windowWrap}`} aria-label="Example decisions">
         <HeroDecision />
-        <LedgerRecent />
       </section>
 
       <section className={`wrap ${s.section}`}>
@@ -178,6 +177,8 @@ export default function Home() {
           </article>
         </div>
       </section>
+
+      <LedgerRecent />
 
       <section className="wrap">
         <div className={s.cta} data-reveal="">
