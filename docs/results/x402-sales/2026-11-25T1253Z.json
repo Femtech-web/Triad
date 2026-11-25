@@ -1,0 +1,21 @@
+{
+  "sale": "one Triad payment check, sold over x402",
+  "endpoint": "https://triad-five-steel.vercel.app/api/v1/check",
+  "network": "solana:EtWTRABZaYq6iMfeYKouRu166VU2xqa1",
+  "asset": "4zMMC9srt5Ri5X14GAgXhaHii3GnPAEERYPJgZJDncDU",
+  "amountUusdc": "50000",
+  "payer": "3jAYrcVLpimhvwyAVZDfdeoveSDFKYVgfubygGsE4H7k",
+  "payTo": "ATxmzqGTLjHXJo1gCVCgNxUUNyDU1yaLLYHRPCy1BvN4",
+  "transaction": "mgsyaJcHqfVdhUu9bDBqmQdcBCJKSdAvTxTQkF8TSdrrGGXXCpYohHRC2BbMn4oVXxtHcrUnCdy7jBUhyS3wp6a",
+  "explorer": "https://explorer.solana.com/tx/mgsyaJcHqfVdhUu9bDBqmQdcBCJKSdAvTxTQkF8TSdrrGGXXCpYohHRC2BbMn4oVXxtHcrUnCdy7jBUhyS3wp6a?cluster=devnet",
+  "settlement": {
+    "success": true,
+    "payer": "3jAYrcVLpimhvwyAVZDfdeoveSDFKYVgfubygGsE4H7k",
+    "transaction": "mgsyaJcHqfVdhUu9bDBqmQdcBCJKSdAvTxTQkF8TSdrrGGXXCpYohHRC2BbMn4oVXxtHcrUnCdy7jBUhyS3wp6a",
+    "network": "solana:EtWTRABZaYq6iMfeYKouRu166VU2xqa1"
+  },
+  "decision": "BLOCK",
+  "evidence_sha256": "0x9e91a2677a148476bacb6753ff1c4052752fa3796e39c3e6e3fec4082258b85b",
+  "signedBy": "0xE107c20e529d13b8ac6E1Bad05224664dc912dCf",
+  "at": "2026-11-25T12:53:29.921Z"
+}

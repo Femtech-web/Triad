@@ -1,13 +1,12 @@
 import { NextResponse } from 'next/server';
-import { decisions, evidenceByHash } from '@/lib/data';
+import { evidenceByHash } from '@/lib/data';
 import { sharedEvidence } from '@/lib/server/ledger';
 import { attest } from '@/lib/server/runtime';
 
-export const revalidate = 3600;
-
-export function generateStaticParams() {
-  return decisions().map((d) => ({ hash: d.evidence_sha256 }));
-}
+// Attest only in the deployed runtime; production signing secrets are not
+// available to the prebuilt deployment's local static-generation step.
+export const dynamic = 'force-dynamic';
+export const runtime = 'nodejs';
 
 export async function GET(_request: Request, { params }: { params: Promise<{ hash: string }> }) {
   const hash = (await params).hash;

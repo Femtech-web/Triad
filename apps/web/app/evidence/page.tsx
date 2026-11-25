@@ -8,6 +8,8 @@ import { DropVerify } from './drop-verify';
 import s from './evidence.module.css';
 
 export const metadata: Metadata = { title: 'Evidence · Triad' };
+// Resolve the issuer only after production runtime secrets are available.
+export const dynamic = 'force-dynamic';
 
 export default function EvidenceIndex() {
   const all = decisions().sort((a, b) => b.evidence.generatedAt.localeCompare(a.evidence.generatedAt));

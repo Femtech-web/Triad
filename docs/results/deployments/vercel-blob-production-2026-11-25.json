@@ -1,0 +1,107 @@
+{
+  "checked_at": "2026-11-25T12:50:44.290Z",
+  "production_url": "https://triad-five-steel.vercel.app",
+  "deployment_id": "dpl_B8f7N783jPLSRtUjEt6XkiWGRkaT",
+  "deployment_url": "https://triad-fat6bohpb-bossfemzy10gmailcoms-projects.vercel.app",
+  "project": "triad",
+  "store": "triad-ledger",
+  "store_environments": [
+    "production",
+    "preview",
+    "development"
+  ],
+  "environment_variable_names": [
+    "BLOB_READ_WRITE_TOKEN",
+    "TRIAD_EVM_ISSUER_KEY",
+    "TRIAD_EVM_OPERATOR_KEY",
+    "TRIAD_EVM_RELEASE_OFFICER_KEY",
+    "TRIAD_SEAL_SECRET"
+  ],
+  "issuer_key_environments": [
+    "production"
+  ],
+  "checks_and_build": "passed",
+  "http": {
+    "checked_at": "2026-11-25T12:49:20.698Z",
+    "checks": [
+      {
+        "path": "/",
+        "status": 200
+      },
+      {
+        "path": "/check",
+        "status": 200
+      },
+      {
+        "path": "/console",
+        "status": 200
+      },
+      {
+        "path": "/benchmark",
+        "status": 200
+      },
+      {
+        "path": "/evidence",
+        "status": 200
+      },
+      {
+        "path": "/ledger",
+        "status": 200
+      },
+      {
+        "path": "/evidence/0x7f83957f16dea1bb5b15c002f408ef5c4317a04bcaf1c126e1129c9174dea93d",
+        "status": 200
+      }
+    ],
+    "evidence_api_status": 200,
+    "evidence_hash": "0x7f83957f16dea1bb5b15c002f408ef5c4317a04bcaf1c126e1129c9174dea93d",
+    "hash_matches": true,
+    "issuer_signature_present": true,
+    "issuer_signature_valid": true,
+    "issuer_address": "0xE107c20e529d13b8ac6E1Bad05224664dc912dCf"
+  },
+  "shared_evidence": {
+    "hash": "0x98cf77e4c849afd2824e076a01e030981e8119da1eb5d642cf775b9b11c13606",
+    "api_status": 200,
+    "hash_and_issuer_signature_valid": true,
+    "issuer_address": "0xE107c20e529d13b8ac6E1Bad05224664dc912dCf",
+    "persisted_shared_at": "2026-11-25T12:44:19.626Z",
+    "decision": "BLOCK",
+    "purchases": 0,
+    "cost_uusdc": "0"
+  },
+  "browser_verified_signature": true,
+  "ledger": {
+    "visible_decisions": 1,
+    "decision": "BLOCK",
+    "purchases": 0,
+    "shared_permalink_present": true,
+    "visible_columns": [
+      "time",
+      "surface",
+      "verdict",
+      "rules",
+      "cost",
+      "hash"
+    ],
+    "test_fixture": true,
+    "third_party_adoption_claimed": false
+  },
+  "paid_requests_during_this_redeployment": 0,
+  "escrow_funding_or_release": false,
+  "committed_or_pushed": false,
+  "fixes": [
+    "Synchronized MCP SDK specifier in lockfile without changing resolved version.",
+    "Moved issuer-dependent check/evidence pages and evidence API to request-time rendering.",
+    "Included recorded data in dynamically rendered evidence functions."
+  ],
+  "screenshot": "docs/results/deployments/blob-evidence-2026-11-25.png",
+  "changed_source_sha256": {
+    "pnpm-lock.yaml": "5357e78a6272178d720ce230fdf73ec200b5a0e7d9e4ed07c817a5967d05944d",
+    "apps/web/next.config.ts": "819cb1443d6bfae28576d6198e0edfa8da58ec9da9406ba820a78b759b1a3d2e",
+    "apps/web/app/check/page.tsx": "53823c0fe68dbeacf2cf0de7c57e9a5464a78ca1044fbcf96a8d49ddb8e360be",
+    "apps/web/app/evidence/page.tsx": "e7599b75226501f4eb90c59b52f74e186a0eea52771965710f509e1c9a181b3a",
+    "apps/web/app/evidence/[hash]/page.tsx": "a74012ebedb80c78efe82c071bfbbf4c7417e5a2bf16e18b7f958aa699999f6d",
+    "apps/web/app/api/evidence/[hash]/route.ts": "f9908fe5edf4a80c2709a51878fdfebd782a0489d8eb8bf79eb1ca40a6501fb9"
+  }
+}

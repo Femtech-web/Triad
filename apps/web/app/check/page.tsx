@@ -2,6 +2,9 @@ import type { Metadata } from 'next';
 import { issuerAddress } from '@/lib/server/runtime';
 import { Check } from './check';
 
+// The issuer identity is derived from a production-only signing secret.
+export const dynamic = 'force-dynamic';
+
 export const metadata: Metadata = {
   title: 'Check a payment change · Triad',
   description: 'Received an email asking you to change bank details or a pickup agent? Check it before you act: Triad checks the sender, buys independent checks on what changed, and tells you what to do next.',

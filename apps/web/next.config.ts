@@ -15,7 +15,7 @@ const config: NextConfig = {
   poweredByHeader: false,
   serverExternalPackages: ['undici'],
   // The public record and the OFAC snapshot are read at runtime by the console's routes.
-  outputFileTracingIncludes: { '/api/**': ['./data/**'], '/console': ['./data/**'] },
+  outputFileTracingIncludes: { '/api/**': ['./data/**'], '/console': ['./data/**'], '/evidence': ['./data/**'], '/evidence/**': ['./data/**'] },
   headers: async () => [{ source: '/:path*', headers: SECURITY_HEADERS }],
   webpack: (webpack) => {
     // Packages import with NodeNext-style ".js" specifiers that point at ".ts" files, which only webpack maps.

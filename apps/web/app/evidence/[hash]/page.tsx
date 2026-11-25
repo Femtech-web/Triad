@@ -2,18 +2,16 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { EvidenceView } from '@/components/evidence-view';
-import { decisions, evidenceByHash, releasesFor } from '@/lib/data';
+import { evidenceByHash, releasesFor } from '@/lib/data';
 import { short } from '@/lib/format';
 import { sharedEvidence } from '@/lib/server/ledger';
 import { attest, issuerAddress } from '@/lib/server/runtime';
 import s from '../evidence.module.css';
 
-// Repository evidence is built ahead; a decision someone shared is read from the store on first visit.
-export const dynamicParams = true;
-export const revalidate = 3600;
-export function generateStaticParams() {
-  return decisions().map((d) => ({ hash: d.evidence_sha256 }));
-}
+// Signing keys exist only in the deployment runtime, never in the local build.
+// Both recorded and shared evidence must therefore be rendered per request.
+export const dynamic = 'force-dynamic';
+export const runtime = 'nodejs';
 
 async function find(hash: string) {
   const stored = evidenceByHash(hash);
