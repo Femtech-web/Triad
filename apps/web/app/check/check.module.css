@@ -1,0 +1,62 @@
+.intro { padding: 72px 0 32px; display: grid; gap: 16px; }
+.intro > * { max-width: 760px; }
+.title { font-size: clamp(38px, 5vw, 64px); }
+.examples { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; margin-top: 10px; max-width: none; }
+.examplesLabel { font-size: 13.5px; color: var(--text-3); }
+
+.grid { display: grid; grid-template-columns: minmax(0, 1fr) 420px; gap: 24px; align-items: start; }
+.form { display: grid; gap: 16px; min-width: 0; }
+.step { margin: 0; padding: 22px 22px 24px; display: grid; gap: 16px; min-width: 0; }
+.legend { float: left; width: 100%; padding: 0; display: flex; gap: 14px; align-items: flex-start; margin-bottom: 4px; }
+.legend b { display: block; font: 600 17px/1.3 var(--display); letter-spacing: -0.01em; }
+.legend small { display: block; font-size: 13.5px; color: var(--text-3); margin-top: 2px; }
+.num { display: grid; place-items: center; width: 28px; height: 28px; flex-shrink: 0; border-radius: 9px; background: rgba(var(--accent-rgb) / 0.12); border: 1px solid rgba(var(--accent-rgb) / 0.25); color: var(--accent); font: 600 13px/1 var(--display); }
+.cols { display: grid; grid-template-columns: 1fr 1fr; gap: 14px 16px; }
+.cols3 { display: grid; grid-template-columns: 1fr 1.2fr 1fr; gap: 14px 16px; }
+.sub { margin: 6px 0 -4px; font: 600 13.5px/1 var(--sans); color: var(--text-2); }
+.none { margin: 0; color: var(--text-3); font-size: 14px; }
+.submit { display: flex; align-items: center; gap: 16px; flex-wrap: wrap; padding: 4px 2px; }
+.submit p { margin: 0; font-size: 13.5px; max-width: 46ch; }
+
+.side { position: sticky; top: 88px; }
+.panel { padding: 22px; min-height: 280px; }
+.panelFoot { display: flex; justify-content: space-between; align-items: center; gap: 12px; margin-top: 20px; padding-top: 16px; border-top: 1px solid var(--line); flex-wrap: wrap; }
+.empty { display: grid; justify-items: center; text-align: center; gap: 8px; padding: 36px 12px; }
+.empty p { margin: 0; }
+.emptyIcon { display: grid; place-items: center; width: 48px; height: 48px; border-radius: 14px; background: rgba(255, 255, 255, 0.04); border: 1px solid var(--line-2); color: var(--text-3); margin-bottom: 6px; }
+.emptyIcon svg { width: 22px; height: 22px; }
+.emptyTitle { font: 600 17px/1.3 var(--display); }
+
+.preview { display: grid; gap: 14px; }
+.previewRow { display: flex; gap: 10px; align-items: baseline; flex-wrap: wrap; font-size: 14.5px; }
+.preHits { list-style: none; margin: 0; padding: 0; display: grid; gap: 8px; font-size: 13.5px; color: var(--text-2); }
+.preHits li { display: flex; gap: 10px; align-items: baseline; }
+.preHits :global(.chip) { flex-shrink: 0; }
+.planHead { margin: 0; color: var(--text-2); font-size: 14px; }
+.planList, .plan { list-style: none; margin: 0; padding: 0; display: grid; }
+.planList li { display: flex; justify-content: space-between; gap: 12px; padding: 9px 0; border-top: 1px solid var(--line); font-size: 14px; }
+
+.running { display: grid; gap: 12px; }
+.running p { margin: 0; }
+.runningTitle { font: 600 19px/1.3 var(--display); }
+.plan li { display: flex; align-items: center; gap: 10px; padding: 9px 0; border-top: 1px solid var(--line); font-size: 14px; color: var(--text-2); }
+.spinner { width: 14px; height: 14px; border-radius: 50%; border: 2px solid rgba(var(--accent-rgb) / 0.25); border-top-color: var(--accent); animation: spin 800ms linear infinite; flex-shrink: 0; }
+@keyframes spin { to { transform: rotate(360deg); } }
+.error { margin: 16px 0 0; padding: 10px 12px; border-radius: var(--r-sm); background: rgba(var(--block-rgb) / 0.1); border: 1px solid rgba(var(--block-rgb) / 0.25); color: var(--block); font-size: 13.5px; }
+
+.evidence { margin-top: 24px; }
+.details summary { list-style: none; cursor: pointer; display: flex; justify-content: space-between; align-items: center; gap: 16px; padding: 18px 22px; flex-wrap: wrap; }
+.details summary::-webkit-details-marker { display: none; }
+.details[open] summary { border-bottom: 1px solid var(--line); }
+.detailsBody { padding: 22px; }
+
+@media (max-width: 1080px) {
+  .grid { grid-template-columns: 1fr; }
+  .side { position: static; scroll-margin-top: 80px; }
+}
+@media (max-width: 640px) {
+  .intro { padding-top: 48px; }
+  .cols, .cols3 { grid-template-columns: 1fr; }
+  .step { padding: 18px 16px 20px; }
+  .submit :global(.btn) { width: 100%; }
+}

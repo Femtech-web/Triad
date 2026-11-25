@@ -1,0 +1,18 @@
+{
+  "rail": "solana-devnet",
+  "escrow": "7hRAkLUZ2EMuFpsc3mtKfKnfxUJvcbgJqhWDShtxz567",
+  "transaction": "4DXdA22k8fzK8QCYMRa7UZooy86catQAoRDUBnFjeABF1MKoswHd2vVqjJXsiYonp2tnHKQcNf1cqvGFQxfEWJnV",
+  "explorer": "https://explorer.solana.com/tx/4DXdA22k8fzK8QCYMRa7UZooy86catQAoRDUBnFjeABF1MKoswHd2vVqjJXsiYonp2tnHKQcNf1cqvGFQxfEWJnV?cluster=devnet",
+  "evidenceFile": "2026-11-25T080415Z-release-on-schedule-solana.json",
+  "authorization": {
+    "rail": "solana-devnet",
+    "shipmentKey": "0x7b27a2ccf716b3418e944e59f5788811c760e8f77ac6de295b6d071876603a16",
+    "payee": "3jAYrcVLpimhvwyAVZDfdeoveSDFKYVgfubygGsE4H7k",
+    "amount": "1000000",
+    "evidenceHash": "0xd4585c2fcb97be02e48fb4c4d50826522da4ec97f8445328f8df06c2c417333e",
+    "validUntil": 1795594764,
+    "signer": "DcmvuRErWwHBsT6bcCuHU7tncb523dYxRbwY2q8xwjSd",
+    "signature": "0xf4ae54f3145d48d906b3eca7ecfd4bc1eb145ba21df98a678547a22272f3c5ac600f71db6a61fc5d4ebe88ad07df8cf635aab712a6ee479b4b55f017d987fb03"
+  },
+  "releasedAt": "2026-11-25T08:04:26.347Z"
+}

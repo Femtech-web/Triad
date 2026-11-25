@@ -1,0 +1,148 @@
+{
+  "evidence_sha256": "0x9946b1bbd40339edafad8a64dc3404d4f93689d637ae388d211627d6120c7305",
+  "evidence": {
+    "format": "triad-evidence-v1",
+    "generatedAt": "2026-11-25T07:45:36.192Z",
+    "provenance": {
+      "scenario": "legit-on-schedule-glencore",
+      "synthetic": [
+        "shipment",
+        "buyer",
+        "seller contacts and mailboxes",
+        "vessel",
+        "payout addresses",
+        "instruction text"
+      ],
+      "network": "testnet"
+    },
+    "shipment": {
+      "id": "bench-glencore-4",
+      "reference": "TRD-GLE-1004",
+      "commodity": "Cobalt hydroxide",
+      "quantity": "300 t",
+      "amount": {
+        "value": "5000000",
+        "currency": "USDC",
+        "decimals": 6
+      },
+      "buyer": {
+        "id": "buyer",
+        "legalName": "Halden Metals Trading AG",
+        "country": "CH",
+        "domain": "haldenmetals.ch",
+        "contacts": []
+      },
+      "seller": {
+        "id": "seller",
+        "legalName": "GLENCORE INTERNATIONAL AG",
+        "country": "CH",
+        "registrationId": "213800PSSU2QXF1WLR89",
+        "domain": "glencore.com",
+        "contacts": [
+          {
+            "id": "treasury",
+            "name": "Glencore Treasury Desk",
+            "email": "treasury.desk@glencore.com",
+            "phone": "+41410001005",
+            "role": "Treasury"
+          },
+          {
+            "id": "logistics",
+            "name": "Glencore Logistics Desk",
+            "email": "logistics.desk@glencore.com",
+            "role": "Logistics"
+          }
+        ]
+      },
+      "consignee": {
+        "id": "buyer",
+        "legalName": "Halden Metals Trading AG",
+        "country": "CH",
+        "domain": "haldenmetals.ch",
+        "contacts": []
+      },
+      "pickupParty": {
+        "id": "pickup",
+        "legalName": "Rotterdam Bulk Agency BV",
+        "country": "NL",
+        "contacts": []
+      },
+      "payout": {
+        "holderName": "GLENCORE INTERNATIONAL AG",
+        "rail": "sepolia",
+        "address": "0xd9a78bc05fcd7c48a53d2af35a62d2a580b58c40",
+        "bankRef": "CH-TRUSTED-4"
+      },
+      "vessel": {
+        "name": "Pacific Ore",
+        "imo": "IMO9412345"
+      },
+      "loadPort": "San Antonio, CL",
+      "dischargePort": "Rotterdam, NL",
+      "documents": [
+        {
+          "kind": "bill_of_lading",
+          "reference": "BL-GLENCORE-4",
+          "sha256": "11f7a771adf6a02d436f0f8e6ac737219989088039ca70ed2acbfc024e1d7327"
+        }
+      ],
+      "authorizedContactIds": [
+        "treasury",
+        "logistics"
+      ],
+      "releaseOfficer": {
+        "name": "Halden release desk",
+        "rail": "sepolia",
+        "publicKey": "0x152661B3192173Fd6CD7801C8F2241654F8270f4"
+      }
+    },
+    "instruction": {
+      "id": "ins-bench-glencore-4-1",
+      "shipmentId": "bench-glencore-4",
+      "receivedAt": "2026-11-25T09:00:00Z",
+      "channel": {
+        "kind": "email",
+        "from": "treasury.desk@glencore.com",
+        "displayName": "Glencore Treasury Desk"
+      },
+      "summary": "Delivery of TRD-GLE-1004 confirmed at Rotterdam. Please settle the invoice as agreed.",
+      "changes": {}
+    },
+    "changeSet": {
+      "sender": {
+        "from": "treasury.desk@glencore.com",
+        "domain": {
+          "sender": "glencore.com",
+          "trusted": "glencore.com",
+          "relation": "same",
+          "reason": "glencore.com is the trusted domain"
+        },
+        "authorizedContactId": "treasury",
+        "displayNameImpersonates": null,
+        "replyTo": null
+      },
+      "changes": [],
+      "destinationChanged": false
+    },
+    "plan": [],
+    "outcomes": [],
+    "decision": {
+      "policy": "triad-release-v1",
+      "decision": "CLEAR",
+      "needs": [],
+      "hits": [],
+      "facts": [],
+      "warnings": [],
+      "unknowns": [],
+      "callback": {
+        "target": null,
+        "result": null,
+        "accepted": false
+      }
+    },
+    "cost": {
+      "telegraphUusdc": "0",
+      "purchases": 0
+    }
+  }
+}

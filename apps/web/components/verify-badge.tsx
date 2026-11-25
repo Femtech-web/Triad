@@ -17,7 +17,7 @@ export function VerifyBadge({ evidence, hash }: { evidence: EvidenceFile; hash: 
   const ok = matches && result.problems.length === 0;
   return (
     <div className={`${s.verify} ${ok ? s.verified : s.failed}`} role="status">
-      <span className={s.verifyMark} aria-hidden="true">{ok ? '✓' : '✕'}</span>
+      <span className={s.verifyMark} aria-hidden="true"><span>{ok ? '✓' : '✕'}</span></span>
       <span>
         {matches ? 'Verified in your browser: the canonical bytes hash to the stated SHA-256' : `Mismatch: your browser computed ${result.hash}`}
         {result.problems.length ? `; ${result.problems.join(' ')}` : matches ? ', and every paid answer carries a receipt and a signal hash.' : '.'}

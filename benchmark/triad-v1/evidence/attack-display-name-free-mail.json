@@ -1,0 +1,585 @@
+{
+  "evidence_sha256": "0x195eb0863ffc06bc15a60337fd0c999655322a1ef23442612f45c989a6735450",
+  "evidence": {
+    "format": "triad-evidence-v1",
+    "generatedAt": "2026-11-25T08:12:54.985Z",
+    "provenance": {
+      "scenario": "attack-display-name-free-mail",
+      "synthetic": [
+        "shipment",
+        "buyer",
+        "seller contacts and mailboxes",
+        "vessel",
+        "payout addresses",
+        "instruction text"
+      ],
+      "network": "testnet"
+    },
+    "shipment": {
+      "id": "bench-freeport-70",
+      "reference": "TRD-FRE-1070",
+      "commodity": "Copper cathodes, COMEX grade 1",
+      "quantity": "1950 t",
+      "amount": {
+        "value": "71000000",
+        "currency": "USDC",
+        "decimals": 6
+      },
+      "buyer": {
+        "id": "buyer",
+        "legalName": "Halden Metals Trading AG",
+        "country": "CH",
+        "domain": "haldenmetals.ch",
+        "contacts": []
+      },
+      "seller": {
+        "id": "seller",
+        "legalName": "FREEPORT-MCMORAN INC.",
+        "country": "US",
+        "registrationId": "549300IRDTHJQ1PVET45",
+        "domain": "fcx.com",
+        "contacts": [
+          {
+            "id": "treasury",
+            "name": "Freeport-McMoRan Treasury Desk",
+            "email": "treasury.desk@fcx.com",
+            "phone": "+16020001004",
+            "role": "Treasury"
+          },
+          {
+            "id": "logistics",
+            "name": "Freeport-McMoRan Logistics Desk",
+            "email": "logistics.desk@fcx.com",
+            "role": "Logistics"
+          }
+        ]
+      },
+      "consignee": {
+        "id": "buyer",
+        "legalName": "Halden Metals Trading AG",
+        "country": "CH",
+        "domain": "haldenmetals.ch",
+        "contacts": []
+      },
+      "pickupParty": {
+        "id": "pickup",
+        "legalName": "Rotterdam Bulk Agency BV",
+        "country": "NL",
+        "contacts": []
+      },
+      "payout": {
+        "holderName": "FREEPORT-MCMORAN INC.",
+        "rail": "sepolia",
+        "address": "0x57c5b377f90acf07938e088434c18fdca358b49b",
+        "bankRef": "US-TRUSTED-70"
+      },
+      "vessel": {
+        "name": "Pacific Ore",
+        "imo": "IMO9412345"
+      },
+      "loadPort": "San Antonio, CL",
+      "dischargePort": "Rotterdam, NL",
+      "documents": [
+        {
+          "kind": "bill_of_lading",
+          "reference": "BL-FREEPORT-70",
+          "sha256": "2ba7ff37b1dd5c3101cdd543bc3b3f7a2fe5ff0e26ebf6d4e2a1b44e9f995e02"
+        }
+      ],
+      "authorizedContactIds": [
+        "treasury",
+        "logistics"
+      ],
+      "releaseOfficer": {
+        "name": "Halden release desk",
+        "rail": "sepolia",
+        "publicKey": "0x152661B3192173Fd6CD7801C8F2241654F8270f4"
+      }
+    },
+    "instruction": {
+      "id": "ins-bench-freeport-70-1",
+      "shipmentId": "bench-freeport-70",
+      "receivedAt": "2026-11-25T09:00:00Z",
+      "channel": {
+        "kind": "email",
+        "from": "fcx.treasury.payments@gmail.com",
+        "displayName": "Freeport-McMoRan Treasury Desk"
+      },
+      "summary": "Urgent: our corporate account is under maintenance. Please route today's payment for TRD-FRE-1070 to the account below.",
+      "changes": {
+        "payout": {
+          "holderName": "FREEPORT-MCMORAN INC.",
+          "rail": "sepolia",
+          "address": "0x9999999999999999999999999999999999999999",
+          "bankRef": "NEW-ATTACKER"
+        }
+      }
+    },
+    "changeSet": {
+      "sender": {
+        "from": "fcx.treasury.payments@gmail.com",
+        "domain": {
+          "sender": "gmail.com",
+          "trusted": "fcx.com",
+          "relation": "free_mail",
+          "reason": "gmail.com is a free mail provider, not fcx.com"
+        },
+        "authorizedContactId": null,
+        "displayNameImpersonates": "treasury",
+        "replyTo": null
+      },
+      "changes": [
+        {
+          "kind": "payout",
+          "before": {
+            "holderName": "FREEPORT-MCMORAN INC.",
+            "rail": "sepolia",
+            "address": "0x57c5b377f90acf07938e088434c18fdca358b49b",
+            "bankRef": "US-TRUSTED-70"
+          },
+          "after": {
+            "holderName": "FREEPORT-MCMORAN INC.",
+            "rail": "sepolia",
+            "address": "0x9999999999999999999999999999999999999999",
+            "bankRef": "NEW-ATTACKER"
+          },
+          "holderVsSeller": "same"
+        }
+      ],
+      "destinationChanged": true
+    },
+    "plan": [
+      {
+        "id": "registry:seller",
+        "check": "registry",
+        "intent": "CORPORATE_REGISTRY_LOOKUP_GENERAL",
+        "params": {
+          "company": "FREEPORT-MCMORAN INC.",
+          "jurisdiction": "United States"
+        },
+        "role": "seller",
+        "subject": {
+          "kind": "entity",
+          "name": "FREEPORT-MCMORAN INC.",
+          "country": "US",
+          "registrationId": "549300IRDTHJQ1PVET45"
+        },
+        "required": true,
+        "purpose": "Payment details changed: is FREEPORT-MCMORAN INC. a registered, active company?"
+      },
+      {
+        "id": "sanctions:seller",
+        "check": "sanctions",
+        "intent": "SANCTIONS_SCREENING_MATCH_GENERAL",
+        "params": {
+          "name": "FREEPORT-MCMORAN INC."
+        },
+        "role": "seller",
+        "subject": {
+          "kind": "entity",
+          "name": "FREEPORT-MCMORAN INC.",
+          "country": "US",
+          "registrationId": "549300IRDTHJQ1PVET45"
+        },
+        "required": true,
+        "purpose": "Payment details changed: is FREEPORT-MCMORAN INC. on a sanctions list?"
+      },
+      {
+        "id": "identity:seller",
+        "check": "identity",
+        "intent": "B2B_IDENTITY_ENRICHMENT_GENERAL",
+        "params": {
+          "company": "FREEPORT-MCMORAN INC."
+        },
+        "role": "seller",
+        "subject": {
+          "kind": "entity",
+          "name": "FREEPORT-MCMORAN INC.",
+          "country": "US",
+          "registrationId": "549300IRDTHJQ1PVET45"
+        },
+        "required": false,
+        "purpose": "What web domain do sources give for FREEPORT-MCMORAN INC.?"
+      },
+      {
+        "id": "mail:sender_domain",
+        "check": "mail",
+        "intent": "EMAIL_SECURITY_GENERAL",
+        "params": {
+          "domain": "gmail.com",
+          "record_type": "MX"
+        },
+        "role": "sender_domain",
+        "subject": {
+          "kind": "domain",
+          "domain": "gmail.com"
+        },
+        "required": false,
+        "purpose": "Does gmail.com receive mail at all?"
+      },
+      {
+        "id": "sanctions:vessel",
+        "check": "sanctions",
+        "intent": "SANCTIONS_SCREENING_MATCH_GENERAL",
+        "params": {
+          "name": "Pacific Ore"
+        },
+        "role": "vessel",
+        "subject": {
+          "kind": "vessel",
+          "name": "Pacific Ore",
+          "imo": "IMO9412345"
+        },
+        "required": true,
+        "purpose": "Is the vessel Pacific Ore (IMO9412345) sanctioned?"
+      },
+      {
+        "id": "vessel:vessel",
+        "check": "vessel",
+        "intent": "VESSEL_TELEMETRY_VERIFY_GENERAL",
+        "params": {
+          "vessel": "IMO9412345"
+        },
+        "role": "vessel",
+        "subject": {
+          "kind": "vessel",
+          "name": "Pacific Ore",
+          "imo": "IMO9412345"
+        },
+        "required": false,
+        "purpose": "Where is Pacific Ore (IMO9412345) now?"
+      }
+    ],
+    "outcomes": [
+      {
+        "checkId": "registry:seller",
+        "sources": [
+          {
+            "kind": "telegraph",
+            "name": "Praman Desk Compliance & Procurement Auditor",
+            "status": "answered",
+            "fields": {
+              "active": true,
+              "legal_name": "FREEPORT-MCMORAN INC.",
+              "registration_id": "549300IRDTHJQ1PVET45"
+            },
+            "detail": "Praman Desk Compliance & Procurement Auditor: FREEPORT-MCMORAN INC. is active (549300IRDTHJQ1PVET45).",
+            "purchase": {
+              "rail": "solana-x402",
+              "receiptHash": "0x7c73c7e3b859e2af5440b740cb5260fc459110c89726d02d3e43d8aea5ed3f6a",
+              "signalHash": "0xf810c2e4a16eb5448544b26fb55b410767e0b04a180eacc189e2ae8a0741a257",
+              "amountUusdc": "10000",
+              "minerId": "6164",
+              "latencyMs": 9672,
+              "settlementTx": "3dEPLG5ZiwqtmdSvYRTUscWJC9pDwBWbXePEpPKt7VJshgXdg9jXwHCD1ajZXMCBRM1mCbgXU3S8uhBudocugsQM"
+            }
+          },
+          {
+            "kind": "telegraph",
+            "name": "Miner 98001",
+            "status": "unavailable",
+            "fields": {},
+            "detail": "The node answered HTTP 500 after settling the payment.",
+            "purchase": null
+          }
+        ],
+        "status": "answered",
+        "fields": {
+          "active": true,
+          "legal_name": "FREEPORT-MCMORAN INC.",
+          "registration_id": "549300IRDTHJQ1PVET45",
+          "sources_agreeing": 1
+        },
+        "detail": "Praman Desk Compliance & Procurement Auditor: FREEPORT-MCMORAN INC. is active (549300IRDTHJQ1PVET45). (one source)"
+      },
+      {
+        "checkId": "sanctions:seller",
+        "sources": [
+          {
+            "kind": "telegraph",
+            "name": "ChainSight — Universal Intelligence & Data Oracle",
+            "status": "answered",
+            "fields": {
+              "matched": false,
+              "lists": "OFAC SDN",
+              "matches": null
+            },
+            "detail": "ChainSight — Universal Intelligence & Data Oracle: no match for FREEPORT-MCMORAN INC. on OFAC SDN.",
+            "purchase": {
+              "rail": "solana-x402",
+              "receiptHash": "0x3081a5850c32336e5e19327208d5677bcb0340a8355388d298d97c305d6b6310",
+              "signalHash": "0x13081b15a7b52a0935badddac0e660bc0714c66da8ac295c9731e8bfb9b2308d",
+              "amountUusdc": "10000",
+              "minerId": "302",
+              "latencyMs": 12787,
+              "settlementTx": "3vJcTRbMnVCzVuvrQHphAqj9AmZaGLGZGQKPTsmx4Wi3wq9QDLfGgE2Qe5jCnvSLAmyqrYcgSE2Pj9pFjA3hGVfj"
+            }
+          },
+          {
+            "kind": "telegraph",
+            "name": "TxLens",
+            "status": "answered",
+            "fields": {
+              "matched": false,
+              "lists": null,
+              "matches": null
+            },
+            "detail": "TxLens: no match for FREEPORT-MCMORAN INC..",
+            "purchase": {
+              "rail": "solana-x402",
+              "receiptHash": "0x53376142fd19563874787cd32140c1db7a0f633fabb50ded00cc975763db0e04",
+              "signalHash": "0x66265672aa7cc26407a5d18ce612d40ab5ba7c01142576d06fce76a95414b2ca",
+              "amountUusdc": "10000",
+              "minerId": "9002",
+              "latencyMs": 6999,
+              "settlementTx": "qP1goH5V8iMZguiWvmWXahtgudb4CimDfjsjX4TQ61a5mVhKMBXi3AeDLaTsHjTCjjbigHDeh7kwArMBb8azP1W"
+            }
+          },
+          {
+            "kind": "official",
+            "name": "OFAC SDN list",
+            "status": "answered",
+            "purchase": null,
+            "fields": {
+              "matched": false,
+              "lists": "OFAC SDN",
+              "matches": null
+            },
+            "detail": "No entry for FREEPORT-MCMORAN INC. on OFAC's SDN list.",
+            "snapshot": {
+              "url": "https://www.treasury.gov/ofac/downloads/sdn.csv",
+              "sha256": "e83c93e6159498ce0352549f750023eaa47e561e54c496ba1b0c32e3e33872d6",
+              "retrievedAt": "2026-11-25T05:16:13.052Z"
+            }
+          }
+        ],
+        "status": "answered",
+        "fields": {
+          "matched": false,
+          "lists": "OFAC SDN",
+          "matches": null,
+          "sources_agreeing": 3
+        },
+        "detail": "ChainSight — Universal Intelligence & Data Oracle: no match for FREEPORT-MCMORAN INC. on OFAC SDN. (3 sources agree)"
+      },
+      {
+        "checkId": "identity:seller",
+        "sources": [
+          {
+            "kind": "telegraph",
+            "name": "TxLens",
+            "status": "answered",
+            "fields": {
+              "domain": "freeportmcmoran.com",
+              "company": "FREEPORT-MCMORAN INC.",
+              "headquarters": "Phoenix, Arizona, United States"
+            },
+            "detail": "TxLens: FREEPORT-MCMORAN INC.'s domain is freeportmcmoran.com.",
+            "purchase": {
+              "rail": "solana-x402",
+              "receiptHash": "0xaea5676f503e7f0b327e64758e9b57d97ef7ab41c82c5368e474508802e01f5e",
+              "signalHash": "0x7b64ba69f5ef817fd47e6ad0ff8880e9178d8d2fa26f21925a5cf616e102bd54",
+              "amountUusdc": "10000",
+              "minerId": "9002",
+              "latencyMs": 11803,
+              "settlementTx": "3TQWd8LgfLfVovCHHSrqhxpHyc58ntbT1XnBQhEJqAKE97hceRazg8TWTuw3FTZ5R81qg1n2uSoV6ssKged9Nawb"
+            }
+          }
+        ],
+        "status": "answered",
+        "fields": {
+          "domain": "freeportmcmoran.com",
+          "company": "FREEPORT-MCMORAN INC.",
+          "headquarters": "Phoenix, Arizona, United States",
+          "sources_agreeing": 1
+        },
+        "detail": "TxLens: FREEPORT-MCMORAN INC.'s domain is freeportmcmoran.com. (one source)"
+      },
+      {
+        "checkId": "mail:sender_domain",
+        "sources": [
+          {
+            "kind": "telegraph",
+            "name": "GuardWire Email Security Check",
+            "status": "answered",
+            "fields": {
+              "lookup_ok": true
+            },
+            "detail": "GuardWire Email Security Check: gmail.com has MX records.",
+            "purchase": {
+              "rail": "solana-x402",
+              "receiptHash": "0x60ce16b7ac42472dc311c827b4cc268bad28004a09806ad181bd51e7f86c8cf1",
+              "signalHash": "0x1969881f249f3178f9f79df0cae7100e5a1bf82ea90e8c529f537ebe8457fe3b",
+              "amountUusdc": "10000",
+              "minerId": "7354",
+              "latencyMs": 7094,
+              "settlementTx": "3JM5DSJ1xWwUCF6USHwxwYAjh4yMwqLbzD8dwv2cEZsTamDDBeVjfcy21EB7KSnjNYT3YrFyj5MeWgdXVV2gDvtF"
+            }
+          }
+        ],
+        "status": "answered",
+        "fields": {
+          "lookup_ok": true,
+          "sources_agreeing": 1
+        },
+        "detail": "GuardWire Email Security Check: gmail.com has MX records. (one source)"
+      },
+      {
+        "checkId": "sanctions:vessel",
+        "sources": [
+          {
+            "kind": "telegraph",
+            "name": "ChainSight — Universal Intelligence & Data Oracle",
+            "status": "answered",
+            "fields": {
+              "matched": false,
+              "lists": "OFAC SDN",
+              "matches": null
+            },
+            "detail": "ChainSight — Universal Intelligence & Data Oracle: no match for Pacific Ore on OFAC SDN.",
+            "purchase": {
+              "rail": "solana-x402",
+              "receiptHash": "0x7834d32edf959fa587c0d1c754d6c99936fbbdd557e057f466ab604969c542c2",
+              "signalHash": "0x8688d8a62ace5cb1c40a92366f2a21920a0b47ffdecb326db55126e0b03680e5",
+              "amountUusdc": "10000",
+              "minerId": "302",
+              "latencyMs": 10505,
+              "settlementTx": "5xRAJ1M1qER5rme74pWw3mrEngfLLtwpoWpq5NQZUQLvPmjjEsfgKr9qiXU6TYCJ4jUVLmij3mKtEoBwR473J6v7"
+            }
+          },
+          {
+            "kind": "telegraph",
+            "name": "TxLens",
+            "status": "answered",
+            "fields": {
+              "matched": false,
+              "lists": null,
+              "matches": null
+            },
+            "detail": "TxLens: no match for Pacific Ore.",
+            "purchase": {
+              "rail": "solana-x402",
+              "receiptHash": "0xc411c38bc4a624b414de631397b10495d7ef4fd9a44c61f7877b71bce70fe2ad",
+              "signalHash": "0x042be42ef9bba052321c26685eb75fc185d1c28e217ee06113c37c20448ae5b9",
+              "amountUusdc": "10000",
+              "minerId": "9002",
+              "latencyMs": 7225,
+              "settlementTx": "3hyZ1gAD4rqosU96Lm2x5pTeVifo3fw6behjbFF99FuxY3K1Ru8HcqUqoDunCxkR8YxmzpTB3yMwX4ZCpVKKL7ZQ"
+            }
+          },
+          {
+            "kind": "official",
+            "name": "OFAC SDN list",
+            "status": "answered",
+            "purchase": null,
+            "fields": {
+              "matched": false,
+              "lists": "OFAC SDN",
+              "matches": null
+            },
+            "detail": "No entry for Pacific Ore (IMO9412345) on OFAC's SDN list.",
+            "snapshot": {
+              "url": "https://www.treasury.gov/ofac/downloads/sdn.csv",
+              "sha256": "e83c93e6159498ce0352549f750023eaa47e561e54c496ba1b0c32e3e33872d6",
+              "retrievedAt": "2026-11-25T05:16:13.052Z"
+            }
+          }
+        ],
+        "status": "answered",
+        "fields": {
+          "matched": false,
+          "lists": "OFAC SDN",
+          "matches": null,
+          "sources_agreeing": 3
+        },
+        "detail": "ChainSight — Universal Intelligence & Data Oracle: no match for Pacific Ore on OFAC SDN. (3 sources agree)"
+      },
+      {
+        "checkId": "vessel:vessel",
+        "sources": [
+          {
+            "kind": "telegraph",
+            "name": "TxLens",
+            "status": "unreadable",
+            "fields": {
+              "latitude": null,
+              "longitude": null,
+              "speed_knots": null,
+              "observed_at": null
+            },
+            "detail": "TxLens returned no position for Pacific Ore.",
+            "purchase": {
+              "rail": "solana-x402",
+              "receiptHash": "0x583f312b32bc9e7b55e24b946560ff964561585b0ba791a5e5283dc4d59525dc",
+              "signalHash": "0x8e359f3c0bd8d8b1973a0cd63b34668934440b3942198724e137d341deb96d3e",
+              "amountUusdc": "10000",
+              "minerId": "9002",
+              "latencyMs": 6152,
+              "settlementTx": "RYeVcz2UmMwnTMdtpnxQtJ5Mn8CZCN8x3gVbsGxLYezpPmiaqceia3SwDZdpNUZCDmKauuxjRjufAANz3kEth4F"
+            }
+          }
+        ],
+        "status": "unreadable",
+        "fields": {},
+        "detail": "TxLens returned no position for Pacific Ore."
+      }
+    ],
+    "decision": {
+      "policy": "triad-release-v1",
+      "decision": "BLOCK",
+      "needs": [],
+      "hits": [
+        {
+          "rule": "R-SENDER-OUTSIDE-DOMAIN",
+          "effect": "hold_callback",
+          "text": "gmail.com is a free mail provider, not fcx.com"
+        },
+        {
+          "rule": "R-DISPLAY-NAME-SPOOF",
+          "effect": "block",
+          "text": "The display name copies an authorized contact, but the address is fcx.treasury.payments@gmail.com"
+        },
+        {
+          "rule": "R-PAYOUT-CHANGED",
+          "effect": "hold_callback",
+          "text": "Payment would move from account US-TRUSTED-70 to account NEW-ATTACKER"
+        },
+        {
+          "rule": "R-RECORD-DOMAIN-DIFFERS",
+          "effect": "hold_evidence",
+          "text": "Sources give freeportmcmoran.com as FREEPORT-MCMORAN INC.'s domain; the record has fcx.com",
+          "checkId": "identity:seller"
+        }
+      ],
+      "facts": [
+        "FREEPORT-MCMORAN INC. is an active registered company (549300IRDTHJQ1PVET45).",
+        "No sanctions match for FREEPORT-MCMORAN INC..",
+        "gmail.com has mail records.",
+        "No sanctions match for IMO9412345."
+      ],
+      "warnings": [
+        "gmail.com is a free mail provider, not fcx.com",
+        "The display name copies an authorized contact, but the address is fcx.treasury.payments@gmail.com",
+        "Payment would move from account US-TRUSTED-70 to account NEW-ATTACKER",
+        "Sources give freeportmcmoran.com as FREEPORT-MCMORAN INC.'s domain; the record has fcx.com"
+      ],
+      "unknowns": [
+        "Where is Pacific Ore (IMO9412345) now? TxLens returned no position for Pacific Ore."
+      ],
+      "callback": {
+        "target": {
+          "contactId": "treasury",
+          "name": "Freeport-McMoRan Treasury Desk",
+          "channel": "phone",
+          "address": "+16020001004"
+        },
+        "result": null,
+        "accepted": false
+      }
+    },
+    "cost": {
+      "telegraphUusdc": "80000",
+      "purchases": 8
+    }
+  }
+}

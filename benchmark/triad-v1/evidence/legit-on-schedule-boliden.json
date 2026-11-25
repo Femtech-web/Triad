@@ -1,0 +1,148 @@
+{
+  "evidence_sha256": "0x99fdf31795e8a365e1382c545daa7937379fc074f4334f52d0312a5138fda2a4",
+  "evidence": {
+    "format": "triad-evidence-v1",
+    "generatedAt": "2026-11-25T07:45:36.190Z",
+    "provenance": {
+      "scenario": "legit-on-schedule-boliden",
+      "synthetic": [
+        "shipment",
+        "buyer",
+        "seller contacts and mailboxes",
+        "vessel",
+        "payout addresses",
+        "instruction text"
+      ],
+      "network": "testnet"
+    },
+    "shipment": {
+      "id": "bench-boliden-2",
+      "reference": "TRD-BOL-1002",
+      "commodity": "Zinc ingots, SHG",
+      "quantity": "250 t",
+      "amount": {
+        "value": "3000000",
+        "currency": "USDC",
+        "decimals": 6
+      },
+      "buyer": {
+        "id": "buyer",
+        "legalName": "Halden Metals Trading AG",
+        "country": "CH",
+        "domain": "haldenmetals.ch",
+        "contacts": []
+      },
+      "seller": {
+        "id": "seller",
+        "legalName": "BOLIDEN AB",
+        "country": "SE",
+        "registrationId": "21380059QU7IM1ONDJ56",
+        "domain": "boliden.com",
+        "contacts": [
+          {
+            "id": "treasury",
+            "name": "Boliden Treasury Desk",
+            "email": "treasury.desk@boliden.com",
+            "phone": "+468000001003",
+            "role": "Treasury"
+          },
+          {
+            "id": "logistics",
+            "name": "Boliden Logistics Desk",
+            "email": "logistics.desk@boliden.com",
+            "role": "Logistics"
+          }
+        ]
+      },
+      "consignee": {
+        "id": "buyer",
+        "legalName": "Halden Metals Trading AG",
+        "country": "CH",
+        "domain": "haldenmetals.ch",
+        "contacts": []
+      },
+      "pickupParty": {
+        "id": "pickup",
+        "legalName": "Rotterdam Bulk Agency BV",
+        "country": "NL",
+        "contacts": []
+      },
+      "payout": {
+        "holderName": "BOLIDEN AB",
+        "rail": "sepolia",
+        "address": "0x844ee180f455ca0363aa8a63ea6cb27c1140e7ad",
+        "bankRef": "SE-TRUSTED-2"
+      },
+      "vessel": {
+        "name": "Pacific Ore",
+        "imo": "IMO9412345"
+      },
+      "loadPort": "San Antonio, CL",
+      "dischargePort": "Rotterdam, NL",
+      "documents": [
+        {
+          "kind": "bill_of_lading",
+          "reference": "BL-BOLIDEN-2",
+          "sha256": "6bee6332dae8c18d168cb008de57669cebe231da9670274694429de7769e652c"
+        }
+      ],
+      "authorizedContactIds": [
+        "treasury",
+        "logistics"
+      ],
+      "releaseOfficer": {
+        "name": "Halden release desk",
+        "rail": "sepolia",
+        "publicKey": "0x152661B3192173Fd6CD7801C8F2241654F8270f4"
+      }
+    },
+    "instruction": {
+      "id": "ins-bench-boliden-2-1",
+      "shipmentId": "bench-boliden-2",
+      "receivedAt": "2026-11-25T09:00:00Z",
+      "channel": {
+        "kind": "email",
+        "from": "treasury.desk@boliden.com",
+        "displayName": "Boliden Treasury Desk"
+      },
+      "summary": "Delivery of TRD-BOL-1002 confirmed at Rotterdam. Please settle the invoice as agreed.",
+      "changes": {}
+    },
+    "changeSet": {
+      "sender": {
+        "from": "treasury.desk@boliden.com",
+        "domain": {
+          "sender": "boliden.com",
+          "trusted": "boliden.com",
+          "relation": "same",
+          "reason": "boliden.com is the trusted domain"
+        },
+        "authorizedContactId": "treasury",
+        "displayNameImpersonates": null,
+        "replyTo": null
+      },
+      "changes": [],
+      "destinationChanged": false
+    },
+    "plan": [],
+    "outcomes": [],
+    "decision": {
+      "policy": "triad-release-v1",
+      "decision": "CLEAR",
+      "needs": [],
+      "hits": [],
+      "facts": [],
+      "warnings": [],
+      "unknowns": [],
+      "callback": {
+        "target": null,
+        "result": null,
+        "accepted": false
+      }
+    },
+    "cost": {
+      "telegraphUusdc": "0",
+      "purchases": 0
+    }
+  }
+}

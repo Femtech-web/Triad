@@ -1,0 +1,476 @@
+{
+  "evidence_sha256": "0x616c79ef5f386e01fdf4031925d3361d711e17fd6e622040d20188845f5b8f40",
+  "evidence": {
+    "format": "triad-evidence-v1",
+    "generatedAt": "2026-11-25T08:04:24.677Z",
+    "provenance": {
+      "scenario": "legit-bank-change-confirmed-freeport",
+      "synthetic": [
+        "shipment",
+        "buyer",
+        "seller contacts and mailboxes",
+        "vessel",
+        "payout addresses",
+        "instruction text"
+      ],
+      "network": "testnet"
+    },
+    "shipment": {
+      "id": "bench-freeport-13",
+      "reference": "TRD-FRE-1013",
+      "commodity": "Copper cathodes, COMEX grade 1",
+      "quantity": "525 t",
+      "amount": {
+        "value": "14000000",
+        "currency": "USDC",
+        "decimals": 6
+      },
+      "buyer": {
+        "id": "buyer",
+        "legalName": "Halden Metals Trading AG",
+        "country": "CH",
+        "domain": "haldenmetals.ch",
+        "contacts": []
+      },
+      "seller": {
+        "id": "seller",
+        "legalName": "FREEPORT-MCMORAN INC.",
+        "country": "US",
+        "registrationId": "549300IRDTHJQ1PVET45",
+        "domain": "fcx.com",
+        "contacts": [
+          {
+            "id": "treasury",
+            "name": "Freeport-McMoRan Treasury Desk",
+            "email": "treasury.desk@fcx.com",
+            "phone": "+16020001004",
+            "role": "Treasury"
+          },
+          {
+            "id": "logistics",
+            "name": "Freeport-McMoRan Logistics Desk",
+            "email": "logistics.desk@fcx.com",
+            "role": "Logistics"
+          }
+        ]
+      },
+      "consignee": {
+        "id": "buyer",
+        "legalName": "Halden Metals Trading AG",
+        "country": "CH",
+        "domain": "haldenmetals.ch",
+        "contacts": []
+      },
+      "pickupParty": {
+        "id": "pickup",
+        "legalName": "Rotterdam Bulk Agency BV",
+        "country": "NL",
+        "contacts": []
+      },
+      "payout": {
+        "holderName": "FREEPORT-MCMORAN INC.",
+        "rail": "sepolia",
+        "address": "0x57c5b377f90acf07938e088434c18fdca358b49b",
+        "bankRef": "US-TRUSTED-13"
+      },
+      "vessel": {
+        "name": "Pacific Ore",
+        "imo": "IMO9412345"
+      },
+      "loadPort": "San Antonio, CL",
+      "dischargePort": "Rotterdam, NL",
+      "documents": [
+        {
+          "kind": "bill_of_lading",
+          "reference": "BL-FREEPORT-13",
+          "sha256": "a472dc673fa8828548969a06411ecb4f7ef9a7aa6b27fbaf674d57d544f91aa5"
+        }
+      ],
+      "authorizedContactIds": [
+        "treasury",
+        "logistics"
+      ],
+      "releaseOfficer": {
+        "name": "Halden release desk",
+        "rail": "sepolia",
+        "publicKey": "0x152661B3192173Fd6CD7801C8F2241654F8270f4"
+      }
+    },
+    "instruction": {
+      "id": "ins-bench-freeport-13-1",
+      "shipmentId": "bench-freeport-13",
+      "receivedAt": "2026-11-25T09:00:00Z",
+      "channel": {
+        "kind": "email",
+        "from": "treasury.desk@fcx.com",
+        "displayName": "Freeport-McMoRan Treasury Desk"
+      },
+      "summary": "We have moved our USD receiving account to a new bank. Please use the updated details below for TRD-FRE-1013.",
+      "changes": {
+        "payout": {
+          "holderName": "FREEPORT-MCMORAN INC.",
+          "rail": "sepolia",
+          "address": "0xef53811d834e3860be27dbb9254238b70c10e0fe",
+          "bankRef": "NEW-FREEPORT-NEW"
+        }
+      }
+    },
+    "changeSet": {
+      "sender": {
+        "from": "treasury.desk@fcx.com",
+        "domain": {
+          "sender": "fcx.com",
+          "trusted": "fcx.com",
+          "relation": "same",
+          "reason": "fcx.com is the trusted domain"
+        },
+        "authorizedContactId": "treasury",
+        "displayNameImpersonates": null,
+        "replyTo": null
+      },
+      "changes": [
+        {
+          "kind": "payout",
+          "before": {
+            "holderName": "FREEPORT-MCMORAN INC.",
+            "rail": "sepolia",
+            "address": "0x57c5b377f90acf07938e088434c18fdca358b49b",
+            "bankRef": "US-TRUSTED-13"
+          },
+          "after": {
+            "holderName": "FREEPORT-MCMORAN INC.",
+            "rail": "sepolia",
+            "address": "0xef53811d834e3860be27dbb9254238b70c10e0fe",
+            "bankRef": "NEW-FREEPORT-NEW"
+          },
+          "holderVsSeller": "same"
+        }
+      ],
+      "destinationChanged": true
+    },
+    "plan": [
+      {
+        "id": "registry:seller",
+        "check": "registry",
+        "intent": "CORPORATE_REGISTRY_LOOKUP_GENERAL",
+        "params": {
+          "company": "FREEPORT-MCMORAN INC.",
+          "jurisdiction": "United States"
+        },
+        "role": "seller",
+        "subject": {
+          "kind": "entity",
+          "name": "FREEPORT-MCMORAN INC.",
+          "country": "US",
+          "registrationId": "549300IRDTHJQ1PVET45"
+        },
+        "required": true,
+        "purpose": "Payment details changed: is FREEPORT-MCMORAN INC. a registered, active company?"
+      },
+      {
+        "id": "sanctions:seller",
+        "check": "sanctions",
+        "intent": "SANCTIONS_SCREENING_MATCH_GENERAL",
+        "params": {
+          "name": "FREEPORT-MCMORAN INC."
+        },
+        "role": "seller",
+        "subject": {
+          "kind": "entity",
+          "name": "FREEPORT-MCMORAN INC.",
+          "country": "US",
+          "registrationId": "549300IRDTHJQ1PVET45"
+        },
+        "required": true,
+        "purpose": "Payment details changed: is FREEPORT-MCMORAN INC. on a sanctions list?"
+      },
+      {
+        "id": "sanctions:vessel",
+        "check": "sanctions",
+        "intent": "SANCTIONS_SCREENING_MATCH_GENERAL",
+        "params": {
+          "name": "Pacific Ore"
+        },
+        "role": "vessel",
+        "subject": {
+          "kind": "vessel",
+          "name": "Pacific Ore",
+          "imo": "IMO9412345"
+        },
+        "required": true,
+        "purpose": "Is the vessel Pacific Ore (IMO9412345) sanctioned?"
+      },
+      {
+        "id": "vessel:vessel",
+        "check": "vessel",
+        "intent": "VESSEL_TELEMETRY_VERIFY_GENERAL",
+        "params": {
+          "vessel": "IMO9412345"
+        },
+        "role": "vessel",
+        "subject": {
+          "kind": "vessel",
+          "name": "Pacific Ore",
+          "imo": "IMO9412345"
+        },
+        "required": false,
+        "purpose": "Where is Pacific Ore (IMO9412345) now?"
+      }
+    ],
+    "outcomes": [
+      {
+        "checkId": "registry:seller",
+        "sources": [
+          {
+            "kind": "telegraph",
+            "name": "Praman Desk Compliance & Procurement Auditor",
+            "status": "answered",
+            "fields": {
+              "active": true,
+              "legal_name": "FREEPORT-MCMORAN INC.",
+              "registration_id": "549300IRDTHJQ1PVET45"
+            },
+            "detail": "Praman Desk Compliance & Procurement Auditor: FREEPORT-MCMORAN INC. is active (549300IRDTHJQ1PVET45).",
+            "purchase": {
+              "rail": "solana-x402",
+              "receiptHash": "0x21babbc4f5c48e7cb0421a8585ec212e0999403214b1322fc5cc428fb515d09b",
+              "signalHash": "0x65afb57896f2ffb4e5139153ec63ebb947839b561227e2d48f27a58b2ca0b9c6",
+              "amountUusdc": "10000",
+              "minerId": "6164",
+              "latencyMs": 9426,
+              "settlementTx": "euH2DRxL8hPJz5gXBnUTR6jhZErBz28HPAcqU96eDncf6jxKPXkmhk3jV1nDPBtyHZcfUg9An54Mgeg4PGMqyJn"
+            }
+          },
+          {
+            "kind": "telegraph",
+            "name": "Miner 98001",
+            "status": "unavailable",
+            "fields": {},
+            "detail": "Expected a 402 payment challenge, got HTTP 503.",
+            "purchase": null
+          }
+        ],
+        "status": "answered",
+        "fields": {
+          "active": true,
+          "legal_name": "FREEPORT-MCMORAN INC.",
+          "registration_id": "549300IRDTHJQ1PVET45",
+          "sources_agreeing": 1
+        },
+        "detail": "Praman Desk Compliance & Procurement Auditor: FREEPORT-MCMORAN INC. is active (549300IRDTHJQ1PVET45). (one source)"
+      },
+      {
+        "checkId": "sanctions:seller",
+        "sources": [
+          {
+            "kind": "telegraph",
+            "name": "ChainSight — Universal Intelligence & Data Oracle",
+            "status": "answered",
+            "fields": {
+              "matched": false,
+              "lists": "OFAC SDN",
+              "matches": null
+            },
+            "detail": "ChainSight — Universal Intelligence & Data Oracle: no match for FREEPORT-MCMORAN INC. on OFAC SDN.",
+            "purchase": {
+              "rail": "solana-x402",
+              "receiptHash": "0x3f61dc4a98532b9da43cb379d1727f5664d761bf0b9e2522723852112d06e401",
+              "signalHash": "0x6caabaa3ad65b12f2f237f56f53a50c7fcd097f86ea6370f6ae028a8525eafbf",
+              "amountUusdc": "10000",
+              "minerId": "302",
+              "latencyMs": 13919,
+              "settlementTx": "rNSsjHf7PaBM9mETAyGUSrGzq6jYcnNc2emgMVPPG6cJ28A3QBnTQ7NBWC1MoEosqViSGiB8enwwCWWu5MDAuJt"
+            }
+          },
+          {
+            "kind": "telegraph",
+            "name": "TxLens",
+            "status": "answered",
+            "fields": {
+              "matched": false,
+              "lists": null,
+              "matches": null
+            },
+            "detail": "TxLens: no match for FREEPORT-MCMORAN INC..",
+            "purchase": {
+              "rail": "solana-x402",
+              "receiptHash": "0x91084cd09f34fc5bdf79372b6e8eadbafeca48cd423314fe3bc77b04b10cfc54",
+              "signalHash": "0xca2ff1a3515329909c39d9458c49916cc23340095fc0b4d03f665f3fa00a67e3",
+              "amountUusdc": "10000",
+              "minerId": "9002",
+              "latencyMs": 6157,
+              "settlementTx": "2G4PehNyQNGY5Ld2fXY4PRBbaKAwq2vBCTKKEAXRsCQrHGhXmvEGjDZzjuCd6BTG7TwoHx8hdpxcpsBSzLq3scNc"
+            }
+          },
+          {
+            "kind": "official",
+            "name": "OFAC SDN list",
+            "status": "answered",
+            "purchase": null,
+            "fields": {
+              "matched": false,
+              "lists": "OFAC SDN",
+              "matches": null
+            },
+            "detail": "No entry for FREEPORT-MCMORAN INC. on OFAC's SDN list.",
+            "snapshot": {
+              "url": "https://www.treasury.gov/ofac/downloads/sdn.csv",
+              "sha256": "e83c93e6159498ce0352549f750023eaa47e561e54c496ba1b0c32e3e33872d6",
+              "retrievedAt": "2026-11-25T05:16:13.052Z"
+            }
+          }
+        ],
+        "status": "answered",
+        "fields": {
+          "matched": false,
+          "lists": "OFAC SDN",
+          "matches": null,
+          "sources_agreeing": 3
+        },
+        "detail": "ChainSight — Universal Intelligence & Data Oracle: no match for FREEPORT-MCMORAN INC. on OFAC SDN. (3 sources agree)"
+      },
+      {
+        "checkId": "sanctions:vessel",
+        "sources": [
+          {
+            "kind": "telegraph",
+            "name": "ChainSight — Universal Intelligence & Data Oracle",
+            "status": "answered",
+            "fields": {
+              "matched": false,
+              "lists": "OFAC SDN",
+              "matches": null
+            },
+            "detail": "ChainSight — Universal Intelligence & Data Oracle: no match for Pacific Ore on OFAC SDN.",
+            "purchase": {
+              "rail": "solana-x402",
+              "receiptHash": "0xb661f42d72fa3a47a412ede6cf41774bff7cf61ae2619b66ceda5a5597399e95",
+              "signalHash": "0xa517b3ff243ede1946815dc7ba0640a7e1ddb675e078c39254c375e315e36f91",
+              "amountUusdc": "10000",
+              "minerId": "302",
+              "latencyMs": 8481,
+              "settlementTx": "3DL7urYuSH3HYAmS8JRYU3uUdtqiB2ZdZLf1diCvaGbddEc5oX4nHsD1Etdxmjw4e63wZMKqmD4wjUiHXhDeyFGS"
+            }
+          },
+          {
+            "kind": "telegraph",
+            "name": "TxLens",
+            "status": "answered",
+            "fields": {
+              "matched": false,
+              "lists": null,
+              "matches": null
+            },
+            "detail": "TxLens: no match for Pacific Ore.",
+            "purchase": {
+              "rail": "solana-x402",
+              "receiptHash": "0x660791f142f31c545c2c39a0366cbae1640df6e2eb0a4d4f290d8bc8f4e58c37",
+              "signalHash": "0xfcacad81c9a49fb3f23cefa2d87cb523f7018dbf98351164bb737155310f7b74",
+              "amountUusdc": "10000",
+              "minerId": "9002",
+              "latencyMs": 6617,
+              "settlementTx": "5kf73xpAJSx1EE8RrfFbTa1gUbGGHsMfMK1rbuj2jZj3aLfMCdhmj1QmGrbstP3PAtYbcaPNC5NF4QF7wvdRdaGS"
+            }
+          },
+          {
+            "kind": "official",
+            "name": "OFAC SDN list",
+            "status": "answered",
+            "purchase": null,
+            "fields": {
+              "matched": false,
+              "lists": "OFAC SDN",
+              "matches": null
+            },
+            "detail": "No entry for Pacific Ore (IMO9412345) on OFAC's SDN list.",
+            "snapshot": {
+              "url": "https://www.treasury.gov/ofac/downloads/sdn.csv",
+              "sha256": "e83c93e6159498ce0352549f750023eaa47e561e54c496ba1b0c32e3e33872d6",
+              "retrievedAt": "2026-11-25T05:16:13.052Z"
+            }
+          }
+        ],
+        "status": "answered",
+        "fields": {
+          "matched": false,
+          "lists": "OFAC SDN",
+          "matches": null,
+          "sources_agreeing": 3
+        },
+        "detail": "ChainSight — Universal Intelligence & Data Oracle: no match for Pacific Ore on OFAC SDN. (3 sources agree)"
+      },
+      {
+        "checkId": "vessel:vessel",
+        "sources": [
+          {
+            "kind": "telegraph",
+            "name": "TxLens",
+            "status": "unreadable",
+            "fields": {
+              "latitude": null,
+              "longitude": null,
+              "speed_knots": null,
+              "observed_at": null
+            },
+            "detail": "TxLens returned no position for Pacific Ore.",
+            "purchase": {
+              "rail": "solana-x402",
+              "receiptHash": "0x0903b935a03374231f3af35d217c23c932f4427ebd8d85ae47c0268e824de848",
+              "signalHash": "0x0cf2b6d9cf954d86d109cfbd4b4ce09e1f59588818f28c2d4aff37427f3fe32a",
+              "amountUusdc": "10000",
+              "minerId": "9002",
+              "latencyMs": 6466,
+              "settlementTx": "2FK5DX6wuKt7kKEEyKnag6Fcco2J7axCEDc35yjTz3gMb8f1hwc3RkJXA9nchmW46QtbWxLFEsN3XLLtN52a7MhD"
+            }
+          }
+        ],
+        "status": "unreadable",
+        "fields": {},
+        "detail": "TxLens returned no position for Pacific Ore."
+      }
+    ],
+    "decision": {
+      "policy": "triad-release-v1",
+      "decision": "CLEAR",
+      "needs": [],
+      "hits": [
+        {
+          "rule": "R-PAYOUT-CHANGED",
+          "effect": "hold_callback",
+          "text": "Payment would move from account US-TRUSTED-13 to account NEW-FREEPORT-NEW"
+        }
+      ],
+      "facts": [
+        "FREEPORT-MCMORAN INC. is an active registered company (549300IRDTHJQ1PVET45).",
+        "No sanctions match for FREEPORT-MCMORAN INC..",
+        "No sanctions match for IMO9412345.",
+        "Freeport-McMoRan Treasury Desk confirmed the change by phone (2026-11-25T10:15:00Z)."
+      ],
+      "warnings": [
+        "Payment would move from account US-TRUSTED-13 to account NEW-FREEPORT-NEW"
+      ],
+      "unknowns": [
+        "Where is Pacific Ore (IMO9412345) now? TxLens returned no position for Pacific Ore."
+      ],
+      "callback": {
+        "target": {
+          "contactId": "treasury",
+          "name": "Freeport-McMoRan Treasury Desk",
+          "channel": "phone",
+          "address": "+16020001004"
+        },
+        "result": {
+          "contactId": "treasury",
+          "channel": "phone",
+          "outcome": "confirmed",
+          "respondedAt": "2026-11-25T10:15:00Z"
+        },
+        "accepted": true
+      }
+    },
+    "cost": {
+      "telegraphUusdc": "60000",
+      "purchases": 6
+    }
+  }
+}

@@ -1,0 +1,478 @@
+{
+  "evidence_sha256": "0x172575f0afc631a67f26f4abb6b6d0d6eedee0bb86678f19b7b49a3965aeea69",
+  "evidence": {
+    "format": "triad-evidence-v1",
+    "generatedAt": "2026-11-25T08:09:31.356Z",
+    "provenance": {
+      "scenario": "legit-consignee-change-confirmed-glencore",
+      "synthetic": [
+        "shipment",
+        "buyer",
+        "seller contacts and mailboxes",
+        "vessel",
+        "payout addresses",
+        "instruction text"
+      ],
+      "network": "testnet"
+    },
+    "shipment": {
+      "id": "bench-glencore-51",
+      "reference": "TRD-GLE-1051",
+      "commodity": "Cobalt hydroxide",
+      "quantity": "1475 t",
+      "amount": {
+        "value": "52000000",
+        "currency": "USDC",
+        "decimals": 6
+      },
+      "buyer": {
+        "id": "buyer",
+        "legalName": "Halden Metals Trading AG",
+        "country": "CH",
+        "domain": "haldenmetals.ch",
+        "contacts": []
+      },
+      "seller": {
+        "id": "seller",
+        "legalName": "GLENCORE INTERNATIONAL AG",
+        "country": "CH",
+        "registrationId": "213800PSSU2QXF1WLR89",
+        "domain": "glencore.com",
+        "contacts": [
+          {
+            "id": "treasury",
+            "name": "Glencore Treasury Desk",
+            "email": "treasury.desk@glencore.com",
+            "phone": "+41410001005",
+            "role": "Treasury"
+          },
+          {
+            "id": "logistics",
+            "name": "Glencore Logistics Desk",
+            "email": "logistics.desk@glencore.com",
+            "role": "Logistics"
+          }
+        ]
+      },
+      "consignee": {
+        "id": "buyer",
+        "legalName": "Halden Metals Trading AG",
+        "country": "CH",
+        "domain": "haldenmetals.ch",
+        "contacts": []
+      },
+      "pickupParty": {
+        "id": "pickup",
+        "legalName": "Rotterdam Bulk Agency BV",
+        "country": "NL",
+        "contacts": []
+      },
+      "payout": {
+        "holderName": "GLENCORE INTERNATIONAL AG",
+        "rail": "sepolia",
+        "address": "0xd9a78bc05fcd7c48a53d2af35a62d2a580b58c40",
+        "bankRef": "CH-TRUSTED-51"
+      },
+      "vessel": {
+        "name": "Pacific Ore",
+        "imo": "IMO9412345"
+      },
+      "loadPort": "San Antonio, CL",
+      "dischargePort": "Rotterdam, NL",
+      "documents": [
+        {
+          "kind": "bill_of_lading",
+          "reference": "BL-GLENCORE-51",
+          "sha256": "dc7a41ded02fdece559f0ee0bb50939024e24cb5e7d1349cc37d321ad10bbe03"
+        }
+      ],
+      "authorizedContactIds": [
+        "treasury",
+        "logistics"
+      ],
+      "releaseOfficer": {
+        "name": "Halden release desk",
+        "rail": "sepolia",
+        "publicKey": "0x152661B3192173Fd6CD7801C8F2241654F8270f4"
+      }
+    },
+    "instruction": {
+      "id": "ins-bench-glencore-51-1",
+      "shipmentId": "bench-glencore-51",
+      "receivedAt": "2026-11-25T09:00:00Z",
+      "channel": {
+        "kind": "email",
+        "from": "logistics.desk@glencore.com",
+        "displayName": "Glencore Logistics Desk"
+      },
+      "summary": "Per the buyer's instruction, please name TRAFIGURA PTE LTD as consignee on the release order.",
+      "changes": {
+        "consignee": {
+          "id": "trafigura",
+          "legalName": "TRAFIGURA PTE LTD",
+          "country": "SG",
+          "registrationId": "549300Z2X1L1L3MID765",
+          "contacts": []
+        }
+      }
+    },
+    "changeSet": {
+      "sender": {
+        "from": "logistics.desk@glencore.com",
+        "domain": {
+          "sender": "glencore.com",
+          "trusted": "glencore.com",
+          "relation": "same",
+          "reason": "glencore.com is the trusted domain"
+        },
+        "authorizedContactId": "logistics",
+        "displayNameImpersonates": null,
+        "replyTo": null
+      },
+      "changes": [
+        {
+          "kind": "consignee",
+          "before": {
+            "id": "buyer",
+            "legalName": "Halden Metals Trading AG",
+            "country": "CH",
+            "domain": "haldenmetals.ch",
+            "contacts": []
+          },
+          "after": {
+            "id": "trafigura",
+            "legalName": "TRAFIGURA PTE LTD",
+            "country": "SG",
+            "registrationId": "549300Z2X1L1L3MID765",
+            "contacts": []
+          }
+        }
+      ],
+      "destinationChanged": true
+    },
+    "plan": [
+      {
+        "id": "registry:consignee",
+        "check": "registry",
+        "intent": "CORPORATE_REGISTRY_LOOKUP_GENERAL",
+        "params": {
+          "company": "TRAFIGURA PTE LTD",
+          "jurisdiction": "Singapore"
+        },
+        "role": "consignee",
+        "subject": {
+          "kind": "entity",
+          "name": "TRAFIGURA PTE LTD",
+          "country": "SG",
+          "registrationId": "549300Z2X1L1L3MID765"
+        },
+        "required": true,
+        "purpose": "Consignee changed: is TRAFIGURA PTE LTD a registered, active company?"
+      },
+      {
+        "id": "sanctions:consignee",
+        "check": "sanctions",
+        "intent": "SANCTIONS_SCREENING_MATCH_GENERAL",
+        "params": {
+          "name": "TRAFIGURA PTE LTD"
+        },
+        "role": "consignee",
+        "subject": {
+          "kind": "entity",
+          "name": "TRAFIGURA PTE LTD",
+          "country": "SG",
+          "registrationId": "549300Z2X1L1L3MID765"
+        },
+        "required": true,
+        "purpose": "Consignee changed: is TRAFIGURA PTE LTD on a sanctions list?"
+      },
+      {
+        "id": "sanctions:vessel",
+        "check": "sanctions",
+        "intent": "SANCTIONS_SCREENING_MATCH_GENERAL",
+        "params": {
+          "name": "Pacific Ore"
+        },
+        "role": "vessel",
+        "subject": {
+          "kind": "vessel",
+          "name": "Pacific Ore",
+          "imo": "IMO9412345"
+        },
+        "required": true,
+        "purpose": "Is the vessel Pacific Ore (IMO9412345) sanctioned?"
+      },
+      {
+        "id": "vessel:vessel",
+        "check": "vessel",
+        "intent": "VESSEL_TELEMETRY_VERIFY_GENERAL",
+        "params": {
+          "vessel": "IMO9412345"
+        },
+        "role": "vessel",
+        "subject": {
+          "kind": "vessel",
+          "name": "Pacific Ore",
+          "imo": "IMO9412345"
+        },
+        "required": false,
+        "purpose": "Where is Pacific Ore (IMO9412345) now?"
+      }
+    ],
+    "outcomes": [
+      {
+        "checkId": "registry:consignee",
+        "sources": [
+          {
+            "kind": "telegraph",
+            "name": "Praman Desk Compliance & Procurement Auditor",
+            "status": "answered",
+            "fields": {
+              "active": true,
+              "legal_name": "TRAFIGURA PTE LTD",
+              "registration_id": "549300Z2X1L1L3MID765"
+            },
+            "detail": "Praman Desk Compliance & Procurement Auditor: TRAFIGURA PTE LTD is active (549300Z2X1L1L3MID765).",
+            "purchase": {
+              "rail": "solana-x402",
+              "receiptHash": "0xef4cda34a33ecd646c13a4338c569e5b784aa454511323e9da8b3d0c95ade14c",
+              "signalHash": "0x8f18a6289324d3c304fd5aaf4dfe1f0d68d4035ff25333eb1b2afac51df7465a",
+              "amountUusdc": "10000",
+              "minerId": "6164",
+              "latencyMs": 11927,
+              "settlementTx": "EFtAcVmZ5x7mX5Vkrdrg4uhPCFTkPA8uGmFPF25KphWwgk8bmphkZuh6TK74aASiGGjLwKbFcZzE9gJZi8jtcNh"
+            }
+          },
+          {
+            "kind": "telegraph",
+            "name": "Miner 98001",
+            "status": "unavailable",
+            "fields": {},
+            "detail": "Expected a 402 payment challenge, got HTTP 503.",
+            "purchase": null
+          }
+        ],
+        "status": "answered",
+        "fields": {
+          "active": true,
+          "legal_name": "TRAFIGURA PTE LTD",
+          "registration_id": "549300Z2X1L1L3MID765",
+          "sources_agreeing": 1
+        },
+        "detail": "Praman Desk Compliance & Procurement Auditor: TRAFIGURA PTE LTD is active (549300Z2X1L1L3MID765). (one source)"
+      },
+      {
+        "checkId": "sanctions:consignee",
+        "sources": [
+          {
+            "kind": "telegraph",
+            "name": "ChainSight — Universal Intelligence & Data Oracle",
+            "status": "answered",
+            "fields": {
+              "matched": false,
+              "lists": "OFAC SDN",
+              "matches": null
+            },
+            "detail": "ChainSight — Universal Intelligence & Data Oracle: no match for TRAFIGURA PTE LTD on OFAC SDN.",
+            "purchase": {
+              "rail": "solana-x402",
+              "receiptHash": "0xbb8abd9ec7eb53a0202f53d49589b0216e882c11b7fba2f7b1439d4b77423160",
+              "signalHash": "0x241031d06e58f815465b3a58e2e4ef721a9c9b7cbbb0bce31ac892cdf9c254ce",
+              "amountUusdc": "10000",
+              "minerId": "302",
+              "latencyMs": 11901,
+              "settlementTx": "4NgBxUk4dLxrwpku5zK6QVsAE9MZAxm48cf4DBffxn61vKnxZUQLDYeRFj8vB9zUr3kVH8kHk67UtX7oaXqZrJ5Q"
+            }
+          },
+          {
+            "kind": "telegraph",
+            "name": "TxLens",
+            "status": "answered",
+            "fields": {
+              "matched": false,
+              "lists": null,
+              "matches": null
+            },
+            "detail": "TxLens: no match for TRAFIGURA PTE LTD.",
+            "purchase": {
+              "rail": "solana-x402",
+              "receiptHash": "0xd4c410d39ec79d8b5dd85ebafae4dac3bc4cf6032151e2c820b0cf1a33cee92d",
+              "signalHash": "0x6314f9fb1108e56f8b5806e23ecd0a328ae9e4974588e326c1a5cf49f4fa02c4",
+              "amountUusdc": "10000",
+              "minerId": "9002",
+              "latencyMs": 9688,
+              "settlementTx": "3DoeySZ86jdvozgn99RoPjr2THRE5w6VKWwm2tz1eDW3KhwxMFmDEMvxDuwVxWJA2kf854mcBiwocegiSVjjJTL4"
+            }
+          },
+          {
+            "kind": "official",
+            "name": "OFAC SDN list",
+            "status": "answered",
+            "purchase": null,
+            "fields": {
+              "matched": false,
+              "lists": "OFAC SDN",
+              "matches": null
+            },
+            "detail": "No entry for TRAFIGURA PTE LTD on OFAC's SDN list.",
+            "snapshot": {
+              "url": "https://www.treasury.gov/ofac/downloads/sdn.csv",
+              "sha256": "e83c93e6159498ce0352549f750023eaa47e561e54c496ba1b0c32e3e33872d6",
+              "retrievedAt": "2026-11-25T05:16:13.052Z"
+            }
+          }
+        ],
+        "status": "answered",
+        "fields": {
+          "matched": false,
+          "lists": "OFAC SDN",
+          "matches": null,
+          "sources_agreeing": 3
+        },
+        "detail": "ChainSight — Universal Intelligence & Data Oracle: no match for TRAFIGURA PTE LTD on OFAC SDN. (3 sources agree)"
+      },
+      {
+        "checkId": "sanctions:vessel",
+        "sources": [
+          {
+            "kind": "telegraph",
+            "name": "ChainSight — Universal Intelligence & Data Oracle",
+            "status": "answered",
+            "fields": {
+              "matched": false,
+              "lists": "OFAC SDN",
+              "matches": null
+            },
+            "detail": "ChainSight — Universal Intelligence & Data Oracle: no match for Pacific Ore on OFAC SDN.",
+            "purchase": {
+              "rail": "solana-x402",
+              "receiptHash": "0x3bac36a25715b8d17e087cd9f805474df4ddf97dde3b55604461cdc903c97aea",
+              "signalHash": "0x5b8904ac688c2488a5ce6faa4c6225620e363a42d58d43422ecd19c6c29aa1e2",
+              "amountUusdc": "10000",
+              "minerId": "302",
+              "latencyMs": 8633,
+              "settlementTx": "2SXgnJU5MKkPWSM2Pki6U4EjDivEXpbNrZfid1oECN1NvMTK96eABKBH1kbit3gSxVVZ4fnnFU8A4dJcKgwaEfK9"
+            }
+          },
+          {
+            "kind": "telegraph",
+            "name": "TxLens",
+            "status": "answered",
+            "fields": {
+              "matched": false,
+              "lists": null,
+              "matches": null
+            },
+            "detail": "TxLens: no match for Pacific Ore.",
+            "purchase": {
+              "rail": "solana-x402",
+              "receiptHash": "0xaee63aa5941e747093ed44bf7d7910f48d01c2be5230e012f15090657f14ce76",
+              "signalHash": "0x5951f5764a18170f83945fa2255bc1a6eb1330ad9a4c3c0b9ad33514db3a0259",
+              "amountUusdc": "10000",
+              "minerId": "9002",
+              "latencyMs": 7160,
+              "settlementTx": "62MpgoDi1crurV8EnTYGrQPKGNSHyPjzUCy5gubbUAqDQSpTmPGq47iS9qbnRJxMW7gwHuQNZYfTCvXqxApTi7cX"
+            }
+          },
+          {
+            "kind": "official",
+            "name": "OFAC SDN list",
+            "status": "answered",
+            "purchase": null,
+            "fields": {
+              "matched": false,
+              "lists": "OFAC SDN",
+              "matches": null
+            },
+            "detail": "No entry for Pacific Ore (IMO9412345) on OFAC's SDN list.",
+            "snapshot": {
+              "url": "https://www.treasury.gov/ofac/downloads/sdn.csv",
+              "sha256": "e83c93e6159498ce0352549f750023eaa47e561e54c496ba1b0c32e3e33872d6",
+              "retrievedAt": "2026-11-25T05:16:13.052Z"
+            }
+          }
+        ],
+        "status": "answered",
+        "fields": {
+          "matched": false,
+          "lists": "OFAC SDN",
+          "matches": null,
+          "sources_agreeing": 3
+        },
+        "detail": "ChainSight — Universal Intelligence & Data Oracle: no match for Pacific Ore on OFAC SDN. (3 sources agree)"
+      },
+      {
+        "checkId": "vessel:vessel",
+        "sources": [
+          {
+            "kind": "telegraph",
+            "name": "TxLens",
+            "status": "unreadable",
+            "fields": {
+              "latitude": null,
+              "longitude": null,
+              "speed_knots": null,
+              "observed_at": null
+            },
+            "detail": "TxLens returned no position for Pacific Ore.",
+            "purchase": {
+              "rail": "solana-x402",
+              "receiptHash": "0x3774ce6239220b1d503c96301882d71598fbc7805d4836a12254d28d56157157",
+              "signalHash": "0x66d3433a1b9f590a7c21297afe944671a642a2487dc872fbb02ae7662409a409",
+              "amountUusdc": "10000",
+              "minerId": "9002",
+              "latencyMs": 6295,
+              "settlementTx": "4CJDvPUMuJR65XqS4mL7Kvpkgv3bx1jYcZ56ANQ1VeJFYM9ptnVE2WCJNhtn7dmLCYeAM2UQRUw5foAmYtP6XY8K"
+            }
+          }
+        ],
+        "status": "unreadable",
+        "fields": {},
+        "detail": "TxLens returned no position for Pacific Ore."
+      }
+    ],
+    "decision": {
+      "policy": "triad-release-v1",
+      "decision": "CLEAR",
+      "needs": [],
+      "hits": [
+        {
+          "rule": "R-CARGO-PARTY-CHANGED",
+          "effect": "hold_callback",
+          "text": "The consignee would change from Halden Metals Trading AG to TRAFIGURA PTE LTD"
+        }
+      ],
+      "facts": [
+        "TRAFIGURA PTE LTD is an active registered company (549300Z2X1L1L3MID765).",
+        "No sanctions match for TRAFIGURA PTE LTD.",
+        "No sanctions match for IMO9412345.",
+        "Glencore Treasury Desk confirmed the change by phone (2026-11-25T10:15:00Z)."
+      ],
+      "warnings": [
+        "The consignee would change from Halden Metals Trading AG to TRAFIGURA PTE LTD"
+      ],
+      "unknowns": [
+        "Where is Pacific Ore (IMO9412345) now? TxLens returned no position for Pacific Ore."
+      ],
+      "callback": {
+        "target": {
+          "contactId": "treasury",
+          "name": "Glencore Treasury Desk",
+          "channel": "phone",
+          "address": "+41410001005"
+        },
+        "result": {
+          "contactId": "treasury",
+          "channel": "phone",
+          "outcome": "confirmed",
+          "respondedAt": "2026-11-25T10:15:00Z"
+        },
+        "accepted": true
+      }
+    },
+    "cost": {
+      "telegraphUusdc": "60000",
+      "purchases": 6
+    }
+  }
+}

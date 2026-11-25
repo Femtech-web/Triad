@@ -1,0 +1,585 @@
+{
+  "evidence_sha256": "0x944af9605c4427af14d41378947d2631c4eb560ebc6d7a7cac4a9e4cfc448a13",
+  "evidence": {
+    "format": "triad-evidence-v1",
+    "generatedAt": "2026-11-25T08:10:52.599Z",
+    "provenance": {
+      "scenario": "attack-lookalike-aurubis",
+      "synthetic": [
+        "shipment",
+        "buyer",
+        "seller contacts and mailboxes",
+        "vessel",
+        "payout addresses",
+        "instruction text"
+      ],
+      "network": "testnet"
+    },
+    "shipment": {
+      "id": "bench-aurubis-61",
+      "reference": "TRD-AUR-1061",
+      "commodity": "Copper cathodes, LME grade A",
+      "quantity": "1725 t",
+      "amount": {
+        "value": "62000000",
+        "currency": "USDC",
+        "decimals": 6
+      },
+      "buyer": {
+        "id": "buyer",
+        "legalName": "Halden Metals Trading AG",
+        "country": "CH",
+        "domain": "haldenmetals.ch",
+        "contacts": []
+      },
+      "seller": {
+        "id": "seller",
+        "legalName": "Aurubis AG",
+        "country": "DE",
+        "registrationId": "5299005SHIN9ZK7GW242",
+        "domain": "aurubis.com",
+        "contacts": [
+          {
+            "id": "treasury",
+            "name": "Aurubis Treasury Desk",
+            "email": "treasury.desk@aurubis.com",
+            "phone": "+494000001002",
+            "role": "Treasury"
+          },
+          {
+            "id": "logistics",
+            "name": "Aurubis Logistics Desk",
+            "email": "logistics.desk@aurubis.com",
+            "role": "Logistics"
+          }
+        ]
+      },
+      "consignee": {
+        "id": "buyer",
+        "legalName": "Halden Metals Trading AG",
+        "country": "CH",
+        "domain": "haldenmetals.ch",
+        "contacts": []
+      },
+      "pickupParty": {
+        "id": "pickup",
+        "legalName": "Rotterdam Bulk Agency BV",
+        "country": "NL",
+        "contacts": []
+      },
+      "payout": {
+        "holderName": "Aurubis AG",
+        "rail": "sepolia",
+        "address": "0x8c2bbf7ce785c97a48fd248475d4d1c8b09e8b1c",
+        "bankRef": "DE-TRUSTED-61"
+      },
+      "vessel": {
+        "name": "Pacific Ore",
+        "imo": "IMO9412345"
+      },
+      "loadPort": "San Antonio, CL",
+      "dischargePort": "Rotterdam, NL",
+      "documents": [
+        {
+          "kind": "bill_of_lading",
+          "reference": "BL-AURUBIS-61",
+          "sha256": "890f33bcae2e12322efd5cfbb361cb5c0429bdd9e8fa026c4a6e534997b7e273"
+        }
+      ],
+      "authorizedContactIds": [
+        "treasury",
+        "logistics"
+      ],
+      "releaseOfficer": {
+        "name": "Halden release desk",
+        "rail": "sepolia",
+        "publicKey": "0x152661B3192173Fd6CD7801C8F2241654F8270f4"
+      }
+    },
+    "instruction": {
+      "id": "ins-bench-aurubis-61-1",
+      "shipmentId": "bench-aurubis-61",
+      "receivedAt": "2026-11-25T09:00:00Z",
+      "channel": {
+        "kind": "email",
+        "from": "treasury.desk@aurubis.co",
+        "displayName": "Aurubis Treasury Desk"
+      },
+      "summary": "Due to an internal audit our bank account has changed with immediate effect. Please remit TRD-AUR-1061 to the account below and confirm by return.",
+      "changes": {
+        "payout": {
+          "holderName": "Aurubis AG",
+          "rail": "sepolia",
+          "address": "0x9999999999999999999999999999999999999999",
+          "bankRef": "NEW-ATTACKER"
+        }
+      }
+    },
+    "changeSet": {
+      "sender": {
+        "from": "treasury.desk@aurubis.co",
+        "domain": {
+          "sender": "aurubis.co",
+          "trusted": "aurubis.com",
+          "relation": "lookalike",
+          "reason": "aurubis.co has the trusted name with a different ending (com → co)"
+        },
+        "authorizedContactId": null,
+        "displayNameImpersonates": "treasury",
+        "replyTo": null
+      },
+      "changes": [
+        {
+          "kind": "payout",
+          "before": {
+            "holderName": "Aurubis AG",
+            "rail": "sepolia",
+            "address": "0x8c2bbf7ce785c97a48fd248475d4d1c8b09e8b1c",
+            "bankRef": "DE-TRUSTED-61"
+          },
+          "after": {
+            "holderName": "Aurubis AG",
+            "rail": "sepolia",
+            "address": "0x9999999999999999999999999999999999999999",
+            "bankRef": "NEW-ATTACKER"
+          },
+          "holderVsSeller": "same"
+        }
+      ],
+      "destinationChanged": true
+    },
+    "plan": [
+      {
+        "id": "registry:seller",
+        "check": "registry",
+        "intent": "CORPORATE_REGISTRY_LOOKUP_GENERAL",
+        "params": {
+          "company": "Aurubis AG",
+          "jurisdiction": "Germany"
+        },
+        "role": "seller",
+        "subject": {
+          "kind": "entity",
+          "name": "Aurubis AG",
+          "country": "DE",
+          "registrationId": "5299005SHIN9ZK7GW242"
+        },
+        "required": true,
+        "purpose": "Payment details changed: is Aurubis AG a registered, active company?"
+      },
+      {
+        "id": "sanctions:seller",
+        "check": "sanctions",
+        "intent": "SANCTIONS_SCREENING_MATCH_GENERAL",
+        "params": {
+          "name": "Aurubis AG"
+        },
+        "role": "seller",
+        "subject": {
+          "kind": "entity",
+          "name": "Aurubis AG",
+          "country": "DE",
+          "registrationId": "5299005SHIN9ZK7GW242"
+        },
+        "required": true,
+        "purpose": "Payment details changed: is Aurubis AG on a sanctions list?"
+      },
+      {
+        "id": "identity:seller",
+        "check": "identity",
+        "intent": "B2B_IDENTITY_ENRICHMENT_GENERAL",
+        "params": {
+          "company": "Aurubis AG"
+        },
+        "role": "seller",
+        "subject": {
+          "kind": "entity",
+          "name": "Aurubis AG",
+          "country": "DE",
+          "registrationId": "5299005SHIN9ZK7GW242"
+        },
+        "required": false,
+        "purpose": "What web domain do sources give for Aurubis AG?"
+      },
+      {
+        "id": "mail:sender_domain",
+        "check": "mail",
+        "intent": "EMAIL_SECURITY_GENERAL",
+        "params": {
+          "domain": "aurubis.co",
+          "record_type": "MX"
+        },
+        "role": "sender_domain",
+        "subject": {
+          "kind": "domain",
+          "domain": "aurubis.co"
+        },
+        "required": false,
+        "purpose": "Does aurubis.co receive mail at all?"
+      },
+      {
+        "id": "sanctions:vessel",
+        "check": "sanctions",
+        "intent": "SANCTIONS_SCREENING_MATCH_GENERAL",
+        "params": {
+          "name": "Pacific Ore"
+        },
+        "role": "vessel",
+        "subject": {
+          "kind": "vessel",
+          "name": "Pacific Ore",
+          "imo": "IMO9412345"
+        },
+        "required": true,
+        "purpose": "Is the vessel Pacific Ore (IMO9412345) sanctioned?"
+      },
+      {
+        "id": "vessel:vessel",
+        "check": "vessel",
+        "intent": "VESSEL_TELEMETRY_VERIFY_GENERAL",
+        "params": {
+          "vessel": "IMO9412345"
+        },
+        "role": "vessel",
+        "subject": {
+          "kind": "vessel",
+          "name": "Pacific Ore",
+          "imo": "IMO9412345"
+        },
+        "required": false,
+        "purpose": "Where is Pacific Ore (IMO9412345) now?"
+      }
+    ],
+    "outcomes": [
+      {
+        "checkId": "registry:seller",
+        "sources": [
+          {
+            "kind": "telegraph",
+            "name": "Praman Desk Compliance & Procurement Auditor",
+            "status": "answered",
+            "fields": {
+              "active": true,
+              "legal_name": "Aurubis AG",
+              "registration_id": "5299005SHIN9ZK7GW242"
+            },
+            "detail": "Praman Desk Compliance & Procurement Auditor: Aurubis AG is active (5299005SHIN9ZK7GW242).",
+            "purchase": {
+              "rail": "solana-x402",
+              "receiptHash": "0xd41c9323f2276dbd865e19bf4280a46f5adf4ad9c0aa9c59958819e799d47205",
+              "signalHash": "0x2a34ff235b44f7ad83acf6ad2e3f2761e4bac85f092724278df8cf78e4f3d2a1",
+              "amountUusdc": "10000",
+              "minerId": "6164",
+              "latencyMs": 8961,
+              "settlementTx": "3WmrzCHTSh8zA1phJ7qJTJo7gt4Y2R1bhS67fb66snvBuZ9HwNjHFqAvKZrkFVmSiPkwb5R2ZxTCvHmbaZ9vLCjx"
+            }
+          },
+          {
+            "kind": "telegraph",
+            "name": "Miner 98001",
+            "status": "unavailable",
+            "fields": {},
+            "detail": "The node answered HTTP 500 after settling the payment.",
+            "purchase": null
+          }
+        ],
+        "status": "answered",
+        "fields": {
+          "active": true,
+          "legal_name": "Aurubis AG",
+          "registration_id": "5299005SHIN9ZK7GW242",
+          "sources_agreeing": 1
+        },
+        "detail": "Praman Desk Compliance & Procurement Auditor: Aurubis AG is active (5299005SHIN9ZK7GW242). (one source)"
+      },
+      {
+        "checkId": "sanctions:seller",
+        "sources": [
+          {
+            "kind": "telegraph",
+            "name": "ChainSight — Universal Intelligence & Data Oracle",
+            "status": "answered",
+            "fields": {
+              "matched": false,
+              "lists": "OFAC SDN",
+              "matches": null
+            },
+            "detail": "ChainSight — Universal Intelligence & Data Oracle: no match for Aurubis AG on OFAC SDN.",
+            "purchase": {
+              "rail": "solana-x402",
+              "receiptHash": "0x74095fa2abeb1d553a792ccfef85f6e6e393556d33a6065065f2be6a22106d85",
+              "signalHash": "0xa0fa4809dacd581e8d12a0e0cbb2e5d542a77f5a75e94a5112ec53b42c901521",
+              "amountUusdc": "10000",
+              "minerId": "302",
+              "latencyMs": 9868,
+              "settlementTx": "nYWMj9xULe7jfofZvkDw6N4HyDXy8vzvXcLvK2SWNDuSFFpiunJtUzPdGin4SDNocwJANHinhKHS8fn9B2iH24B"
+            }
+          },
+          {
+            "kind": "telegraph",
+            "name": "TxLens",
+            "status": "answered",
+            "fields": {
+              "matched": false,
+              "lists": null,
+              "matches": null
+            },
+            "detail": "TxLens: no match for Aurubis AG.",
+            "purchase": {
+              "rail": "solana-x402",
+              "receiptHash": "0x98c585540d13afaa8dd8b53b4769dbd44e688d4e993e94663be0b74916283308",
+              "signalHash": "0xec1b4db6ca889ddb047b2e051e5baae6c723c7ec85788eb8cbe0aea9882e1247",
+              "amountUusdc": "10000",
+              "minerId": "9002",
+              "latencyMs": 10675,
+              "settlementTx": "31g4v1NN74P54P1bgDmXa3nW4iHmjD6npH4bRea6kZVvrWBQtBDPmXUqjXZzdYiZEfYkBmkuLMiKmtRzA2JTaqAU"
+            }
+          },
+          {
+            "kind": "official",
+            "name": "OFAC SDN list",
+            "status": "answered",
+            "purchase": null,
+            "fields": {
+              "matched": false,
+              "lists": "OFAC SDN",
+              "matches": null
+            },
+            "detail": "No entry for Aurubis AG on OFAC's SDN list.",
+            "snapshot": {
+              "url": "https://www.treasury.gov/ofac/downloads/sdn.csv",
+              "sha256": "e83c93e6159498ce0352549f750023eaa47e561e54c496ba1b0c32e3e33872d6",
+              "retrievedAt": "2026-11-25T05:16:13.052Z"
+            }
+          }
+        ],
+        "status": "answered",
+        "fields": {
+          "matched": false,
+          "lists": "OFAC SDN",
+          "matches": null,
+          "sources_agreeing": 3
+        },
+        "detail": "ChainSight — Universal Intelligence & Data Oracle: no match for Aurubis AG on OFAC SDN. (3 sources agree)"
+      },
+      {
+        "checkId": "identity:seller",
+        "sources": [
+          {
+            "kind": "telegraph",
+            "name": "TxLens",
+            "status": "answered",
+            "fields": {
+              "domain": "www.aurubis.com",
+              "company": "Aurubis AG",
+              "headquarters": "Hamburg, Germany"
+            },
+            "detail": "TxLens: Aurubis AG's domain is www.aurubis.com.",
+            "purchase": {
+              "rail": "solana-x402",
+              "receiptHash": "0x7ea3b25e95a63888a51a24467f3d9f4d78c8187f93d0edb1911bcb9e421f8f38",
+              "signalHash": "0x24bd1eb39fe88faf0a2284b0d9de13d40ea9de039dda07ae965de07f74525f54",
+              "amountUusdc": "10000",
+              "minerId": "9002",
+              "latencyMs": 10106,
+              "settlementTx": "5bgyunDhYBUCaNN46ENkzN66RxLJ9s9ocCRNDKSXYJpr3z7qLXo8TzUdUJrCmGhHzFYfQmh4DD9eA8JgYcP77JBE"
+            }
+          }
+        ],
+        "status": "answered",
+        "fields": {
+          "domain": "www.aurubis.com",
+          "company": "Aurubis AG",
+          "headquarters": "Hamburg, Germany",
+          "sources_agreeing": 1
+        },
+        "detail": "TxLens: Aurubis AG's domain is www.aurubis.com. (one source)"
+      },
+      {
+        "checkId": "mail:sender_domain",
+        "sources": [
+          {
+            "kind": "telegraph",
+            "name": "GuardWire Email Security Check",
+            "status": "answered",
+            "fields": {
+              "lookup_ok": false
+            },
+            "detail": "GuardWire Email Security Check: aurubis.co has no MX records.",
+            "purchase": {
+              "rail": "solana-x402",
+              "receiptHash": "0x6eef145e77f8013b8035453bfb122b20680a593f76281e0e6a7971c8f803a59a",
+              "signalHash": "0xbb092d609e9f0f14700a46ff275e5bf10003bbf4ba0809769a97550a36c2ecfb",
+              "amountUusdc": "10000",
+              "minerId": "7354",
+              "latencyMs": 7656,
+              "settlementTx": "5DVtR1egBuDJxC3Y3kWCf3yQXXkDuZAcWa5HhK8ji87go1QsVUSqNjngsv9diefpFxQ3aHfAUE6EaKV2XVU9m5Kk"
+            }
+          }
+        ],
+        "status": "answered",
+        "fields": {
+          "lookup_ok": false,
+          "sources_agreeing": 1
+        },
+        "detail": "GuardWire Email Security Check: aurubis.co has no MX records. (one source)"
+      },
+      {
+        "checkId": "sanctions:vessel",
+        "sources": [
+          {
+            "kind": "telegraph",
+            "name": "ChainSight — Universal Intelligence & Data Oracle",
+            "status": "answered",
+            "fields": {
+              "matched": false,
+              "lists": "OFAC SDN",
+              "matches": null
+            },
+            "detail": "ChainSight — Universal Intelligence & Data Oracle: no match for Pacific Ore on OFAC SDN.",
+            "purchase": {
+              "rail": "solana-x402",
+              "receiptHash": "0x6a703ca33ba1a09ac3014cf3f621237c8cdf7882731509bae8fcf7dd3bb0cf36",
+              "signalHash": "0x1e8dc8427130e060f591b776e89b36dd925826eb5e52afd702ca232527b0c677",
+              "amountUusdc": "10000",
+              "minerId": "302",
+              "latencyMs": 9063,
+              "settlementTx": "3tsTYALzd3LTWbD3K6oTWv3T9P4jhhmKQ3FBoH64b6LuLyzMiNguG2L6CKzbRQs79eQGQvm4vpa8pZmouhuTHVRA"
+            }
+          },
+          {
+            "kind": "telegraph",
+            "name": "TxLens",
+            "status": "answered",
+            "fields": {
+              "matched": false,
+              "lists": "OFAC SDN list (treasury.gov)",
+              "matches": null
+            },
+            "detail": "TxLens: no match for Pacific Ore on OFAC SDN list (treasury.gov).",
+            "purchase": {
+              "rail": "solana-x402",
+              "receiptHash": "0x87597f8c05f2599907d5b5c394615b4fa24e4df680aa8d3f5f8db842032025b8",
+              "signalHash": "0xcb29a56693465de7ca92ecf23d1b5893c0eed41a9f09ddf44e110d19dd352549",
+              "amountUusdc": "10000",
+              "minerId": "9002",
+              "latencyMs": 6576,
+              "settlementTx": "4xW9E3mgbfQcGrGETLBLgxUMjhtjbQRtJTeGRVPxir8RGPrpfcsrG9wMweb65hmhNCUCP4TKzFjFsS88NtyijCh9"
+            }
+          },
+          {
+            "kind": "official",
+            "name": "OFAC SDN list",
+            "status": "answered",
+            "purchase": null,
+            "fields": {
+              "matched": false,
+              "lists": "OFAC SDN",
+              "matches": null
+            },
+            "detail": "No entry for Pacific Ore (IMO9412345) on OFAC's SDN list.",
+            "snapshot": {
+              "url": "https://www.treasury.gov/ofac/downloads/sdn.csv",
+              "sha256": "e83c93e6159498ce0352549f750023eaa47e561e54c496ba1b0c32e3e33872d6",
+              "retrievedAt": "2026-11-25T05:16:13.052Z"
+            }
+          }
+        ],
+        "status": "answered",
+        "fields": {
+          "matched": false,
+          "lists": "OFAC SDN",
+          "matches": null,
+          "sources_agreeing": 3
+        },
+        "detail": "ChainSight — Universal Intelligence & Data Oracle: no match for Pacific Ore on OFAC SDN. (3 sources agree)"
+      },
+      {
+        "checkId": "vessel:vessel",
+        "sources": [
+          {
+            "kind": "telegraph",
+            "name": "TxLens",
+            "status": "unreadable",
+            "fields": {
+              "latitude": null,
+              "longitude": null,
+              "speed_knots": null,
+              "observed_at": null
+            },
+            "detail": "TxLens returned no position for Pacific Ore.",
+            "purchase": {
+              "rail": "solana-x402",
+              "receiptHash": "0xfdda8f79efa1cb4e9b0355f412d7b4f78ebc1f3bdcd78070dbfdd209da0b8bd8",
+              "signalHash": "0x1d29f6d6401ddc984e9eb4f6db643a6283362c507e497d7d88bff3f6a3071ae0",
+              "amountUusdc": "10000",
+              "minerId": "9002",
+              "latencyMs": 7124,
+              "settlementTx": "3kaJ9dttnbgame3xgCrnSRvPccR9NuA5oifRw5DXZhPs684d1MYo5AdtYC7aBGNoYXobDXenRZyZHV4VReNqchGh"
+            }
+          }
+        ],
+        "status": "unreadable",
+        "fields": {},
+        "detail": "TxLens returned no position for Pacific Ore."
+      }
+    ],
+    "decision": {
+      "policy": "triad-release-v1",
+      "decision": "BLOCK",
+      "needs": [],
+      "hits": [
+        {
+          "rule": "R-SENDER-LOOKALIKE",
+          "effect": "block",
+          "text": "aurubis.co has the trusted name with a different ending (com → co)"
+        },
+        {
+          "rule": "R-DISPLAY-NAME-SPOOF",
+          "effect": "block",
+          "text": "The display name copies an authorized contact, but the address is treasury.desk@aurubis.co"
+        },
+        {
+          "rule": "R-PAYOUT-CHANGED",
+          "effect": "hold_callback",
+          "text": "Payment would move from account DE-TRUSTED-61 to account NEW-ATTACKER"
+        },
+        {
+          "rule": "R-SENDER-DOMAIN-NO-MAIL",
+          "effect": "hold_evidence",
+          "text": "aurubis.co has no mail (MX) records, yet the instruction came from it",
+          "checkId": "mail:sender_domain"
+        }
+      ],
+      "facts": [
+        "Aurubis AG is an active registered company (5299005SHIN9ZK7GW242).",
+        "No sanctions match for Aurubis AG.",
+        "Sources confirm aurubis.com as Aurubis AG's domain.",
+        "No sanctions match for IMO9412345."
+      ],
+      "warnings": [
+        "aurubis.co has the trusted name with a different ending (com → co)",
+        "The display name copies an authorized contact, but the address is treasury.desk@aurubis.co",
+        "Payment would move from account DE-TRUSTED-61 to account NEW-ATTACKER",
+        "aurubis.co has no mail (MX) records, yet the instruction came from it"
+      ],
+      "unknowns": [
+        "Where is Pacific Ore (IMO9412345) now? TxLens returned no position for Pacific Ore."
+      ],
+      "callback": {
+        "target": {
+          "contactId": "treasury",
+          "name": "Aurubis Treasury Desk",
+          "channel": "phone",
+          "address": "+494000001002"
+        },
+        "result": null,
+        "accepted": false
+      }
+    },
+    "cost": {
+      "telegraphUusdc": "80000",
+      "purchases": 8
+    }
+  }
+}

@@ -1,0 +1,148 @@
+{
+  "evidence_sha256": "0xe1f1016db914e5c9311409dea3351f666ce2962a93535fff466ff0e90163d4c5",
+  "evidence": {
+    "format": "triad-evidence-v1",
+    "generatedAt": "2026-11-25T07:45:36.184Z",
+    "provenance": {
+      "scenario": "legit-on-schedule-antofagasta",
+      "synthetic": [
+        "shipment",
+        "buyer",
+        "seller contacts and mailboxes",
+        "vessel",
+        "payout addresses",
+        "instruction text"
+      ],
+      "network": "testnet"
+    },
+    "shipment": {
+      "id": "bench-antofagasta-0",
+      "reference": "TRD-ANT-1000",
+      "commodity": "Copper concentrate",
+      "quantity": "200 t",
+      "amount": {
+        "value": "1000000",
+        "currency": "USDC",
+        "decimals": 6
+      },
+      "buyer": {
+        "id": "buyer",
+        "legalName": "Halden Metals Trading AG",
+        "country": "CH",
+        "domain": "haldenmetals.ch",
+        "contacts": []
+      },
+      "seller": {
+        "id": "seller",
+        "legalName": "ANTOFAGASTA PLC",
+        "country": "GB",
+        "registrationId": "213800MY6QVH4FVLD628",
+        "domain": "antofagasta.co.uk",
+        "contacts": [
+          {
+            "id": "treasury",
+            "name": "Antofagasta Treasury Desk",
+            "email": "treasury.desk@antofagasta.co.uk",
+            "phone": "+442070001001",
+            "role": "Treasury"
+          },
+          {
+            "id": "logistics",
+            "name": "Antofagasta Logistics Desk",
+            "email": "logistics.desk@antofagasta.co.uk",
+            "role": "Logistics"
+          }
+        ]
+      },
+      "consignee": {
+        "id": "buyer",
+        "legalName": "Halden Metals Trading AG",
+        "country": "CH",
+        "domain": "haldenmetals.ch",
+        "contacts": []
+      },
+      "pickupParty": {
+        "id": "pickup",
+        "legalName": "Rotterdam Bulk Agency BV",
+        "country": "NL",
+        "contacts": []
+      },
+      "payout": {
+        "holderName": "ANTOFAGASTA PLC",
+        "rail": "sepolia",
+        "address": "0x7c0073b552b5882f87dd5f77884eaed72deda48c",
+        "bankRef": "GB-TRUSTED-0"
+      },
+      "vessel": {
+        "name": "Pacific Ore",
+        "imo": "IMO9412345"
+      },
+      "loadPort": "San Antonio, CL",
+      "dischargePort": "Rotterdam, NL",
+      "documents": [
+        {
+          "kind": "bill_of_lading",
+          "reference": "BL-ANTOFAGASTA-0",
+          "sha256": "eef7cebb01a024df64ef0a32135c655e556055d52ed1b97dd1ebd98984732a9b"
+        }
+      ],
+      "authorizedContactIds": [
+        "treasury",
+        "logistics"
+      ],
+      "releaseOfficer": {
+        "name": "Halden release desk",
+        "rail": "sepolia",
+        "publicKey": "0x152661B3192173Fd6CD7801C8F2241654F8270f4"
+      }
+    },
+    "instruction": {
+      "id": "ins-bench-antofagasta-0-1",
+      "shipmentId": "bench-antofagasta-0",
+      "receivedAt": "2026-11-25T09:00:00Z",
+      "channel": {
+        "kind": "email",
+        "from": "treasury.desk@antofagasta.co.uk",
+        "displayName": "Antofagasta Treasury Desk"
+      },
+      "summary": "Delivery of TRD-ANT-1000 confirmed at Rotterdam. Please settle the invoice as agreed.",
+      "changes": {}
+    },
+    "changeSet": {
+      "sender": {
+        "from": "treasury.desk@antofagasta.co.uk",
+        "domain": {
+          "sender": "antofagasta.co.uk",
+          "trusted": "antofagasta.co.uk",
+          "relation": "same",
+          "reason": "antofagasta.co.uk is the trusted domain"
+        },
+        "authorizedContactId": "treasury",
+        "displayNameImpersonates": null,
+        "replyTo": null
+      },
+      "changes": [],
+      "destinationChanged": false
+    },
+    "plan": [],
+    "outcomes": [],
+    "decision": {
+      "policy": "triad-release-v1",
+      "decision": "CLEAR",
+      "needs": [],
+      "hits": [],
+      "facts": [],
+      "warnings": [],
+      "unknowns": [],
+      "callback": {
+        "target": null,
+        "result": null,
+        "accepted": false
+      }
+    },
+    "cost": {
+      "telegraphUusdc": "0",
+      "purchases": 0
+    }
+  }
+}

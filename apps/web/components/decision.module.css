@@ -1,0 +1,25 @@
+.decision { display: grid; gap: 20px; }
+.verdictRow { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+.before { opacity: 0.5; }
+.arrow { color: var(--text-4); font-size: 18px; }
+.headline { margin: 0; font: 600 21px/1.3 var(--display); letter-spacing: -0.02em; }
+.block { display: grid; gap: 10px; }
+.steps { margin: 0; padding: 0; list-style: none; counter-reset: step; display: grid; gap: 8px; }
+.steps li { counter-increment: step; position: relative; padding-left: 30px; color: var(--text-2); font-size: 14.5px; line-height: 1.55; }
+.steps li::before { content: counter(step); position: absolute; left: 0; top: 1px; display: grid; place-items: center; width: 20px; height: 20px; border-radius: 6px; background: rgba(255, 255, 255, 0.06); border: 1px solid var(--line-2); font: 600 11px/1 var(--display); color: var(--text); }
+.reasons { list-style: none; margin: 0; padding: 0; display: grid; gap: 0; }
+.reasons li { display: flex; gap: 10px; align-items: baseline; padding: 9px 0; border-top: 1px solid var(--line); font-size: 13.5px; color: var(--text-2); overflow-wrap: anywhere; }
+.reasons li:first-child { border-top: 0; padding-top: 2px; }
+.reasons :global(.chip) { flex-shrink: 0; }
+
+.call { display: grid; gap: 14px; padding: 18px; border-radius: var(--r); border: 1px solid rgba(var(--hold-rgb) / 0.3); background: linear-gradient(180deg, rgba(var(--hold-rgb) / 0.07), rgba(var(--hold-rgb) / 0.02)); }
+.callTop { display: flex; gap: 12px; align-items: center; }
+.callTop p { margin: 0; }
+.phone { display: grid; place-items: center; width: 40px; height: 40px; border-radius: 50%; background: rgba(var(--hold-rgb) / 0.14); color: var(--hold); flex-shrink: 0; position: relative; }
+.phone::after { content: ''; position: absolute; inset: -4px; border-radius: 50%; border: 1px solid rgba(var(--hold-rgb) / 0.5); animation: ring 1.8s ease-out infinite; }
+.phone svg { width: 18px; height: 18px; }
+@keyframes ring { from { transform: scale(0.9); opacity: 1; } to { transform: scale(1.35); opacity: 0; } }
+.callWho { font-weight: 600; }
+.callAsk { margin: 0; font: 600 17px/1.35 var(--display); letter-spacing: -0.01em; }
+.callButtons { display: flex; gap: 10px; flex-wrap: wrap; }
+.callButtons :global(.btn) { flex: 1 1 160px; }

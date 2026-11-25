@@ -1,0 +1,319 @@
+{
+  "evidence_sha256": "0xa3c6a326daafbf82302248c2d43457db19ce0bb60c29f4a9973c30161c4ec44e",
+  "evidence": {
+    "format": "triad-evidence-v1",
+    "generatedAt": "2026-11-25T08:18:30.024Z",
+    "provenance": {
+      "scenario": "attack-sanctioned-vessel-imo9610808",
+      "synthetic": [
+        "shipment",
+        "buyer",
+        "seller contacts and mailboxes",
+        "vessel",
+        "payout addresses",
+        "instruction text"
+      ],
+      "network": "testnet"
+    },
+    "shipment": {
+      "id": "bench-glencore-111",
+      "reference": "TRD-GLE-1111",
+      "commodity": "Cobalt hydroxide",
+      "quantity": "2975 t",
+      "amount": {
+        "value": "112000000",
+        "currency": "USDC",
+        "decimals": 6
+      },
+      "buyer": {
+        "id": "buyer",
+        "legalName": "Halden Metals Trading AG",
+        "country": "CH",
+        "domain": "haldenmetals.ch",
+        "contacts": []
+      },
+      "seller": {
+        "id": "seller",
+        "legalName": "GLENCORE INTERNATIONAL AG",
+        "country": "CH",
+        "registrationId": "213800PSSU2QXF1WLR89",
+        "domain": "glencore.com",
+        "contacts": [
+          {
+            "id": "treasury",
+            "name": "Glencore Treasury Desk",
+            "email": "treasury.desk@glencore.com",
+            "phone": "+41410001005",
+            "role": "Treasury"
+          },
+          {
+            "id": "logistics",
+            "name": "Glencore Logistics Desk",
+            "email": "logistics.desk@glencore.com",
+            "role": "Logistics"
+          }
+        ]
+      },
+      "consignee": {
+        "id": "buyer",
+        "legalName": "Halden Metals Trading AG",
+        "country": "CH",
+        "domain": "haldenmetals.ch",
+        "contacts": []
+      },
+      "pickupParty": {
+        "id": "pickup",
+        "legalName": "Rotterdam Bulk Agency BV",
+        "country": "NL",
+        "contacts": []
+      },
+      "payout": {
+        "holderName": "GLENCORE INTERNATIONAL AG",
+        "rail": "sepolia",
+        "address": "0xd9a78bc05fcd7c48a53d2af35a62d2a580b58c40",
+        "bankRef": "CH-TRUSTED-111"
+      },
+      "vessel": {
+        "name": "Pacific Ore",
+        "imo": "IMO9412345"
+      },
+      "loadPort": "San Antonio, CL",
+      "dischargePort": "Rotterdam, NL",
+      "documents": [
+        {
+          "kind": "bill_of_lading",
+          "reference": "BL-GLENCORE-111",
+          "sha256": "6043b91be44af44a63e0f12ae61c728bf99a6362de980643fe05e4bde219b404"
+        }
+      ],
+      "authorizedContactIds": [
+        "treasury",
+        "logistics"
+      ],
+      "releaseOfficer": {
+        "name": "Halden release desk",
+        "rail": "sepolia",
+        "publicKey": "0x152661B3192173Fd6CD7801C8F2241654F8270f4"
+      }
+    },
+    "instruction": {
+      "id": "ins-bench-glencore-111-1",
+      "shipmentId": "bench-glencore-111",
+      "receivedAt": "2026-11-25T09:00:00Z",
+      "channel": {
+        "kind": "email",
+        "from": "logistics.desk@glencore.com",
+        "displayName": "Glencore Logistics Desk"
+      },
+      "summary": "Owing to a schedule change the cargo will be carried by Anatoly Kolodkin (IMO9610808) instead of Pacific Ore.",
+      "changes": {
+        "vessel": {
+          "name": "Anatoly Kolodkin",
+          "imo": "IMO9610808"
+        }
+      }
+    },
+    "changeSet": {
+      "sender": {
+        "from": "logistics.desk@glencore.com",
+        "domain": {
+          "sender": "glencore.com",
+          "trusted": "glencore.com",
+          "relation": "same",
+          "reason": "glencore.com is the trusted domain"
+        },
+        "authorizedContactId": "logistics",
+        "displayNameImpersonates": null,
+        "replyTo": null
+      },
+      "changes": [
+        {
+          "kind": "vessel",
+          "before": {
+            "name": "Pacific Ore",
+            "imo": "IMO9412345"
+          },
+          "after": {
+            "name": "Anatoly Kolodkin",
+            "imo": "IMO9610808"
+          }
+        }
+      ],
+      "destinationChanged": true
+    },
+    "plan": [
+      {
+        "id": "sanctions:vessel",
+        "check": "sanctions",
+        "intent": "SANCTIONS_SCREENING_MATCH_GENERAL",
+        "params": {
+          "name": "Anatoly Kolodkin"
+        },
+        "role": "vessel",
+        "subject": {
+          "kind": "vessel",
+          "name": "Anatoly Kolodkin",
+          "imo": "IMO9610808"
+        },
+        "required": true,
+        "purpose": "Is the vessel Anatoly Kolodkin (IMO9610808) sanctioned?"
+      },
+      {
+        "id": "vessel:vessel",
+        "check": "vessel",
+        "intent": "VESSEL_TELEMETRY_VERIFY_GENERAL",
+        "params": {
+          "vessel": "IMO9610808"
+        },
+        "role": "vessel",
+        "subject": {
+          "kind": "vessel",
+          "name": "Anatoly Kolodkin",
+          "imo": "IMO9610808"
+        },
+        "required": false,
+        "purpose": "Where is Anatoly Kolodkin (IMO9610808) now?"
+      }
+    ],
+    "outcomes": [
+      {
+        "checkId": "sanctions:vessel",
+        "sources": [
+          {
+            "kind": "telegraph",
+            "name": "ChainSight — Universal Intelligence & Data Oracle",
+            "status": "answered",
+            "fields": {
+              "matched": true,
+              "lists": "ofac-sdn",
+              "matches": "ANATOLY KOLODKIN"
+            },
+            "detail": "ChainSight — Universal Intelligence & Data Oracle: match for Anatoly Kolodkin on ofac-sdn.",
+            "purchase": {
+              "rail": "solana-x402",
+              "receiptHash": "0xe9429d3c9a8cda3230509cfff236fa3db393c1d3ab1ebb407e08d1f41372ba54",
+              "signalHash": "0xd62c64351188c91fdc589e31709c47daf623d7dd95d0b63b0afb835671dd7baa",
+              "amountUusdc": "10000",
+              "minerId": "302",
+              "latencyMs": 13353,
+              "settlementTx": "5PdayGyUnUTsWpK84Zr8D2pqkvQoTBioXqcZqapRGxBYBU9zDanSSVTGoqfehTtMCwzRe4weRExR4vewmf2yMAqb"
+            }
+          },
+          {
+            "kind": "telegraph",
+            "name": "TxLens",
+            "status": "answered",
+            "fields": {
+              "matched": true,
+              "lists": "OFAC SDN list",
+              "matches": "ANATOLY KOLODKIN"
+            },
+            "detail": "TxLens: match for Anatoly Kolodkin on OFAC SDN list.",
+            "purchase": {
+              "rail": "solana-x402",
+              "receiptHash": "0xb3335af930e20a9c7c8077e4943468979ece01c0d99dff890b340153e6753251",
+              "signalHash": "0x1af667e9ade6bacb5f746a57affc50291ffc6dc454edb145bd7005960de11356",
+              "amountUusdc": "10000",
+              "minerId": "9002",
+              "latencyMs": 9201,
+              "settlementTx": "5kEbXwghKdUuzkkNpfPgPSyAXcLF2MnwXz3CAyJQMA5SqGTuExENk2N8FeCSxUyMFeWbQw4aTMBUDaQhUegSc5Fe"
+            }
+          },
+          {
+            "kind": "official",
+            "name": "OFAC SDN list",
+            "status": "answered",
+            "purchase": null,
+            "fields": {
+              "matched": true,
+              "lists": "OFAC SDN",
+              "matches": "ANATOLY KOLODKIN (SDN 46957; RUSSIA-EO14024)"
+            },
+            "detail": "OFAC's SDN list matches Anatoly Kolodkin (IMO9610808): ANATOLY KOLODKIN (SDN 46957; RUSSIA-EO14024).",
+            "snapshot": {
+              "url": "https://www.treasury.gov/ofac/downloads/sdn.csv",
+              "sha256": "e83c93e6159498ce0352549f750023eaa47e561e54c496ba1b0c32e3e33872d6",
+              "retrievedAt": "2026-11-25T05:16:13.052Z"
+            }
+          }
+        ],
+        "status": "answered",
+        "fields": {
+          "matched": true,
+          "lists": "OFAC SDN",
+          "matches": "ANATOLY KOLODKIN (SDN 46957; RUSSIA-EO14024)"
+        },
+        "detail": "OFAC's SDN list matches Anatoly Kolodkin (IMO9610808): ANATOLY KOLODKIN (SDN 46957; RUSSIA-EO14024)."
+      },
+      {
+        "checkId": "vessel:vessel",
+        "sources": [
+          {
+            "kind": "telegraph",
+            "name": "TxLens",
+            "status": "unreadable",
+            "fields": {
+              "latitude": null,
+              "longitude": null,
+              "speed_knots": null,
+              "observed_at": null
+            },
+            "detail": "TxLens returned no position for Anatoly Kolodkin.",
+            "purchase": {
+              "rail": "solana-x402",
+              "receiptHash": "0x950f4a0959c1052469ee62144c2559d1bd380f81caf0a306e36273db8ed8b4b8",
+              "signalHash": "0x8eea07897ee1dbe868bce8a1f2eacd73004d87920ae03705f755a6274516752b",
+              "amountUusdc": "10000",
+              "minerId": "9002",
+              "latencyMs": 9199,
+              "settlementTx": "26wzfRHww9p39VzfvBrc4k5zsHVSZj3a9Z1LrkvVyPR7spHyqnTn2T7eLeLphWVQubt31dmjLxiNQ8zLcuu5jL7v"
+            }
+          }
+        ],
+        "status": "unreadable",
+        "fields": {},
+        "detail": "TxLens returned no position for Anatoly Kolodkin."
+      }
+    ],
+    "decision": {
+      "policy": "triad-release-v1",
+      "decision": "BLOCK",
+      "needs": [],
+      "hits": [
+        {
+          "rule": "R-VESSEL-CHANGED",
+          "effect": "hold_callback",
+          "text": "The cargo would move on Anatoly Kolodkin (IMO9610808) instead of Pacific Ore (IMO9412345)"
+        },
+        {
+          "rule": "R-SANCTIONS-MATCH",
+          "effect": "block",
+          "text": "IMO9610808 matches a sanctions list entry (OFAC SDN)",
+          "checkId": "sanctions:vessel"
+        }
+      ],
+      "facts": [],
+      "warnings": [
+        "The cargo would move on Anatoly Kolodkin (IMO9610808) instead of Pacific Ore (IMO9412345)",
+        "IMO9610808 matches a sanctions list entry (OFAC SDN)"
+      ],
+      "unknowns": [
+        "Where is Anatoly Kolodkin (IMO9610808) now? TxLens returned no position for Anatoly Kolodkin."
+      ],
+      "callback": {
+        "target": {
+          "contactId": "treasury",
+          "name": "Glencore Treasury Desk",
+          "channel": "phone",
+          "address": "+41410001005"
+        },
+        "result": null,
+        "accepted": false
+      }
+    },
+    "cost": {
+      "telegraphUusdc": "30000",
+      "purchases": 3
+    }
+  }
+}

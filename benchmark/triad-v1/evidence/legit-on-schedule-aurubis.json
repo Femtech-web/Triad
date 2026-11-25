@@ -1,0 +1,148 @@
+{
+  "evidence_sha256": "0x9f1483a537761a591b0374bd997540fc6c9ba72fd37069aeb6ae1718c1616542",
+  "evidence": {
+    "format": "triad-evidence-v1",
+    "generatedAt": "2026-11-25T07:45:36.190Z",
+    "provenance": {
+      "scenario": "legit-on-schedule-aurubis",
+      "synthetic": [
+        "shipment",
+        "buyer",
+        "seller contacts and mailboxes",
+        "vessel",
+        "payout addresses",
+        "instruction text"
+      ],
+      "network": "testnet"
+    },
+    "shipment": {
+      "id": "bench-aurubis-1",
+      "reference": "TRD-AUR-1001",
+      "commodity": "Copper cathodes, LME grade A",
+      "quantity": "225 t",
+      "amount": {
+        "value": "2000000",
+        "currency": "USDC",
+        "decimals": 6
+      },
+      "buyer": {
+        "id": "buyer",
+        "legalName": "Halden Metals Trading AG",
+        "country": "CH",
+        "domain": "haldenmetals.ch",
+        "contacts": []
+      },
+      "seller": {
+        "id": "seller",
+        "legalName": "Aurubis AG",
+        "country": "DE",
+        "registrationId": "5299005SHIN9ZK7GW242",
+        "domain": "aurubis.com",
+        "contacts": [
+          {
+            "id": "treasury",
+            "name": "Aurubis Treasury Desk",
+            "email": "treasury.desk@aurubis.com",
+            "phone": "+494000001002",
+            "role": "Treasury"
+          },
+          {
+            "id": "logistics",
+            "name": "Aurubis Logistics Desk",
+            "email": "logistics.desk@aurubis.com",
+            "role": "Logistics"
+          }
+        ]
+      },
+      "consignee": {
+        "id": "buyer",
+        "legalName": "Halden Metals Trading AG",
+        "country": "CH",
+        "domain": "haldenmetals.ch",
+        "contacts": []
+      },
+      "pickupParty": {
+        "id": "pickup",
+        "legalName": "Rotterdam Bulk Agency BV",
+        "country": "NL",
+        "contacts": []
+      },
+      "payout": {
+        "holderName": "Aurubis AG",
+        "rail": "sepolia",
+        "address": "0x8c2bbf7ce785c97a48fd248475d4d1c8b09e8b1c",
+        "bankRef": "DE-TRUSTED-1"
+      },
+      "vessel": {
+        "name": "Pacific Ore",
+        "imo": "IMO9412345"
+      },
+      "loadPort": "San Antonio, CL",
+      "dischargePort": "Rotterdam, NL",
+      "documents": [
+        {
+          "kind": "bill_of_lading",
+          "reference": "BL-AURUBIS-1",
+          "sha256": "9433080f71599c685666a9e8f8d0ec1c93b419ec2cd79c54651fdd92055616db"
+        }
+      ],
+      "authorizedContactIds": [
+        "treasury",
+        "logistics"
+      ],
+      "releaseOfficer": {
+        "name": "Halden release desk",
+        "rail": "sepolia",
+        "publicKey": "0x152661B3192173Fd6CD7801C8F2241654F8270f4"
+      }
+    },
+    "instruction": {
+      "id": "ins-bench-aurubis-1-1",
+      "shipmentId": "bench-aurubis-1",
+      "receivedAt": "2026-11-25T09:00:00Z",
+      "channel": {
+        "kind": "email",
+        "from": "treasury.desk@aurubis.com",
+        "displayName": "Aurubis Treasury Desk"
+      },
+      "summary": "Delivery of TRD-AUR-1001 confirmed at Rotterdam. Please settle the invoice as agreed.",
+      "changes": {}
+    },
+    "changeSet": {
+      "sender": {
+        "from": "treasury.desk@aurubis.com",
+        "domain": {
+          "sender": "aurubis.com",
+          "trusted": "aurubis.com",
+          "relation": "same",
+          "reason": "aurubis.com is the trusted domain"
+        },
+        "authorizedContactId": "treasury",
+        "displayNameImpersonates": null,
+        "replyTo": null
+      },
+      "changes": [],
+      "destinationChanged": false
+    },
+    "plan": [],
+    "outcomes": [],
+    "decision": {
+      "policy": "triad-release-v1",
+      "decision": "CLEAR",
+      "needs": [],
+      "hits": [],
+      "facts": [],
+      "warnings": [],
+      "unknowns": [],
+      "callback": {
+        "target": null,
+        "result": null,
+        "accepted": false
+      }
+    },
+    "cost": {
+      "telegraphUusdc": "0",
+      "purchases": 0
+    }
+  }
+}

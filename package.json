@@ -19,7 +19,8 @@
     "web": "pnpm web:sync && pnpm --filter @triad/web dev",
     "web:build": "pnpm web:sync && pnpm --filter @triad/web build",
     "telegraph:deposit": "node --import tsx scripts/ops/telegraph-deposit.ts",
-    "triad": "node --env-file-if-exists=.env --import tsx apps/cli/src/main.ts"
+    "triad": "node --env-file-if-exists=.env --import tsx apps/cli/src/main.ts",
+    "ofac": "node --import tsx scripts/ops/ofac-refresh.ts"
   },
   "devDependencies": {
     "@types/node": "22.20.5",

@@ -22,7 +22,7 @@ export type Change =
   | { kind: 'payout'; before: Payout; after: Payout; holderVsSeller: NameRelation }
   | { kind: 'consignee'; before: Party; after: Party }
   | { kind: 'pickup_party'; before: Party | null; after: Party }
-  | { kind: 'vessel'; before: Vessel; after: Vessel }
+  | { kind: 'vessel'; before: Vessel | null; after: Vessel }
   | { kind: 'document'; document: TradeDocument; replaces: TradeDocument | null };
 
 export interface ChangeSet { sender: SenderAnalysis; changes: Change[]; destinationChanged: boolean }
@@ -59,7 +59,7 @@ export function detectChanges(shipment: Shipment, instruction: Instruction): Cha
   }
   if (consignee && !sameParty(consignee, shipment.consignee)) changes.push({ kind: 'consignee', before: shipment.consignee, after: consignee });
   if (pickupParty && !(shipment.pickupParty && sameParty(pickupParty, shipment.pickupParty))) changes.push({ kind: 'pickup_party', before: shipment.pickupParty ?? null, after: pickupParty });
-  if (vessel && vessel.imo !== shipment.vessel.imo) changes.push({ kind: 'vessel', before: shipment.vessel, after: vessel });
+  if (vessel && vessel.imo !== shipment.vessel?.imo) changes.push({ kind: 'vessel', before: shipment.vessel ?? null, after: vessel });
   for (const document of documents ?? []) {
     if (shipment.documents.some((d) => d.sha256 === document.sha256)) continue;
     changes.push({ kind: 'document', document, replaces: shipment.documents.find((d) => d.kind === document.kind) ?? null });

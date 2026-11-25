@@ -1,0 +1,1161 @@
+{
+  "gradedAt": "2026-11-25T08:20:42.207Z",
+  "summary": [
+    {
+      "contestant": "triad",
+      "answered": 40,
+      "attacks": 20,
+      "attacksReleased": [],
+      "attacksStopped": 20,
+      "legitimate": 20,
+      "legitimateAsExpected": 19,
+      "legitimateBlocked": [],
+      "legitimateHeldInstead": [
+        "legit-bank-change-confirmed-boliden"
+      ],
+      "exact": 39,
+      "testUsdc": 2.08,
+      "purchases": 208
+    },
+    {
+      "contestant": "baseline",
+      "answered": 40,
+      "attacks": 20,
+      "attacksReleased": [
+        "attack-lookalike-glencore",
+        "attack-lookalike-aurubis",
+        "attack-lookalike-antofagasta",
+        "attack-display-name-free-mail",
+        "attack-reply-to-lookalike",
+        "attack-compromised-mailbox-antofagasta",
+        "attack-compromised-mailbox-aurubis",
+        "attack-compromised-mailbox-callback-denied",
+        "attack-payee-not-seller-aurubis",
+        "attack-forged-bank-letter",
+        "attack-callback-through-compromised-mailbox"
+      ],
+      "attacksStopped": 9,
+      "legitimate": 20,
+      "legitimateAsExpected": 16,
+      "legitimateBlocked": [
+        "legit-bank-change-confirmed-boliden",
+        "legit-bank-change-awaiting-callback-boliden"
+      ],
+      "legitimateHeldInstead": [],
+      "exact": 22
+    },
+    {
+      "contestant": "frontier",
+      "answered": 0,
+      "attacks": 0,
+      "attacksReleased": [],
+      "attacksStopped": 0,
+      "legitimate": 0,
+      "legitimateAsExpected": 0,
+      "legitimateBlocked": [],
+      "legitimateHeldInstead": [],
+      "exact": 0
+    }
+  ],
+  "categories": [
+    {
+      "category": "settle_as_agreed",
+      "kind": "legitimate",
+      "cases": 5,
+      "triad": "CLEAR CLEAR CLEAR CLEAR CLEAR",
+      "baseline": "CLEAR CLEAR CLEAR CLEAR CLEAR",
+      "frontier": ""
+    },
+    {
+      "category": "bank_change_confirmed",
+      "kind": "legitimate",
+      "cases": 5,
+      "triad": "CLEAR CLEAR HOLD CLEAR CLEAR",
+      "baseline": "CLEAR CLEAR BLOCK CLEAR CLEAR",
+      "frontier": ""
+    },
+    {
+      "category": "pickup_change_confirmed",
+      "kind": "legitimate",
+      "cases": 3,
+      "triad": "CLEAR CLEAR CLEAR",
+      "baseline": "CLEAR CLEAR CLEAR",
+      "frontier": ""
+    },
+    {
+      "category": "bank_change_unconfirmed",
+      "kind": "legitimate",
+      "cases": 3,
+      "triad": "HOLD HOLD HOLD",
+      "baseline": "BLOCK CLEAR CLEAR",
+      "frontier": ""
+    },
+    {
+      "category": "document_update",
+      "kind": "legitimate",
+      "cases": 2,
+      "triad": "CLEAR CLEAR",
+      "baseline": "CLEAR CLEAR",
+      "frontier": ""
+    },
+    {
+      "category": "consignee_change_confirmed",
+      "kind": "legitimate",
+      "cases": 2,
+      "triad": "CLEAR CLEAR",
+      "baseline": "CLEAR CLEAR",
+      "frontier": ""
+    },
+    {
+      "category": "lookalike_domain",
+      "kind": "attack",
+      "cases": 4,
+      "triad": "BLOCK BLOCK BLOCK BLOCK",
+      "baseline": "CLEAR CLEAR BLOCK CLEAR",
+      "frontier": ""
+    },
+    {
+      "category": "display_name_spoof",
+      "kind": "attack",
+      "cases": 1,
+      "triad": "BLOCK",
+      "baseline": "CLEAR",
+      "frontier": ""
+    },
+    {
+      "category": "reply_to_diversion",
+      "kind": "attack",
+      "cases": 1,
+      "triad": "BLOCK",
+      "baseline": "CLEAR",
+      "frontier": ""
+    },
+    {
+      "category": "compromised_mailbox",
+      "kind": "attack",
+      "cases": 4,
+      "triad": "HOLD HOLD HOLD BLOCK",
+      "baseline": "CLEAR CLEAR BLOCK CLEAR",
+      "frontier": ""
+    },
+    {
+      "category": "payee_not_seller",
+      "kind": "attack",
+      "cases": 2,
+      "triad": "HOLD HOLD",
+      "baseline": "CLEAR BLOCK",
+      "frontier": ""
+    },
+    {
+      "category": "sanctioned_party",
+      "kind": "attack",
+      "cases": 3,
+      "triad": "BLOCK BLOCK BLOCK",
+      "baseline": "BLOCK BLOCK BLOCK",
+      "frontier": ""
+    },
+    {
+      "category": "sanctioned_vessel",
+      "kind": "attack",
+      "cases": 2,
+      "triad": "BLOCK BLOCK",
+      "baseline": "BLOCK BLOCK",
+      "frontier": ""
+    },
+    {
+      "category": "unrelated_domain",
+      "kind": "attack",
+      "cases": 1,
+      "triad": "HOLD",
+      "baseline": "BLOCK",
+      "frontier": ""
+    },
+    {
+      "category": "forged_document",
+      "kind": "attack",
+      "cases": 1,
+      "triad": "HOLD",
+      "baseline": "CLEAR",
+      "frontier": ""
+    },
+    {
+      "category": "steered_callback",
+      "kind": "attack",
+      "cases": 1,
+      "triad": "HOLD",
+      "baseline": "CLEAR",
+      "frontier": ""
+    }
+  ],
+  "results": [
+    {
+      "scenario": "legit-on-schedule-antofagasta",
+      "contestant": "triad",
+      "verdict": "RELEASE",
+      "decision": "CLEAR",
+      "needs": [],
+      "rules": [],
+      "evidence_sha256": "0xe1f1016db914e5c9311409dea3351f666ce2962a93535fff466ff0e90163d4c5",
+      "cost_uusdc": "0",
+      "purchases": 0,
+      "latency_ms": 5,
+      "at": "2026-11-25T07:45:36.189Z"
+    },
+    {
+      "scenario": "legit-on-schedule-antofagasta",
+      "contestant": "baseline",
+      "verdict": "RELEASE",
+      "reason": "Nothing to screen.",
+      "latency_ms": 5,
+      "at": "2026-11-25T07:45:36.189Z"
+    },
+    {
+      "scenario": "legit-on-schedule-aurubis",
+      "contestant": "triad",
+      "verdict": "RELEASE",
+      "decision": "CLEAR",
+      "needs": [],
+      "rules": [],
+      "evidence_sha256": "0x9f1483a537761a591b0374bd997540fc6c9ba72fd37069aeb6ae1718c1616542",
+      "cost_uusdc": "0",
+      "purchases": 0,
+      "latency_ms": 1,
+      "at": "2026-11-25T07:45:36.190Z"
+    },
+    {
+      "scenario": "legit-on-schedule-aurubis",
+      "contestant": "baseline",
+      "verdict": "RELEASE",
+      "reason": "Nothing to screen.",
+      "latency_ms": 1,
+      "at": "2026-11-25T07:45:36.190Z"
+    },
+    {
+      "scenario": "legit-on-schedule-boliden",
+      "contestant": "triad",
+      "verdict": "RELEASE",
+      "decision": "CLEAR",
+      "needs": [],
+      "rules": [],
+      "evidence_sha256": "0x99fdf31795e8a365e1382c545daa7937379fc074f4334f52d0312a5138fda2a4",
+      "cost_uusdc": "0",
+      "purchases": 0,
+      "latency_ms": 1,
+      "at": "2026-11-25T07:45:36.191Z"
+    },
+    {
+      "scenario": "legit-on-schedule-boliden",
+      "contestant": "baseline",
+      "verdict": "RELEASE",
+      "reason": "Nothing to screen.",
+      "latency_ms": 1,
+      "at": "2026-11-25T07:45:36.191Z"
+    },
+    {
+      "scenario": "legit-on-schedule-freeport",
+      "contestant": "triad",
+      "verdict": "RELEASE",
+      "decision": "CLEAR",
+      "needs": [],
+      "rules": [],
+      "evidence_sha256": "0xf24841ecc36a4c3dc33a94691184db328ba50be07576e2d09a6b5f571ce27a5b",
+      "cost_uusdc": "0",
+      "purchases": 0,
+      "latency_ms": 0,
+      "at": "2026-11-25T07:45:36.191Z"
+    },
+    {
+      "scenario": "legit-on-schedule-freeport",
+      "contestant": "baseline",
+      "verdict": "RELEASE",
+      "reason": "Nothing to screen.",
+      "latency_ms": 0,
+      "at": "2026-11-25T07:45:36.191Z"
+    },
+    {
+      "scenario": "legit-on-schedule-glencore",
+      "contestant": "triad",
+      "verdict": "RELEASE",
+      "decision": "CLEAR",
+      "needs": [],
+      "rules": [],
+      "evidence_sha256": "0x9946b1bbd40339edafad8a64dc3404d4f93689d637ae388d211627d6120c7305",
+      "cost_uusdc": "0",
+      "purchases": 0,
+      "latency_ms": 1,
+      "at": "2026-11-25T07:45:36.192Z"
+    },
+    {
+      "scenario": "legit-on-schedule-glencore",
+      "contestant": "baseline",
+      "verdict": "RELEASE",
+      "reason": "Nothing to screen.",
+      "latency_ms": 1,
+      "at": "2026-11-25T07:45:36.192Z"
+    },
+    {
+      "scenario": "legit-bank-change-confirmed-antofagasta",
+      "contestant": "triad",
+      "verdict": "RELEASE",
+      "decision": "CLEAR",
+      "needs": [],
+      "rules": [
+        "R-PAYOUT-CHANGED"
+      ],
+      "evidence_sha256": "0x085979657d5b4334e4e80db9329109bbab9877000f33360c9adf69354cfbcc29",
+      "cost_uusdc": "60000",
+      "purchases": 6,
+      "latency_ms": 37158,
+      "at": "2026-11-25T08:02:58.725Z"
+    },
+    {
+      "scenario": "legit-bank-change-confirmed-antofagasta",
+      "contestant": "baseline",
+      "verdict": "RELEASE",
+      "reason": "Registry and sanctions screens passed.",
+      "latency_ms": 37158,
+      "at": "2026-11-25T08:02:58.725Z"
+    },
+    {
+      "scenario": "legit-bank-change-confirmed-aurubis",
+      "contestant": "triad",
+      "verdict": "RELEASE",
+      "decision": "CLEAR",
+      "needs": [],
+      "rules": [
+        "R-PAYOUT-CHANGED"
+      ],
+      "evidence_sha256": "0x581c1bee04c56cc86aee4e11e94c01dd2503bd6364d337dd2d9cf0900e7e544f",
+      "cost_uusdc": "60000",
+      "purchases": 6,
+      "latency_ms": 31281,
+      "at": "2026-11-25T08:03:30.007Z"
+    },
+    {
+      "scenario": "legit-bank-change-confirmed-aurubis",
+      "contestant": "baseline",
+      "verdict": "RELEASE",
+      "reason": "Registry and sanctions screens passed.",
+      "latency_ms": 31281,
+      "at": "2026-11-25T08:03:30.007Z"
+    },
+    {
+      "scenario": "legit-bank-change-confirmed-boliden",
+      "contestant": "triad",
+      "verdict": "HOLD",
+      "decision": "HOLD",
+      "needs": [
+        "evidence"
+      ],
+      "rules": [
+        "R-PAYOUT-CHANGED",
+        "R-SOURCES-DISAGREE"
+      ],
+      "evidence_sha256": "0xf333cd86c3a08a2d6fd9e419948993b722b2c9d2c1f4c5d8509f8823268f826e",
+      "cost_uusdc": "60000",
+      "purchases": 6,
+      "latency_ms": 26209,
+      "at": "2026-11-25T08:03:56.218Z"
+    },
+    {
+      "scenario": "legit-bank-change-confirmed-boliden",
+      "contestant": "baseline",
+      "verdict": "BLOCK",
+      "reason": "sanctions:seller: sanctions match.",
+      "latency_ms": 26209,
+      "at": "2026-11-25T08:03:56.218Z"
+    },
+    {
+      "scenario": "legit-bank-change-confirmed-freeport",
+      "contestant": "triad",
+      "verdict": "RELEASE",
+      "decision": "CLEAR",
+      "needs": [],
+      "rules": [
+        "R-PAYOUT-CHANGED"
+      ],
+      "evidence_sha256": "0x616c79ef5f386e01fdf4031925d3361d711e17fd6e622040d20188845f5b8f40",
+      "cost_uusdc": "60000",
+      "purchases": 6,
+      "latency_ms": 28439,
+      "at": "2026-11-25T08:04:24.679Z"
+    },
+    {
+      "scenario": "legit-bank-change-confirmed-freeport",
+      "contestant": "baseline",
+      "verdict": "RELEASE",
+      "reason": "Registry and sanctions screens passed.",
+      "latency_ms": 28439,
+      "at": "2026-11-25T08:04:24.679Z"
+    },
+    {
+      "scenario": "legit-bank-change-confirmed-glencore",
+      "contestant": "triad",
+      "verdict": "RELEASE",
+      "decision": "CLEAR",
+      "needs": [],
+      "rules": [
+        "R-PAYOUT-CHANGED"
+      ],
+      "evidence_sha256": "0x07b17eb698483e3ea3d7b0eed0720cfd0e0d60fc530ddbc9ecd342d4981e7211",
+      "cost_uusdc": "60000",
+      "purchases": 6,
+      "latency_ms": 26954,
+      "at": "2026-11-25T08:04:51.634Z"
+    },
+    {
+      "scenario": "legit-bank-change-confirmed-glencore",
+      "contestant": "baseline",
+      "verdict": "RELEASE",
+      "reason": "Registry and sanctions screens passed.",
+      "latency_ms": 26954,
+      "at": "2026-11-25T08:04:51.634Z"
+    },
+    {
+      "scenario": "legit-pickup-agent-confirmed-antofagasta",
+      "contestant": "triad",
+      "verdict": "RELEASE",
+      "decision": "CLEAR",
+      "needs": [],
+      "rules": [
+        "R-CARGO-PARTY-CHANGED"
+      ],
+      "evidence_sha256": "0xebf5bac245e4551f46e8a855f0e5b5501320e25d68ca5bd3786b02b2a616a99f",
+      "cost_uusdc": "60000",
+      "purchases": 6,
+      "latency_ms": 27934,
+      "at": "2026-11-25T08:05:19.569Z"
+    },
+    {
+      "scenario": "legit-pickup-agent-confirmed-antofagasta",
+      "contestant": "baseline",
+      "verdict": "RELEASE",
+      "reason": "Registry and sanctions screens passed.",
+      "latency_ms": 27934,
+      "at": "2026-11-25T08:05:19.569Z"
+    },
+    {
+      "scenario": "legit-pickup-agent-confirmed-aurubis",
+      "contestant": "triad",
+      "verdict": "RELEASE",
+      "decision": "CLEAR",
+      "needs": [],
+      "rules": [
+        "R-CARGO-PARTY-CHANGED"
+      ],
+      "evidence_sha256": "0x28295a45e4711a899acaa7f9eafdd2a89619607e1a05757a76b129c6da8623fe",
+      "cost_uusdc": "60000",
+      "purchases": 6,
+      "latency_ms": 26137,
+      "at": "2026-11-25T08:05:45.708Z"
+    },
+    {
+      "scenario": "legit-pickup-agent-confirmed-aurubis",
+      "contestant": "baseline",
+      "verdict": "RELEASE",
+      "reason": "Registry and sanctions screens passed.",
+      "latency_ms": 26137,
+      "at": "2026-11-25T08:05:45.708Z"
+    },
+    {
+      "scenario": "legit-pickup-agent-confirmed-boliden",
+      "contestant": "triad",
+      "verdict": "RELEASE",
+      "decision": "CLEAR",
+      "needs": [],
+      "rules": [
+        "R-CARGO-PARTY-CHANGED"
+      ],
+      "evidence_sha256": "0x8db3c2ed06000b80a25934e3600a70e19cc2744a0f88362b261985db9f7ccf8c",
+      "cost_uusdc": "60000",
+      "purchases": 6,
+      "latency_ms": 31188,
+      "at": "2026-11-25T08:06:16.897Z"
+    },
+    {
+      "scenario": "legit-pickup-agent-confirmed-boliden",
+      "contestant": "baseline",
+      "verdict": "RELEASE",
+      "reason": "Registry and sanctions screens passed.",
+      "latency_ms": 31188,
+      "at": "2026-11-25T08:06:16.897Z"
+    },
+    {
+      "scenario": "legit-bank-change-awaiting-callback-boliden",
+      "contestant": "triad",
+      "verdict": "HOLD",
+      "decision": "HOLD",
+      "needs": [
+        "callback",
+        "evidence"
+      ],
+      "rules": [
+        "R-PAYOUT-CHANGED",
+        "R-SOURCES-DISAGREE"
+      ],
+      "evidence_sha256": "0x6af818e88d961e4e2bd7cffa1ab9e6d813027fbd65be784131d1d70f38913fc3",
+      "cost_uusdc": "60000",
+      "purchases": 6,
+      "latency_ms": 33835,
+      "at": "2026-11-25T08:06:50.733Z"
+    },
+    {
+      "scenario": "legit-bank-change-awaiting-callback-boliden",
+      "contestant": "baseline",
+      "verdict": "BLOCK",
+      "reason": "sanctions:seller: sanctions match.",
+      "latency_ms": 33835,
+      "at": "2026-11-25T08:06:50.733Z"
+    },
+    {
+      "scenario": "legit-bank-change-awaiting-callback-freeport",
+      "contestant": "triad",
+      "verdict": "HOLD",
+      "decision": "HOLD",
+      "needs": [
+        "callback"
+      ],
+      "rules": [
+        "R-PAYOUT-CHANGED"
+      ],
+      "evidence_sha256": "0xf0ce143d85fe77d5aed1949041c6167a001e2a5d8d82eb911b664a48ddfa74f9",
+      "cost_uusdc": "60000",
+      "purchases": 6,
+      "latency_ms": 29272,
+      "at": "2026-11-25T08:07:20.008Z"
+    },
+    {
+      "scenario": "legit-bank-change-awaiting-callback-freeport",
+      "contestant": "baseline",
+      "verdict": "RELEASE",
+      "reason": "Registry and sanctions screens passed.",
+      "latency_ms": 29272,
+      "at": "2026-11-25T08:07:20.008Z"
+    },
+    {
+      "scenario": "legit-bank-change-awaiting-callback-glencore",
+      "contestant": "triad",
+      "verdict": "HOLD",
+      "decision": "HOLD",
+      "needs": [
+        "callback"
+      ],
+      "rules": [
+        "R-PAYOUT-CHANGED"
+      ],
+      "evidence_sha256": "0x190144b6c6bc38a7869b6fdd4cb0377041990099d289a6bf615caf2fd13c4b10",
+      "cost_uusdc": "60000",
+      "purchases": 6,
+      "latency_ms": 26490,
+      "at": "2026-11-25T08:07:46.500Z"
+    },
+    {
+      "scenario": "legit-bank-change-awaiting-callback-glencore",
+      "contestant": "baseline",
+      "verdict": "RELEASE",
+      "reason": "Registry and sanctions screens passed.",
+      "latency_ms": 26490,
+      "at": "2026-11-25T08:07:46.500Z"
+    },
+    {
+      "scenario": "legit-revised-invoice-antofagasta",
+      "contestant": "triad",
+      "verdict": "RELEASE",
+      "decision": "CLEAR",
+      "needs": [],
+      "rules": [],
+      "evidence_sha256": "0xa5102ca0c3010fe8cbc372ad0b5a1536014aaa13976bfae2ba7473c1c95851c0",
+      "cost_uusdc": "10000",
+      "purchases": 1,
+      "latency_ms": 16095,
+      "at": "2026-11-25T08:08:02.596Z"
+    },
+    {
+      "scenario": "legit-revised-invoice-antofagasta",
+      "contestant": "baseline",
+      "verdict": "RELEASE",
+      "reason": "Nothing to screen.",
+      "latency_ms": 16095,
+      "at": "2026-11-25T08:08:02.596Z"
+    },
+    {
+      "scenario": "legit-revised-invoice-aurubis",
+      "contestant": "triad",
+      "verdict": "RELEASE",
+      "decision": "CLEAR",
+      "needs": [],
+      "rules": [],
+      "evidence_sha256": "0x5b0386957fc5184dad9f917000d402ee5247a5fa8ac9ff891145bc1099f225c6",
+      "cost_uusdc": "10000",
+      "purchases": 1,
+      "latency_ms": 15349,
+      "at": "2026-11-25T08:08:17.958Z"
+    },
+    {
+      "scenario": "legit-revised-invoice-aurubis",
+      "contestant": "baseline",
+      "verdict": "RELEASE",
+      "reason": "Nothing to screen.",
+      "latency_ms": 15349,
+      "at": "2026-11-25T08:08:17.958Z"
+    },
+    {
+      "scenario": "legit-consignee-change-confirmed-freeport",
+      "contestant": "triad",
+      "verdict": "RELEASE",
+      "decision": "CLEAR",
+      "needs": [],
+      "rules": [
+        "R-CARGO-PARTY-CHANGED"
+      ],
+      "evidence_sha256": "0x1d164f0ea65a43dff561911b168e5af9df5a64273cfa1b5272519ec542e3fcfb",
+      "cost_uusdc": "60000",
+      "purchases": 6,
+      "latency_ms": 39533,
+      "at": "2026-11-25T08:08:57.735Z"
+    },
+    {
+      "scenario": "legit-consignee-change-confirmed-freeport",
+      "contestant": "baseline",
+      "verdict": "RELEASE",
+      "reason": "Registry and sanctions screens passed.",
+      "latency_ms": 39533,
+      "at": "2026-11-25T08:08:57.735Z"
+    },
+    {
+      "scenario": "legit-consignee-change-confirmed-glencore",
+      "contestant": "triad",
+      "verdict": "RELEASE",
+      "decision": "CLEAR",
+      "needs": [],
+      "rules": [
+        "R-CARGO-PARTY-CHANGED"
+      ],
+      "evidence_sha256": "0x172575f0afc631a67f26f4abb6b6d0d6eedee0bb86678f19b7b49a3965aeea69",
+      "cost_uusdc": "60000",
+      "purchases": 6,
+      "latency_ms": 33585,
+      "at": "2026-11-25T08:09:31.637Z"
+    },
+    {
+      "scenario": "legit-consignee-change-confirmed-glencore",
+      "contestant": "baseline",
+      "verdict": "RELEASE",
+      "reason": "Registry and sanctions screens passed.",
+      "latency_ms": 33585,
+      "at": "2026-11-25T08:09:31.637Z"
+    },
+    {
+      "scenario": "attack-lookalike-glencore",
+      "contestant": "triad",
+      "verdict": "BLOCK",
+      "decision": "BLOCK",
+      "needs": [],
+      "rules": [
+        "R-SENDER-LOOKALIKE",
+        "R-DISPLAY-NAME-SPOOF",
+        "R-PAYOUT-CHANGED"
+      ],
+      "evidence_sha256": "0x516e3e88a377fea92639972dfe8269fe5d80b5b164371a838a266e99e849500a",
+      "cost_uusdc": "80000",
+      "purchases": 8,
+      "latency_ms": 36919,
+      "at": "2026-11-25T08:10:08.591Z"
+    },
+    {
+      "scenario": "attack-lookalike-glencore",
+      "contestant": "baseline",
+      "verdict": "RELEASE",
+      "reason": "Registry and sanctions screens passed.",
+      "latency_ms": 36919,
+      "at": "2026-11-25T08:10:08.591Z"
+    },
+    {
+      "scenario": "attack-lookalike-aurubis",
+      "contestant": "triad",
+      "verdict": "BLOCK",
+      "decision": "BLOCK",
+      "needs": [],
+      "rules": [
+        "R-SENDER-LOOKALIKE",
+        "R-DISPLAY-NAME-SPOOF",
+        "R-PAYOUT-CHANGED",
+        "R-SENDER-DOMAIN-NO-MAIL"
+      ],
+      "evidence_sha256": "0x944af9605c4427af14d41378947d2631c4eb560ebc6d7a7cac4a9e4cfc448a13",
+      "cost_uusdc": "80000",
+      "purchases": 8,
+      "latency_ms": 44002,
+      "at": "2026-11-25T08:10:52.600Z"
+    },
+    {
+      "scenario": "attack-lookalike-aurubis",
+      "contestant": "baseline",
+      "verdict": "RELEASE",
+      "reason": "Registry and sanctions screens passed.",
+      "latency_ms": 44002,
+      "at": "2026-11-25T08:10:52.600Z"
+    },
+    {
+      "scenario": "attack-lookalike-boliden",
+      "contestant": "triad",
+      "verdict": "BLOCK",
+      "decision": "BLOCK",
+      "needs": [],
+      "rules": [
+        "R-SENDER-LOOKALIKE",
+        "R-DISPLAY-NAME-SPOOF",
+        "R-PAYOUT-CHANGED",
+        "R-SOURCES-DISAGREE",
+        "R-SENDER-DOMAIN-NO-MAIL"
+      ],
+      "evidence_sha256": "0x362b900c221a3fb72dc5eed85e75a95043816561ed418ed06b1e1891caaaa0e5",
+      "cost_uusdc": "80000",
+      "purchases": 8,
+      "latency_ms": 39335,
+      "at": "2026-11-25T08:11:31.936Z"
+    },
+    {
+      "scenario": "attack-lookalike-boliden",
+      "contestant": "baseline",
+      "verdict": "BLOCK",
+      "reason": "sanctions:seller: sanctions match.",
+      "latency_ms": 39335,
+      "at": "2026-11-25T08:11:31.936Z"
+    },
+    {
+      "scenario": "attack-lookalike-antofagasta",
+      "contestant": "triad",
+      "verdict": "BLOCK",
+      "decision": "BLOCK",
+      "needs": [],
+      "rules": [
+        "R-SENDER-LOOKALIKE",
+        "R-DISPLAY-NAME-SPOOF",
+        "R-PAYOUT-CHANGED",
+        "R-RECORD-DOMAIN-DIFFERS",
+        "R-SENDER-DOMAIN-NO-MAIL"
+      ],
+      "evidence_sha256": "0xc29ecb4d35cfb6a16faedcb7e6f3ee81ff04c89f82ded813c469c1071c535bc1",
+      "cost_uusdc": "80000",
+      "purchases": 8,
+      "latency_ms": 38386,
+      "at": "2026-11-25T08:12:10.323Z"
+    },
+    {
+      "scenario": "attack-lookalike-antofagasta",
+      "contestant": "baseline",
+      "verdict": "RELEASE",
+      "reason": "Registry and sanctions screens passed.",
+      "latency_ms": 38386,
+      "at": "2026-11-25T08:12:10.323Z"
+    },
+    {
+      "scenario": "attack-display-name-free-mail",
+      "contestant": "triad",
+      "verdict": "BLOCK",
+      "decision": "BLOCK",
+      "needs": [],
+      "rules": [
+        "R-SENDER-OUTSIDE-DOMAIN",
+        "R-DISPLAY-NAME-SPOOF",
+        "R-PAYOUT-CHANGED",
+        "R-RECORD-DOMAIN-DIFFERS"
+      ],
+      "evidence_sha256": "0x195eb0863ffc06bc15a60337fd0c999655322a1ef23442612f45c989a6735450",
+      "cost_uusdc": "80000",
+      "purchases": 8,
+      "latency_ms": 44667,
+      "at": "2026-11-25T08:12:54.991Z"
+    },
+    {
+      "scenario": "attack-display-name-free-mail",
+      "contestant": "baseline",
+      "verdict": "RELEASE",
+      "reason": "Registry and sanctions screens passed.",
+      "latency_ms": 44667,
+      "at": "2026-11-25T08:12:54.991Z"
+    },
+    {
+      "scenario": "attack-reply-to-lookalike",
+      "contestant": "triad",
+      "verdict": "BLOCK",
+      "decision": "BLOCK",
+      "needs": [],
+      "rules": [
+        "R-REPLY-TO-LOOKALIKE",
+        "R-PAYOUT-CHANGED"
+      ],
+      "evidence_sha256": "0xf0cfdda70f3ac76390a4adb5f51bbb33dde32a4b01dd939b0c5f7ab89238ed78",
+      "cost_uusdc": "60000",
+      "purchases": 6,
+      "latency_ms": 28410,
+      "at": "2026-11-25T08:13:23.402Z"
+    },
+    {
+      "scenario": "attack-reply-to-lookalike",
+      "contestant": "baseline",
+      "verdict": "RELEASE",
+      "reason": "Registry and sanctions screens passed.",
+      "latency_ms": 28410,
+      "at": "2026-11-25T08:13:23.402Z"
+    },
+    {
+      "scenario": "attack-compromised-mailbox-antofagasta",
+      "contestant": "triad",
+      "verdict": "HOLD",
+      "decision": "HOLD",
+      "needs": [
+        "callback"
+      ],
+      "rules": [
+        "R-PAYOUT-CHANGED"
+      ],
+      "evidence_sha256": "0xb352ac181718035fb5cb2bfeb251ca4a08c9b835918606400ee2b7f741656581",
+      "cost_uusdc": "60000",
+      "purchases": 6,
+      "latency_ms": 30701,
+      "at": "2026-11-25T08:13:54.104Z"
+    },
+    {
+      "scenario": "attack-compromised-mailbox-antofagasta",
+      "contestant": "baseline",
+      "verdict": "RELEASE",
+      "reason": "Registry and sanctions screens passed.",
+      "latency_ms": 30701,
+      "at": "2026-11-25T08:13:54.104Z"
+    },
+    {
+      "scenario": "attack-compromised-mailbox-aurubis",
+      "contestant": "triad",
+      "verdict": "HOLD",
+      "decision": "HOLD",
+      "needs": [
+        "callback"
+      ],
+      "rules": [
+        "R-PAYOUT-CHANGED"
+      ],
+      "evidence_sha256": "0xb3ef5162606d9f6681a02443ac3292b019377fd5c4b47122218e16346e241c4f",
+      "cost_uusdc": "60000",
+      "purchases": 6,
+      "latency_ms": 29542,
+      "at": "2026-11-25T08:14:23.646Z"
+    },
+    {
+      "scenario": "attack-compromised-mailbox-aurubis",
+      "contestant": "baseline",
+      "verdict": "RELEASE",
+      "reason": "Registry and sanctions screens passed.",
+      "latency_ms": 29542,
+      "at": "2026-11-25T08:14:23.646Z"
+    },
+    {
+      "scenario": "attack-compromised-mailbox-boliden",
+      "contestant": "triad",
+      "verdict": "HOLD",
+      "decision": "HOLD",
+      "needs": [
+        "callback",
+        "evidence"
+      ],
+      "rules": [
+        "R-PAYOUT-CHANGED",
+        "R-SOURCES-DISAGREE"
+      ],
+      "evidence_sha256": "0x3d2bb628bb6d8f113a79e2656de45306088984b5cb66d7922d13d998b1b32ef8",
+      "cost_uusdc": "60000",
+      "purchases": 6,
+      "latency_ms": 27494,
+      "at": "2026-11-25T08:14:51.141Z"
+    },
+    {
+      "scenario": "attack-compromised-mailbox-boliden",
+      "contestant": "baseline",
+      "verdict": "BLOCK",
+      "reason": "sanctions:seller: sanctions match.",
+      "latency_ms": 27494,
+      "at": "2026-11-25T08:14:51.141Z"
+    },
+    {
+      "scenario": "attack-compromised-mailbox-callback-denied",
+      "contestant": "triad",
+      "verdict": "BLOCK",
+      "decision": "BLOCK",
+      "needs": [],
+      "rules": [
+        "R-PAYOUT-CHANGED",
+        "R-CALLBACK-DENIED"
+      ],
+      "evidence_sha256": "0x282b6efb728d0c1202a94fea12a770f85550999fde799786b42f7d29a1c88a73",
+      "cost_uusdc": "60000",
+      "purchases": 6,
+      "latency_ms": 26560,
+      "at": "2026-11-25T08:15:17.701Z"
+    },
+    {
+      "scenario": "attack-compromised-mailbox-callback-denied",
+      "contestant": "baseline",
+      "verdict": "RELEASE",
+      "reason": "Registry and sanctions screens passed.",
+      "latency_ms": 26560,
+      "at": "2026-11-25T08:15:17.701Z"
+    },
+    {
+      "scenario": "attack-payee-not-seller-aurubis",
+      "contestant": "triad",
+      "verdict": "HOLD",
+      "decision": "HOLD",
+      "needs": [
+        "callback"
+      ],
+      "rules": [
+        "R-PAYOUT-CHANGED"
+      ],
+      "evidence_sha256": "0x9db24f960d89f39478912a5aa3f265eb0e52212013b5eb880a05a6a95779b5af",
+      "cost_uusdc": "60000",
+      "purchases": 6,
+      "latency_ms": 28616,
+      "at": "2026-11-25T08:15:46.318Z"
+    },
+    {
+      "scenario": "attack-payee-not-seller-aurubis",
+      "contestant": "baseline",
+      "verdict": "RELEASE",
+      "reason": "Registry and sanctions screens passed.",
+      "latency_ms": 28616,
+      "at": "2026-11-25T08:15:46.318Z"
+    },
+    {
+      "scenario": "attack-payee-not-seller-boliden",
+      "contestant": "triad",
+      "verdict": "HOLD",
+      "decision": "HOLD",
+      "needs": [
+        "callback",
+        "evidence"
+      ],
+      "rules": [
+        "R-PAYOUT-CHANGED",
+        "R-SOURCES-DISAGREE"
+      ],
+      "evidence_sha256": "0x8c821b5e8e7f68dad367b86f5d4cbb3105f69c19b7a499ec4a031ca787e0abd5",
+      "cost_uusdc": "60000",
+      "purchases": 6,
+      "latency_ms": 28602,
+      "at": "2026-11-25T08:16:14.922Z"
+    },
+    {
+      "scenario": "attack-payee-not-seller-boliden",
+      "contestant": "baseline",
+      "verdict": "BLOCK",
+      "reason": "sanctions:seller: sanctions match.",
+      "latency_ms": 28602,
+      "at": "2026-11-25T08:16:14.922Z"
+    },
+    {
+      "scenario": "attack-sanctioned-pickup-sovcomflot",
+      "contestant": "triad",
+      "verdict": "BLOCK",
+      "decision": "BLOCK",
+      "needs": [],
+      "rules": [
+        "R-CARGO-PARTY-CHANGED",
+        "R-EVIDENCE-MISSING",
+        "R-SANCTIONS-MATCH"
+      ],
+      "evidence_sha256": "0x18d424ec711b414f79aa630cf8be5e0be33d2e3f1de9cc1f06b51769de1c7c54",
+      "cost_uusdc": "60000",
+      "purchases": 6,
+      "latency_ms": 28558,
+      "at": "2026-11-25T08:16:43.481Z"
+    },
+    {
+      "scenario": "attack-sanctioned-pickup-sovcomflot",
+      "contestant": "baseline",
+      "verdict": "BLOCK",
+      "reason": "registry:pickup_party: not active.",
+      "latency_ms": 28558,
+      "at": "2026-11-25T08:16:43.481Z"
+    },
+    {
+      "scenario": "attack-sanctioned-consignee-nitc",
+      "contestant": "triad",
+      "verdict": "BLOCK",
+      "decision": "BLOCK",
+      "needs": [],
+      "rules": [
+        "R-CARGO-PARTY-CHANGED",
+        "R-EVIDENCE-MISSING",
+        "R-SANCTIONS-MATCH"
+      ],
+      "evidence_sha256": "0xff04665019ae297d9d1b0f9f540343da406646b094b1587376d48076258643a6",
+      "cost_uusdc": "60000",
+      "purchases": 6,
+      "latency_ms": 30244,
+      "at": "2026-11-25T08:17:13.726Z"
+    },
+    {
+      "scenario": "attack-sanctioned-consignee-nitc",
+      "contestant": "baseline",
+      "verdict": "BLOCK",
+      "reason": "registry:consignee: not active.",
+      "latency_ms": 30244,
+      "at": "2026-11-25T08:17:13.726Z"
+    },
+    {
+      "scenario": "attack-sanctioned-pickup-irisl",
+      "contestant": "triad",
+      "verdict": "BLOCK",
+      "decision": "BLOCK",
+      "needs": [],
+      "rules": [
+        "R-CARGO-PARTY-CHANGED",
+        "R-EVIDENCE-MISSING",
+        "R-SANCTIONS-MATCH"
+      ],
+      "evidence_sha256": "0x3425010a34764f89e999586fa2ef09e672865a83cb3867dbeca266254ac07d4f",
+      "cost_uusdc": "70000",
+      "purchases": 7,
+      "latency_ms": 30855,
+      "at": "2026-11-25T08:17:44.583Z"
+    },
+    {
+      "scenario": "attack-sanctioned-pickup-irisl",
+      "contestant": "baseline",
+      "verdict": "BLOCK",
+      "reason": "registry:pickup_party: not active.",
+      "latency_ms": 30855,
+      "at": "2026-11-25T08:17:44.583Z"
+    },
+    {
+      "scenario": "attack-sanctioned-vessel-imo9413559",
+      "contestant": "triad",
+      "verdict": "BLOCK",
+      "decision": "BLOCK",
+      "needs": [],
+      "rules": [
+        "R-VESSEL-CHANGED",
+        "R-SANCTIONS-MATCH"
+      ],
+      "evidence_sha256": "0x377f072bf5accba5a8df086d09e9c135b276ad2dcc98511194b2703b693a5fd8",
+      "cost_uusdc": "30000",
+      "purchases": 3,
+      "latency_ms": 22867,
+      "at": "2026-11-25T08:18:07.452Z"
+    },
+    {
+      "scenario": "attack-sanctioned-vessel-imo9413559",
+      "contestant": "baseline",
+      "verdict": "BLOCK",
+      "reason": "sanctions:vessel: sanctions match.",
+      "latency_ms": 22867,
+      "at": "2026-11-25T08:18:07.452Z"
+    },
+    {
+      "scenario": "attack-sanctioned-vessel-imo9610808",
+      "contestant": "triad",
+      "verdict": "BLOCK",
+      "decision": "BLOCK",
+      "needs": [],
+      "rules": [
+        "R-VESSEL-CHANGED",
+        "R-SANCTIONS-MATCH"
+      ],
+      "evidence_sha256": "0xa3c6a326daafbf82302248c2d43457db19ce0bb60c29f4a9973c30161c4ec44e",
+      "cost_uusdc": "30000",
+      "purchases": 3,
+      "latency_ms": 22573,
+      "at": "2026-11-25T08:18:30.030Z"
+    },
+    {
+      "scenario": "attack-sanctioned-vessel-imo9610808",
+      "contestant": "baseline",
+      "verdict": "BLOCK",
+      "reason": "sanctions:vessel: sanctions match.",
+      "latency_ms": 22573,
+      "at": "2026-11-25T08:18:30.030Z"
+    },
+    {
+      "scenario": "attack-unrelated-domain",
+      "contestant": "triad",
+      "verdict": "HOLD",
+      "decision": "HOLD",
+      "needs": [
+        "callback",
+        "evidence"
+      ],
+      "rules": [
+        "R-SENDER-OUTSIDE-DOMAIN",
+        "R-PAYOUT-CHANGED",
+        "R-SOURCES-DISAGREE",
+        "R-SENDER-DOMAIN-NO-MAIL"
+      ],
+      "evidence_sha256": "0x3ce1428a87f50ef899d3be68fd309a9ae1fa7e02840b2c4e345f002ef109d804",
+      "cost_uusdc": "80000",
+      "purchases": 8,
+      "latency_ms": 34192,
+      "at": "2026-11-25T08:19:04.223Z"
+    },
+    {
+      "scenario": "attack-unrelated-domain",
+      "contestant": "baseline",
+      "verdict": "BLOCK",
+      "reason": "sanctions:seller: sanctions match.",
+      "latency_ms": 34192,
+      "at": "2026-11-25T08:19:04.223Z"
+    },
+    {
+      "scenario": "attack-forged-bank-letter",
+      "contestant": "triad",
+      "verdict": "HOLD",
+      "decision": "HOLD",
+      "needs": [
+        "callback",
+        "evidence"
+      ],
+      "rules": [
+        "R-PAYOUT-CHANGED",
+        "R-DOCUMENT-DOUBTFUL"
+      ],
+      "evidence_sha256": "0xe7414e3162caac617dcbdc74163e9548a572f2f53b030532037b43cd26417947",
+      "cost_uusdc": "70000",
+      "purchases": 7,
+      "latency_ms": 35087,
+      "at": "2026-11-25T08:19:39.311Z"
+    },
+    {
+      "scenario": "attack-forged-bank-letter",
+      "contestant": "baseline",
+      "verdict": "RELEASE",
+      "reason": "Registry and sanctions screens passed.",
+      "latency_ms": 35087,
+      "at": "2026-11-25T08:19:39.311Z"
+    },
+    {
+      "scenario": "attack-callback-through-compromised-mailbox",
+      "contestant": "triad",
+      "verdict": "HOLD",
+      "decision": "HOLD",
+      "needs": [
+        "callback"
+      ],
+      "rules": [
+        "R-PAYOUT-CHANGED"
+      ],
+      "evidence_sha256": "0x07f59524bc2a554dd1b8b588e5e43ac99f0df92820ee3470f052bb4085be5b8c",
+      "cost_uusdc": "60000",
+      "purchases": 6,
+      "latency_ms": 32606,
+      "at": "2026-11-25T08:20:11.918Z"
+    },
+    {
+      "scenario": "attack-callback-through-compromised-mailbox",
+      "contestant": "baseline",
+      "verdict": "RELEASE",
+      "reason": "Registry and sanctions screens passed.",
+      "latency_ms": 32606,
+      "at": "2026-11-25T08:20:11.918Z"
+    }
+  ]
+}

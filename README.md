@@ -8,7 +8,8 @@
 
 [Try it](#try-it) · [Benchmark](benchmark/triad-v1) · [Design](docs/design.md) · [Evidence on record](docs/results)
 
-![Tests](https://img.shields.io/badge/tests-44%20passing-2e9e6b)
+![Tests](https://img.shields.io/badge/tests-45%20passing-2e9e6b)
+![Benchmark](https://img.shields.io/badge/attacks%20released-0%2F20%20vs%20baseline%2011%2F20-c0392b)
 ![Chains](https://img.shields.io/badge/release-Ethereum%20Sepolia%20·%20Solana%20devnet-6b4fbb)
 ![Telegraph](https://img.shields.io/badge/Telegraph-7%20Intents%20·%20escrow%20and%20x402-555)
 
@@ -47,12 +48,15 @@ Triad holds the payment in an escrow on either chain and releases it only agains
 | | Ethereum Sepolia | Solana devnet |
 | --- | --- | --- |
 | Paying Telegraph | Escrow deposit, EIP-191 authorization per call | x402 `exact`, a USDC transfer per call |
-| Holding the payment | [`ShipmentEscrow`](contracts/evm/src/ShipmentEscrow.sol) (Foundry, OpenZeppelin 5.6.1), [0x3130…8d7eb](https://sepolia.etherscan.io/address/0x313060d737a2ba1f2eb5e62278a61286bff8d7eb), source [verified on Sourcify](https://repo.sourcify.dev/11155111/0x313060d737a2ba1F2eB5e62278A61286bFf8D7Eb) | [`triad_escrow`](programs/solana/programs/triad-escrow/src/lib.rs) (Anchor), program `7hRAkLUZ…xz567` |
+| Holding the payment | [`ShipmentEscrow`](contracts/evm/src/ShipmentEscrow.sol) (Foundry, OpenZeppelin 5.6.1), [0x3130…8d7eb](https://sepolia.etherscan.io/address/0x313060d737a2ba1f2eb5e62278a61286bff8d7eb), source [verified on Sourcify](https://repo.sourcify.dev/11155111/0x313060d737a2ba1F2eB5e62278A61286bFf8D7Eb) | [`triad_escrow`](programs/solana/programs/triad-escrow/src/lib.rs) (Anchor), program [`7hRAkLUZ…xz567`](https://explorer.solana.com/address/7hRAkLUZ2EMuFpsc3mtKfKnfxUJvcbgJqhWDShtxz567?cluster=devnet) |
 | Releasing it | EIP-712 authorization recovered on-chain | ed25519 authorization checked through the Ed25519 program and instruction introspection |
 
 Both escrows pay exactly what was signed or revert, release a shipment once, and refund the buyer after the deadline. The signed message is pinned by cross-language test vectors in TypeScript, Solidity and Rust.
 
-**On record:** the [release of shipment `shp-cu-0002`](https://sepolia.etherscan.io/tx/0xd46048560cd6c9c2ca909c30258a5486144830ac354344f6180defcfbb93ce58) paid 1 test USDC against evidence [`0x75ec263e…f00f09`](docs/results/decisions/2026-11-25T0507Z-release-on-schedule-sepolia.json); the [Sovcomflot block](docs/results/decisions/2026-11-24T0625Z-pickup-swap-sanctioned.json) (`0x7f83957f…dea93d`, 6 paid checks) records which source missed the match.
+**On record:**
+- **Sepolia release:** the [release of shipment `shp-cu-0002`](https://sepolia.etherscan.io/tx/0xd46048560cd6c9c2ca909c30258a5486144830ac354344f6180defcfbb93ce58) paid 1 test USDC against evidence [`0x75ec263e…f00f09`](docs/results/decisions/2026-11-25T0507Z-release-on-schedule-sepolia.json).
+- **Solana release:** the [release of shipment `shp-cu-0003`](https://explorer.solana.com/tx/4DXdA22k8fzK8QCYMRa7UZooy86catQAoRDUBnFjeABF1MKoswHd2vVqjJXsiYonp2tnHKQcNf1cqvGFQxfEWJnV?cluster=devnet) paid 1 devnet USDC against evidence [`0xd4585c2f…33e`](docs/results/decisions/2026-11-25T080415Z-release-on-schedule-solana.json). The escrow account now reads `Released` and stores that hash.
+- **The Sovcomflot block:** [`0x7f83957f…dea93d`](docs/results/decisions/2026-11-24T0625Z-pickup-swap-sanctioned.json), 6 paid checks, records which source missed the match.
 
 ## The benchmark
 
@@ -64,17 +68,32 @@ Three contestants see the same cases, and none is told which are attacks:
 - **Registry and sanctions:** what a typical integration does with the same paid answers. It trusts the first answer and never looks at the sender.
 - **A frontier model** (Gemini 4 Hydrogen) as release officer, given the same record and instruction in plain words.
 
-The paid run is in progress; results, with every answer and evidence file, land in [`benchmark/triad-v1`](benchmark/triad-v1) and on the app's benchmark page.
+| Contestant | Attacks released | Legitimate handled as expected | Legitimate blocked |
+| --- | --- | --- | --- |
+| **Triad** | **0 of 20** | 19 of 20 | 0 |
+| Registry and sanctions | **11 of 20** | 16 of 20 | 2 |
+| Frontier model | running on a free quota of 20 requests a day | | |
+
+Triad bought 208 answers through Telegraph for 2.08 test USDC, paid per call over x402 on Solana devnet, with a median of 30 seconds a decision.
+
+- **Attacks the baseline released:** most of its eleven came from the genuine company's own domain or from look-alikes.
+- **A false sanctions match:** the ranked sanctions answer matched Boliden AB, a real Swedish miner, to a Russian company called "…Bolid". The baseline blocked two genuine payments on it.
+- **How Triad handled it:** the second Miner and OFAC's own list disagreed with that match, so Triad held the payment for review instead of blocking it. That is its one legitimate case not cleared.
+
+Every verdict, answer and evidence file is in [`benchmark/triad-v1`](benchmark/triad-v1), with the findings in its [README](benchmark/triad-v1/README.md).
 
 ## Try it
 
-The web app is the attack console:
+**Check a payment change.** The everyday product: enter who you pay (as you had it before the email), paste the email you received, and say what it asks to change. Triad reacts as you type, showing which rules the email alone triggers and exactly which checks it would buy. Then it runs them and answers in plain words, with what to do next: don't pay and why, call this contact on the number you already had, or pay as agreed. Record the call's outcome and the decision updates on the same paid answers. A block from the email alone costs nothing; nothing is ever paid out from a check. Four examples load in one click.
 
-- **Open a case.** Choose any of the forty, or a showcase run, and rewrite the email or the change it asks for. The "attacker's moves" apply the benchmark's tricks in one click. Before anything is bought, the console shows which rules the email alone triggers and exactly which checks Triad would buy.
-- **Run it live** to buy those checks through Telegraph, or **replay** a recorded run for free.
-- **Answer the call.** When Triad holds for a callback, you are the person on the trusted line. Confirm or deny, and watch the decision change on the same paid answers.
-- **Release it.** When the decision is `CLEAR`, the console funds a fresh escrow on Sepolia with 0.01 test USDC and releases it against that evidence file. Put your own Sepolia address in the payout and, if you get it past Triad, the escrow pays you.
-- **Verify any evidence file** in your browser: the viewer recomputes the SHA-256 from the canonical bytes with Web Crypto, and a dropped-in file is never uploaded.
+**The attack lab** is for trying to beat it:
+
+- **Open a case.** Choose any of the forty, or a showcase run, and rewrite the email or the change it asks for. The "attacker's moves" apply the benchmark's tricks in one click.
+- **Run it live** to buy the checks through Telegraph, or **replay** a recorded run for free.
+- **Answer the call.** When Triad holds for a callback, you are the person on the trusted line. Confirm or deny, and watch the decision change.
+- **Release it.** When the decision is `CLEAR`, the lab funds a fresh escrow on Sepolia with 0.01 test USDC and releases it against that evidence file. Put your own Sepolia address in the payout and, if you get it past Triad, the escrow pays you.
+
+**Verify any evidence file** in your browser: the viewer recomputes the SHA-256 from the canonical bytes with Web Crypto, and a dropped-in file is never uploaded.
 
 From the command line:
 
@@ -106,7 +125,7 @@ The full design, including what Triad buys for each change, is in [docs/design.m
 
 ## Checked and attacked
 
-- **Policy (15 tests):** look-alike and homoglyph domains, display-name spoofs, Reply-To diversions, payees that aren't the seller, substitute and sanctioned vessels, missing or wrong-entity evidence never clearing even after a confirmed callback, a confirmation through the sending mailbox not counting, and no out-of-band channel.
+- **Policy (16 tests):** look-alike and homoglyph domains, display-name spoofs, Reply-To diversions, payees that aren't the seller, substitute and sanctioned vessels, missing or wrong-entity evidence never clearing even after a confirmed callback, a confirmation through the sending mailbox not counting, and no out-of-band channel.
 - **Purchases (8):** nothing signed for a wrong destination, network, resource or over-cap quote; receipts must match the signed payer and amount; answers that name no company are unbound; disagreeing sources hold; OFAC catches what a ranked answer missed, by alias and by IMO.
 - **Evidence (4):** key-order independence, tamper detection, receipts required, Web Crypto and Node agree, and the callback re-decision (confirm clears, deny blocks, a block takes no callback).
 - **Escrows (7 Foundry, 7 LiteSVM, 3 vectors):** the signed payee paid once, any change to a signed authorization refused, expired authorizations, funding once per shipment, refunds only by the buyer after the deadline and never after release, fuzzed payees, an ed25519 instruction that borrows its message from elsewhere, and the same signed message across all three languages.
@@ -116,7 +135,7 @@ The full design, including what Triad buys for each change, is in [docs/design.m
 
 - **It does not prove a counterparty is honest.** It shows whether a changed instruction is backed by the record, independent sources and the trusted contact.
 - **Telegraph answers can be wrong,** which is why required checks need two sources and sanctions are anchored on the official list. Triad doesn't re-verify sources beyond that.
-- **The callback is played by you in the console.** In production it is a call placed by the desk; the evidence file records that the console's callback was simulated.
+- **The callback is recorded by you.** Triad tells you whom to call and on which number, but it can't hear the call; the evidence file records who answered and that the answer was entered in the app.
 - **Testnets only:** Sepolia and Solana devnet, test USDC. Console runs are scaled to 0.01 test USDC.
 
 ## Run it from source
@@ -136,7 +155,7 @@ Live runs need testnet keys (`pnpm keys` writes owner-only files to `.secrets/`)
 ## Repository
 
 ```
-apps/web            the console, callback, release, evidence viewer and benchmark (Next.js)
+apps/web            the payment check, attack lab, callback, release, evidence viewer and benchmark (Next.js)
 apps/cli            triad decide | verify | fund | release
 packages/           core · intel · evidence · settle
 contracts/evm       ShipmentEscrow (Foundry)

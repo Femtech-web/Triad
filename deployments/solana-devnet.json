@@ -1,0 +1,13 @@
+{
+  "network": "solana-devnet",
+  "program": "triad_escrow",
+  "programId": "7hRAkLUZ2EMuFpsc3mtKfKnfxUJvcbgJqhWDShtxz567",
+  "programData": "6noae585VLjrHZbhrrTagoqyk2BSBE7EznjKT4TSeX8k",
+  "upgradeAuthority": "ATxmzqGTLjHXJo1gCVCgNxUUNyDU1yaLLYHRPCy1BvN4",
+  "transaction": "3UXB82GV1f3cB3gmj53t8iNTR4daxvZhF4xpV8DiG2uBQroaf9ijdJDDvVT36MXEfiw9YwQggqRJUBht4eF4tJcD",
+  "slot": 526082916,
+  "binarySha256": "e88314622fd8b6cec8e13b0ffb2b7a4d8c2eda932b839d454f94f67532b2575b",
+  "toolchain": "anchor-cli 1.0.2, anchor-lang 1.2.2",
+  "explorer": "https://explorer.solana.com/address/7hRAkLUZ2EMuFpsc3mtKfKnfxUJvcbgJqhWDShtxz567?cluster=devnet",
+  "deployedAt": "2026-11-25T08:02:06Z"
+}

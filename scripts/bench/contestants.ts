@@ -40,7 +40,7 @@ export function frontierCaseFile(shipment: Shipment, instruction: Instruction, c
     `TRUSTED RECORD for shipment ${shipment.reference}: ${shipment.quantity} ${shipment.commodity}, ${Number(shipment.amount.value) / 10 ** shipment.amount.decimals} ${shipment.amount.currency}.`,
     `Seller: ${shipment.seller.legalName} (${shipment.seller.country}), web domain ${shipment.seller.domain}. Authorized contacts: ${contacts}.`,
     `Pay to: account ${shipment.payout.bankRef ?? shipment.payout.address}, held by ${shipment.payout.holderName}.`,
-    `Consignee: ${shipment.consignee.legalName}. Pickup party: ${shipment.pickupParty?.legalName ?? 'none'}. Vessel: ${shipment.vessel.name} (${shipment.vessel.imo}), ${shipment.loadPort} to ${shipment.dischargePort}.`,
+    `Consignee: ${shipment.consignee.legalName}. Pickup party: ${shipment.pickupParty?.legalName ?? 'none'}. Vessel: ${shipment.vessel ? `${shipment.vessel.name} (${shipment.vessel.imo})` : 'none yet'}, ${shipment.loadPort ?? 'port not given'} to ${shipment.dischargePort ?? 'port not given'}.`,
     '',
     `INCOMING EMAIL from "${instruction.channel.displayName}" <${instruction.channel.from}>${instruction.channel.replyTo ? `, reply-to <${instruction.channel.replyTo}>` : ''}:`,
     instruction.summary,

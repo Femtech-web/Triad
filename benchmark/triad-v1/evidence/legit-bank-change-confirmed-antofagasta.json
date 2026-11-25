@@ -1,0 +1,476 @@
+{
+  "evidence_sha256": "0x085979657d5b4334e4e80db9329109bbab9877000f33360c9adf69354cfbcc29",
+  "evidence": {
+    "format": "triad-evidence-v1",
+    "generatedAt": "2026-11-25T08:02:58.717Z",
+    "provenance": {
+      "scenario": "legit-bank-change-confirmed-antofagasta",
+      "synthetic": [
+        "shipment",
+        "buyer",
+        "seller contacts and mailboxes",
+        "vessel",
+        "payout addresses",
+        "instruction text"
+      ],
+      "network": "testnet"
+    },
+    "shipment": {
+      "id": "bench-antofagasta-10",
+      "reference": "TRD-ANT-1010",
+      "commodity": "Copper concentrate",
+      "quantity": "450 t",
+      "amount": {
+        "value": "11000000",
+        "currency": "USDC",
+        "decimals": 6
+      },
+      "buyer": {
+        "id": "buyer",
+        "legalName": "Halden Metals Trading AG",
+        "country": "CH",
+        "domain": "haldenmetals.ch",
+        "contacts": []
+      },
+      "seller": {
+        "id": "seller",
+        "legalName": "ANTOFAGASTA PLC",
+        "country": "GB",
+        "registrationId": "213800MY6QVH4FVLD628",
+        "domain": "antofagasta.co.uk",
+        "contacts": [
+          {
+            "id": "treasury",
+            "name": "Antofagasta Treasury Desk",
+            "email": "treasury.desk@antofagasta.co.uk",
+            "phone": "+442070001001",
+            "role": "Treasury"
+          },
+          {
+            "id": "logistics",
+            "name": "Antofagasta Logistics Desk",
+            "email": "logistics.desk@antofagasta.co.uk",
+            "role": "Logistics"
+          }
+        ]
+      },
+      "consignee": {
+        "id": "buyer",
+        "legalName": "Halden Metals Trading AG",
+        "country": "CH",
+        "domain": "haldenmetals.ch",
+        "contacts": []
+      },
+      "pickupParty": {
+        "id": "pickup",
+        "legalName": "Rotterdam Bulk Agency BV",
+        "country": "NL",
+        "contacts": []
+      },
+      "payout": {
+        "holderName": "ANTOFAGASTA PLC",
+        "rail": "sepolia",
+        "address": "0x7c0073b552b5882f87dd5f77884eaed72deda48c",
+        "bankRef": "GB-TRUSTED-10"
+      },
+      "vessel": {
+        "name": "Pacific Ore",
+        "imo": "IMO9412345"
+      },
+      "loadPort": "San Antonio, CL",
+      "dischargePort": "Rotterdam, NL",
+      "documents": [
+        {
+          "kind": "bill_of_lading",
+          "reference": "BL-ANTOFAGASTA-10",
+          "sha256": "1bffe959dac8cddce925859d41c8e6442586ea05b1d2a92476ac6518f4ea099f"
+        }
+      ],
+      "authorizedContactIds": [
+        "treasury",
+        "logistics"
+      ],
+      "releaseOfficer": {
+        "name": "Halden release desk",
+        "rail": "sepolia",
+        "publicKey": "0x152661B3192173Fd6CD7801C8F2241654F8270f4"
+      }
+    },
+    "instruction": {
+      "id": "ins-bench-antofagasta-10-1",
+      "shipmentId": "bench-antofagasta-10",
+      "receivedAt": "2026-11-25T09:00:00Z",
+      "channel": {
+        "kind": "email",
+        "from": "treasury.desk@antofagasta.co.uk",
+        "displayName": "Antofagasta Treasury Desk"
+      },
+      "summary": "We have moved our USD receiving account to a new bank. Please use the updated details below for TRD-ANT-1010.",
+      "changes": {
+        "payout": {
+          "holderName": "ANTOFAGASTA PLC",
+          "rail": "sepolia",
+          "address": "0x1b9b7d3107ac817a2625bc8605a3f657f1dbf321",
+          "bankRef": "NEW-ANTOFAGASTA-"
+        }
+      }
+    },
+    "changeSet": {
+      "sender": {
+        "from": "treasury.desk@antofagasta.co.uk",
+        "domain": {
+          "sender": "antofagasta.co.uk",
+          "trusted": "antofagasta.co.uk",
+          "relation": "same",
+          "reason": "antofagasta.co.uk is the trusted domain"
+        },
+        "authorizedContactId": "treasury",
+        "displayNameImpersonates": null,
+        "replyTo": null
+      },
+      "changes": [
+        {
+          "kind": "payout",
+          "before": {
+            "holderName": "ANTOFAGASTA PLC",
+            "rail": "sepolia",
+            "address": "0x7c0073b552b5882f87dd5f77884eaed72deda48c",
+            "bankRef": "GB-TRUSTED-10"
+          },
+          "after": {
+            "holderName": "ANTOFAGASTA PLC",
+            "rail": "sepolia",
+            "address": "0x1b9b7d3107ac817a2625bc8605a3f657f1dbf321",
+            "bankRef": "NEW-ANTOFAGASTA-"
+          },
+          "holderVsSeller": "same"
+        }
+      ],
+      "destinationChanged": true
+    },
+    "plan": [
+      {
+        "id": "registry:seller",
+        "check": "registry",
+        "intent": "CORPORATE_REGISTRY_LOOKUP_GENERAL",
+        "params": {
+          "company": "ANTOFAGASTA PLC",
+          "jurisdiction": "United Kingdom"
+        },
+        "role": "seller",
+        "subject": {
+          "kind": "entity",
+          "name": "ANTOFAGASTA PLC",
+          "country": "GB",
+          "registrationId": "213800MY6QVH4FVLD628"
+        },
+        "required": true,
+        "purpose": "Payment details changed: is ANTOFAGASTA PLC a registered, active company?"
+      },
+      {
+        "id": "sanctions:seller",
+        "check": "sanctions",
+        "intent": "SANCTIONS_SCREENING_MATCH_GENERAL",
+        "params": {
+          "name": "ANTOFAGASTA PLC"
+        },
+        "role": "seller",
+        "subject": {
+          "kind": "entity",
+          "name": "ANTOFAGASTA PLC",
+          "country": "GB",
+          "registrationId": "213800MY6QVH4FVLD628"
+        },
+        "required": true,
+        "purpose": "Payment details changed: is ANTOFAGASTA PLC on a sanctions list?"
+      },
+      {
+        "id": "sanctions:vessel",
+        "check": "sanctions",
+        "intent": "SANCTIONS_SCREENING_MATCH_GENERAL",
+        "params": {
+          "name": "Pacific Ore"
+        },
+        "role": "vessel",
+        "subject": {
+          "kind": "vessel",
+          "name": "Pacific Ore",
+          "imo": "IMO9412345"
+        },
+        "required": true,
+        "purpose": "Is the vessel Pacific Ore (IMO9412345) sanctioned?"
+      },
+      {
+        "id": "vessel:vessel",
+        "check": "vessel",
+        "intent": "VESSEL_TELEMETRY_VERIFY_GENERAL",
+        "params": {
+          "vessel": "IMO9412345"
+        },
+        "role": "vessel",
+        "subject": {
+          "kind": "vessel",
+          "name": "Pacific Ore",
+          "imo": "IMO9412345"
+        },
+        "required": false,
+        "purpose": "Where is Pacific Ore (IMO9412345) now?"
+      }
+    ],
+    "outcomes": [
+      {
+        "checkId": "registry:seller",
+        "sources": [
+          {
+            "kind": "telegraph",
+            "name": "Praman Desk Compliance & Procurement Auditor",
+            "status": "answered",
+            "fields": {
+              "active": true,
+              "legal_name": "ANTOFAGASTA PLC",
+              "registration_id": "213800MY6QVH4FVLD628"
+            },
+            "detail": "Praman Desk Compliance & Procurement Auditor: ANTOFAGASTA PLC is active (213800MY6QVH4FVLD628).",
+            "purchase": {
+              "rail": "solana-x402",
+              "receiptHash": "0x2dd4c2fc0f93970f40893ced7de067b6656d11d91f21d2eef96ab946b8856e4e",
+              "signalHash": "0xe8b286618205ba7ab40788fa5200793674462d3ebc9772eb79530a1fcf4b8d16",
+              "amountUusdc": "10000",
+              "minerId": "6164",
+              "latencyMs": 13397,
+              "settlementTx": "4XbHqn2RJ5B6xqDW7wMmggeMW2k6s2sbns7thyTymnABkbZHFYd4UxP2oS1hwVveAEwsRjH3yuopQxKYnntdCpXD"
+            }
+          },
+          {
+            "kind": "telegraph",
+            "name": "Miner 98001",
+            "status": "unavailable",
+            "fields": {},
+            "detail": "The node answered HTTP 500 after settling the payment.",
+            "purchase": null
+          }
+        ],
+        "status": "answered",
+        "fields": {
+          "active": true,
+          "legal_name": "ANTOFAGASTA PLC",
+          "registration_id": "213800MY6QVH4FVLD628",
+          "sources_agreeing": 1
+        },
+        "detail": "Praman Desk Compliance & Procurement Auditor: ANTOFAGASTA PLC is active (213800MY6QVH4FVLD628). (one source)"
+      },
+      {
+        "checkId": "sanctions:seller",
+        "sources": [
+          {
+            "kind": "telegraph",
+            "name": "ChainSight — Universal Intelligence & Data Oracle",
+            "status": "answered",
+            "fields": {
+              "matched": false,
+              "lists": "OFAC SDN",
+              "matches": null
+            },
+            "detail": "ChainSight — Universal Intelligence & Data Oracle: no match for ANTOFAGASTA PLC on OFAC SDN.",
+            "purchase": {
+              "rail": "solana-x402",
+              "receiptHash": "0x7e379f84805415c052b8a71ee23d5e5d86e96781dce03f6fe2a8e9a1fea13d42",
+              "signalHash": "0x94a08aa51ccfb6bacc66f3a688c5e661dc4cccaeff27eb7a3de5ec9700d40d66",
+              "amountUusdc": "10000",
+              "minerId": "302",
+              "latencyMs": 15570,
+              "settlementTx": "3Sc3xANgUDpNSmu3ihXtWKkjh62mQRuyGFHVMbj9tXn76rDUYkcoKXJy5zJqYcT8WyMQpfqFRaK8WZiRehfdQvVX"
+            }
+          },
+          {
+            "kind": "telegraph",
+            "name": "TxLens",
+            "status": "answered",
+            "fields": {
+              "matched": false,
+              "lists": null,
+              "matches": null
+            },
+            "detail": "TxLens: no match for ANTOFAGASTA PLC.",
+            "purchase": {
+              "rail": "solana-x402",
+              "receiptHash": "0xda2fc36916fbb5b79f911498dd766e823d75d18c399e676fe37be331c307fc51",
+              "signalHash": "0x53b25cdc958022b1c3176ed4574105fd4f59b978a8466d8d3b1434792e8e0259",
+              "amountUusdc": "10000",
+              "minerId": "9002",
+              "latencyMs": 8355,
+              "settlementTx": "2RpYCyE4cDwdzWDD9gRvSkCCP4mAcGWL1feaauUfCvNWDwXKSNLTzZSWd6WQzCVR8o39m2vNtRLCDWmkTJpXxhne"
+            }
+          },
+          {
+            "kind": "official",
+            "name": "OFAC SDN list",
+            "status": "answered",
+            "purchase": null,
+            "fields": {
+              "matched": false,
+              "lists": "OFAC SDN",
+              "matches": null
+            },
+            "detail": "No entry for ANTOFAGASTA PLC on OFAC's SDN list.",
+            "snapshot": {
+              "url": "https://www.treasury.gov/ofac/downloads/sdn.csv",
+              "sha256": "e83c93e6159498ce0352549f750023eaa47e561e54c496ba1b0c32e3e33872d6",
+              "retrievedAt": "2026-11-25T05:16:13.052Z"
+            }
+          }
+        ],
+        "status": "answered",
+        "fields": {
+          "matched": false,
+          "lists": "OFAC SDN",
+          "matches": null,
+          "sources_agreeing": 3
+        },
+        "detail": "ChainSight — Universal Intelligence & Data Oracle: no match for ANTOFAGASTA PLC on OFAC SDN. (3 sources agree)"
+      },
+      {
+        "checkId": "sanctions:vessel",
+        "sources": [
+          {
+            "kind": "telegraph",
+            "name": "ChainSight — Universal Intelligence & Data Oracle",
+            "status": "answered",
+            "fields": {
+              "matched": false,
+              "lists": "OFAC SDN",
+              "matches": null
+            },
+            "detail": "ChainSight — Universal Intelligence & Data Oracle: no match for Pacific Ore on OFAC SDN.",
+            "purchase": {
+              "rail": "solana-x402",
+              "receiptHash": "0xab795894e25049b8033956c5cb314d89dd5c42cb939cccae8d988f0b3e82dca5",
+              "signalHash": "0x8bf8b88b4f36a4fd76974607db1d451da4c7da3d336bbd238ea7b5362546f73a",
+              "amountUusdc": "10000",
+              "minerId": "302",
+              "latencyMs": 10387,
+              "settlementTx": "3cQdUQa9eDtVA3BSDXCKdRj2yvYL6xCrQ4FDSFcJWuKkayL2WvcTL7vCpYEA6STj8aRz4mK7qGWC6foMmruaywXE"
+            }
+          },
+          {
+            "kind": "telegraph",
+            "name": "TxLens",
+            "status": "answered",
+            "fields": {
+              "matched": false,
+              "lists": null,
+              "matches": null
+            },
+            "detail": "TxLens: no match for Pacific Ore.",
+            "purchase": {
+              "rail": "solana-x402",
+              "receiptHash": "0x76f4657c28cd579e98dd9b8ccfe4e0284ce2870abdf175de055cdc08702a7d92",
+              "signalHash": "0x1ced7b279a1034278886108d3bc8ce9077b4ecb6be0125172875ec4c5fdf3fb5",
+              "amountUusdc": "10000",
+              "minerId": "9002",
+              "latencyMs": 6552,
+              "settlementTx": "43Z91JSw4J2bGjiTgP7f9TCkPBveytsEcoY1PuueNzDF8GYUTwG6uVgNj1Rs5xECeaXwatKsTc6GKzyH4tpuYFnf"
+            }
+          },
+          {
+            "kind": "official",
+            "name": "OFAC SDN list",
+            "status": "answered",
+            "purchase": null,
+            "fields": {
+              "matched": false,
+              "lists": "OFAC SDN",
+              "matches": null
+            },
+            "detail": "No entry for Pacific Ore (IMO9412345) on OFAC's SDN list.",
+            "snapshot": {
+              "url": "https://www.treasury.gov/ofac/downloads/sdn.csv",
+              "sha256": "e83c93e6159498ce0352549f750023eaa47e561e54c496ba1b0c32e3e33872d6",
+              "retrievedAt": "2026-11-25T05:16:13.052Z"
+            }
+          }
+        ],
+        "status": "answered",
+        "fields": {
+          "matched": false,
+          "lists": "OFAC SDN",
+          "matches": null,
+          "sources_agreeing": 3
+        },
+        "detail": "ChainSight — Universal Intelligence & Data Oracle: no match for Pacific Ore on OFAC SDN. (3 sources agree)"
+      },
+      {
+        "checkId": "vessel:vessel",
+        "sources": [
+          {
+            "kind": "telegraph",
+            "name": "TxLens",
+            "status": "unreadable",
+            "fields": {
+              "latitude": null,
+              "longitude": null,
+              "speed_knots": null,
+              "observed_at": null
+            },
+            "detail": "TxLens returned no position for Pacific Ore.",
+            "purchase": {
+              "rail": "solana-x402",
+              "receiptHash": "0x60862746902b9587b6efecde67f72148984ff230def31ae9566f26062864b63e",
+              "signalHash": "0xb183468720847430a0a5b3b7d2d3ddc554bb5bfaaac185b076c6e6424dee4c48",
+              "amountUusdc": "10000",
+              "minerId": "9002",
+              "latencyMs": 8175,
+              "settlementTx": "4C37CgC7C9QwAGbL42fX1JKLi9F5z27cHJsZLUkuKwdaqdtnRhnmwAEE1RPSGC3BiLQhizUMZkRzwHvRk8zBLXZM"
+            }
+          }
+        ],
+        "status": "unreadable",
+        "fields": {},
+        "detail": "TxLens returned no position for Pacific Ore."
+      }
+    ],
+    "decision": {
+      "policy": "triad-release-v1",
+      "decision": "CLEAR",
+      "needs": [],
+      "hits": [
+        {
+          "rule": "R-PAYOUT-CHANGED",
+          "effect": "hold_callback",
+          "text": "Payment would move from account GB-TRUSTED-10 to account NEW-ANTOFAGASTA-"
+        }
+      ],
+      "facts": [
+        "ANTOFAGASTA PLC is an active registered company (213800MY6QVH4FVLD628).",
+        "No sanctions match for ANTOFAGASTA PLC.",
+        "No sanctions match for IMO9412345.",
+        "Antofagasta Treasury Desk confirmed the change by phone (2026-11-25T10:15:00Z)."
+      ],
+      "warnings": [
+        "Payment would move from account GB-TRUSTED-10 to account NEW-ANTOFAGASTA-"
+      ],
+      "unknowns": [
+        "Where is Pacific Ore (IMO9412345) now? TxLens returned no position for Pacific Ore."
+      ],
+      "callback": {
+        "target": {
+          "contactId": "treasury",
+          "name": "Antofagasta Treasury Desk",
+          "channel": "phone",
+          "address": "+442070001001"
+        },
+        "result": {
+          "contactId": "treasury",
+          "channel": "phone",
+          "outcome": "confirmed",
+          "respondedAt": "2026-11-25T10:15:00Z"
+        },
+        "accepted": true
+      }
+    },
+    "cost": {
+      "telegraphUusdc": "60000",
+      "purchases": 6
+    }
+  }
+}

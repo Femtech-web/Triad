@@ -1,6 +1,6 @@
 import type { ChangeSet } from './changes.js';
 import type { CheckRequest } from './checks.js';
-import type { Instruction, Shipment } from './model.js';
+import type { Instruction, Payout, Shipment } from './model.js';
 
 export const POLICY_VERSION = 'triad-release-v1';
 
@@ -93,6 +93,7 @@ export function callbackTarget(shipment: Shipment, instruction: Instruction): Ca
   return byEmail ? { contactId: byEmail.id, name: byEmail.name, channel: 'email', address: byEmail.email } : null;
 }
 
+const account = (p: Payout) => (p.bankRef ? `account ${p.bankRef}` : p.address);
 const field = <T>(o: CheckOutcome, key: string, guard: (v: unknown) => v is T): T | null => (guard(o.fields[key]) ? o.fields[key] : null);
 const isBool = (v: unknown): v is boolean => typeof v === 'boolean';
 const isString = (v: unknown): v is string => typeof v === 'string' && v.length > 0;
@@ -118,13 +119,13 @@ function changeRules(shipment: Shipment, changeSet: ChangeSet): RuleHit[] {
   return changeSet.changes.flatMap((change): RuleHit[] => {
     if (change.kind === 'payout') {
       return [
-        { rule: 'R-PAYOUT-CHANGED', effect: 'hold_callback', text: `Payment would move from ${change.before.address} to ${change.after.address}` },
+        { rule: 'R-PAYOUT-CHANGED', effect: 'hold_callback', text: `Payment would move from ${account(change.before)} to ${account(change.after)}` },
         ...(change.holderVsSeller === 'different' ? [{ rule: 'R-PAYEE-NOT-SELLER' as const, effect: 'hold_callback' as const, text: `The new account is held by ${change.after.holderName}, not ${shipment.seller.legalName}` }] : []),
         ...(change.after.rail !== shipment.releaseOfficer.rail ? [{ rule: 'R-PAYOUT-RAIL-MISMATCH' as const, effect: 'hold_evidence' as const, text: `The new account is on ${change.after.rail}; this shipment settles on ${shipment.releaseOfficer.rail}` }] : []),
       ];
     }
     if (change.kind === 'vessel') {
-      return [{ rule: 'R-VESSEL-CHANGED', effect: 'hold_callback', text: `The cargo would move on ${change.after.name} (${change.after.imo}) instead of ${change.before.name} (${change.before.imo})` }];
+      return [{ rule: 'R-VESSEL-CHANGED', effect: 'hold_callback', text: `The cargo would move on ${change.after.name} (${change.after.imo})${change.before ? ` instead of ${change.before.name} (${change.before.imo})` : ''}` }];
     }
     if (change.kind === 'consignee' || change.kind === 'pickup_party') {
       const what = change.kind === 'consignee' ? 'consignee' : 'pickup party';

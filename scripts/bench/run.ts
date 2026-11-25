@@ -1,5 +1,6 @@
 // Triad's frozen benchmark (benchmark/triad-v1). Resumable and journaled; refuses to run if the case file changed.
 //   tsx scripts/bench/run.ts triad [--rail solana|sepolia] [--limit N] [--send]   Triad live, and the baseline from the same answers
+//     (a case whose required checks got no delivered answer is not recorded; --record-failures records it anyway)
 //   tsx scripts/bench/run.ts frontier [--limit N] [--send]                        the frontier model (FRONTIER_* in .env)
 //   tsx scripts/bench/run.ts grade                                                score the journal, write report.json and report.md
 import '@triad/intel/dns';
@@ -62,6 +63,14 @@ async function runTriad(cases: BenchmarkCase[], send: boolean) {
     const changeSet = detectChanges(c.shipment, c.instruction);
     const plan = planChecks(c.shipment, changeSet);
     const outcomes = await gather(plan, { telegraph, directory, sdn, concurrency: 2 });
+    // A rate limit or an outage is not an answer, so it is not scored: a case is recorded only when every required check
+    // got at least one delivered Telegraph answer. Otherwise the run stops, to resume later.
+    const starved = plan.filter((p) => p.required && !outcomes.find((o) => o.checkId === p.id)?.sources.some((s) => s.kind === 'telegraph' && s.purchase));
+    if (starved.length && !process.argv.includes('--record-failures')) {
+      const why = outcomes.flatMap((o) => o.sources).find((s) => s.kind === 'telegraph' && !s.purchase)?.detail ?? 'no answer';
+      console.log(`${c.name}: no delivered answer for ${starved.map((p) => p.id).join(', ')} (${why}); nothing recorded, resume later.`);
+      return;
+    }
     const decision = decide({ shipment: c.shipment, instruction: c.instruction, changeSet, plan, outcomes, ...(c.callback ? { callback: c.callback as CallbackResult } : {}) });
     const evidence = buildEvidence({ provenance: { scenario: c.name, synthetic: c.synthetic, network: 'testnet' }, shipment: c.shipment, instruction: c.instruction, changeSet, plan, outcomes, decision });
     const hash = evidenceHash(evidence);

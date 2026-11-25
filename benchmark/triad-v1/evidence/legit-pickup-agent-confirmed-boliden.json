@@ -1,0 +1,477 @@
+{
+  "evidence_sha256": "0x8db3c2ed06000b80a25934e3600a70e19cc2744a0f88362b261985db9f7ccf8c",
+  "evidence": {
+    "format": "triad-evidence-v1",
+    "generatedAt": "2026-11-25T08:06:16.895Z",
+    "provenance": {
+      "scenario": "legit-pickup-agent-confirmed-boliden",
+      "synthetic": [
+        "shipment",
+        "buyer",
+        "seller contacts and mailboxes",
+        "vessel",
+        "payout addresses",
+        "instruction text"
+      ],
+      "network": "testnet"
+    },
+    "shipment": {
+      "id": "bench-boliden-22",
+      "reference": "TRD-BOL-1022",
+      "commodity": "Zinc ingots, SHG",
+      "quantity": "750 t",
+      "amount": {
+        "value": "23000000",
+        "currency": "USDC",
+        "decimals": 6
+      },
+      "buyer": {
+        "id": "buyer",
+        "legalName": "Halden Metals Trading AG",
+        "country": "CH",
+        "domain": "haldenmetals.ch",
+        "contacts": []
+      },
+      "seller": {
+        "id": "seller",
+        "legalName": "BOLIDEN AB",
+        "country": "SE",
+        "registrationId": "21380059QU7IM1ONDJ56",
+        "domain": "boliden.com",
+        "contacts": [
+          {
+            "id": "treasury",
+            "name": "Boliden Treasury Desk",
+            "email": "treasury.desk@boliden.com",
+            "phone": "+468000001003",
+            "role": "Treasury"
+          },
+          {
+            "id": "logistics",
+            "name": "Boliden Logistics Desk",
+            "email": "logistics.desk@boliden.com",
+            "role": "Logistics"
+          }
+        ]
+      },
+      "consignee": {
+        "id": "buyer",
+        "legalName": "Halden Metals Trading AG",
+        "country": "CH",
+        "domain": "haldenmetals.ch",
+        "contacts": []
+      },
+      "pickupParty": {
+        "id": "pickup",
+        "legalName": "Rotterdam Bulk Agency BV",
+        "country": "NL",
+        "contacts": []
+      },
+      "payout": {
+        "holderName": "BOLIDEN AB",
+        "rail": "sepolia",
+        "address": "0x844ee180f455ca0363aa8a63ea6cb27c1140e7ad",
+        "bankRef": "SE-TRUSTED-22"
+      },
+      "vessel": {
+        "name": "Pacific Ore",
+        "imo": "IMO9412345"
+      },
+      "loadPort": "San Antonio, CL",
+      "dischargePort": "Rotterdam, NL",
+      "documents": [
+        {
+          "kind": "bill_of_lading",
+          "reference": "BL-BOLIDEN-22",
+          "sha256": "d69b974eed056003653dbcc7582041518bf0facd0e78233f92b28d281c239974"
+        }
+      ],
+      "authorizedContactIds": [
+        "treasury",
+        "logistics"
+      ],
+      "releaseOfficer": {
+        "name": "Halden release desk",
+        "rail": "sepolia",
+        "publicKey": "0x152661B3192173Fd6CD7801C8F2241654F8270f4"
+      }
+    },
+    "instruction": {
+      "id": "ins-bench-boliden-22-1",
+      "shipmentId": "bench-boliden-22",
+      "receivedAt": "2026-11-25T09:00:00Z",
+      "channel": {
+        "kind": "email",
+        "from": "logistics.desk@boliden.com",
+        "displayName": "Boliden Logistics Desk"
+      },
+      "summary": "Please release the cargo at Rotterdam to our new forwarding agent, DSV A/S.",
+      "changes": {
+        "pickupParty": {
+          "id": "dsv",
+          "legalName": "DSV A/S",
+          "country": "DK",
+          "registrationId": "529900X41C0BSLK67H70",
+          "contacts": []
+        }
+      }
+    },
+    "changeSet": {
+      "sender": {
+        "from": "logistics.desk@boliden.com",
+        "domain": {
+          "sender": "boliden.com",
+          "trusted": "boliden.com",
+          "relation": "same",
+          "reason": "boliden.com is the trusted domain"
+        },
+        "authorizedContactId": "logistics",
+        "displayNameImpersonates": null,
+        "replyTo": null
+      },
+      "changes": [
+        {
+          "kind": "pickup_party",
+          "before": {
+            "id": "pickup",
+            "legalName": "Rotterdam Bulk Agency BV",
+            "country": "NL",
+            "contacts": []
+          },
+          "after": {
+            "id": "dsv",
+            "legalName": "DSV A/S",
+            "country": "DK",
+            "registrationId": "529900X41C0BSLK67H70",
+            "contacts": []
+          }
+        }
+      ],
+      "destinationChanged": true
+    },
+    "plan": [
+      {
+        "id": "registry:pickup_party",
+        "check": "registry",
+        "intent": "CORPORATE_REGISTRY_LOOKUP_GENERAL",
+        "params": {
+          "company": "DSV A/S",
+          "jurisdiction": "Denmark"
+        },
+        "role": "pickup_party",
+        "subject": {
+          "kind": "entity",
+          "name": "DSV A/S",
+          "country": "DK",
+          "registrationId": "529900X41C0BSLK67H70"
+        },
+        "required": true,
+        "purpose": "Pickup party changed: is DSV A/S a registered, active company?"
+      },
+      {
+        "id": "sanctions:pickup_party",
+        "check": "sanctions",
+        "intent": "SANCTIONS_SCREENING_MATCH_GENERAL",
+        "params": {
+          "name": "DSV A/S"
+        },
+        "role": "pickup_party",
+        "subject": {
+          "kind": "entity",
+          "name": "DSV A/S",
+          "country": "DK",
+          "registrationId": "529900X41C0BSLK67H70"
+        },
+        "required": true,
+        "purpose": "Pickup party changed: is DSV A/S on a sanctions list?"
+      },
+      {
+        "id": "sanctions:vessel",
+        "check": "sanctions",
+        "intent": "SANCTIONS_SCREENING_MATCH_GENERAL",
+        "params": {
+          "name": "Pacific Ore"
+        },
+        "role": "vessel",
+        "subject": {
+          "kind": "vessel",
+          "name": "Pacific Ore",
+          "imo": "IMO9412345"
+        },
+        "required": true,
+        "purpose": "Is the vessel Pacific Ore (IMO9412345) sanctioned?"
+      },
+      {
+        "id": "vessel:vessel",
+        "check": "vessel",
+        "intent": "VESSEL_TELEMETRY_VERIFY_GENERAL",
+        "params": {
+          "vessel": "IMO9412345"
+        },
+        "role": "vessel",
+        "subject": {
+          "kind": "vessel",
+          "name": "Pacific Ore",
+          "imo": "IMO9412345"
+        },
+        "required": false,
+        "purpose": "Where is Pacific Ore (IMO9412345) now?"
+      }
+    ],
+    "outcomes": [
+      {
+        "checkId": "registry:pickup_party",
+        "sources": [
+          {
+            "kind": "telegraph",
+            "name": "Praman Desk Compliance & Procurement Auditor",
+            "status": "answered",
+            "fields": {
+              "active": true,
+              "legal_name": "DSV A/S",
+              "registration_id": "529900X41C0BSLK67H70"
+            },
+            "detail": "Praman Desk Compliance & Procurement Auditor: DSV A/S is active (529900X41C0BSLK67H70).",
+            "purchase": {
+              "rail": "solana-x402",
+              "receiptHash": "0x82d07034ac47a38e687be4a8156ccaa3bc3336f501bf1d7a92fc6b85c8a8ef6f",
+              "signalHash": "0x8bb6bdaa2794f244faebc3a587736b85a28ea595bdaf254f125d7ed6a349de49",
+              "amountUusdc": "10000",
+              "minerId": "6164",
+              "latencyMs": 9527,
+              "settlementTx": "4eti7sAMC6b81qRt4JUB9ZGQ6eJrXazVDzSmDqry2zWJoJ2LnF6HxmSQQpB9v2a5eLkHhGP6i7kWQ16jbkVWs9v1"
+            }
+          },
+          {
+            "kind": "telegraph",
+            "name": "Miner 98001",
+            "status": "unavailable",
+            "fields": {},
+            "detail": "The node answered HTTP 500 after settling the payment.",
+            "purchase": null
+          }
+        ],
+        "status": "answered",
+        "fields": {
+          "active": true,
+          "legal_name": "DSV A/S",
+          "registration_id": "529900X41C0BSLK67H70",
+          "sources_agreeing": 1
+        },
+        "detail": "Praman Desk Compliance & Procurement Auditor: DSV A/S is active (529900X41C0BSLK67H70). (one source)"
+      },
+      {
+        "checkId": "sanctions:pickup_party",
+        "sources": [
+          {
+            "kind": "telegraph",
+            "name": "ChainSight — Universal Intelligence & Data Oracle",
+            "status": "answered",
+            "fields": {
+              "matched": false,
+              "lists": "OFAC SDN",
+              "matches": null
+            },
+            "detail": "ChainSight — Universal Intelligence & Data Oracle: no match for DSV A/S on OFAC SDN.",
+            "purchase": {
+              "rail": "solana-x402",
+              "receiptHash": "0x13137479c1e7be65cd4cc44db8aa1502dab827e49b2e4494fa1f492d6bbee693",
+              "signalHash": "0x40df17c26590592c2c385f6f0c866f6bb90eac392313c3c438ef21c87146d069",
+              "amountUusdc": "10000",
+              "minerId": "302",
+              "latencyMs": 8495,
+              "settlementTx": "2cd29hsarxZ2DQiyba7E2o3D8fHzAfxJWszeiqr9Lqoe8iAigaYRRzmwJbiKrh1ZmppQevxfdEDCKEtvLTVpds9d"
+            }
+          },
+          {
+            "kind": "telegraph",
+            "name": "TxLens",
+            "status": "answered",
+            "fields": {
+              "matched": false,
+              "lists": null,
+              "matches": null
+            },
+            "detail": "TxLens: no match for DSV A/S.",
+            "purchase": {
+              "rail": "solana-x402",
+              "receiptHash": "0x629f0ea53c65ec5a983f833d4bf388d6f95c92838712b4a5b61d3b2d029d98eb",
+              "signalHash": "0xef104f1dac6c1953a3aee2e5baff57ca73f407695b1bc91e34faea5fb4fd5b24",
+              "amountUusdc": "10000",
+              "minerId": "9002",
+              "latencyMs": 5405,
+              "settlementTx": "2QFn2NPGtJbGW8yiR6xxx4QuPXS1gEr6XTLHWbFyKQ7uiK2ig3vFuhwfQhzFUScfp3VvbadcNFzCij1NJCbr6DEE"
+            }
+          },
+          {
+            "kind": "official",
+            "name": "OFAC SDN list",
+            "status": "answered",
+            "purchase": null,
+            "fields": {
+              "matched": false,
+              "lists": "OFAC SDN",
+              "matches": null
+            },
+            "detail": "No entry for DSV A/S on OFAC's SDN list.",
+            "snapshot": {
+              "url": "https://www.treasury.gov/ofac/downloads/sdn.csv",
+              "sha256": "e83c93e6159498ce0352549f750023eaa47e561e54c496ba1b0c32e3e33872d6",
+              "retrievedAt": "2026-11-25T05:16:13.052Z"
+            }
+          }
+        ],
+        "status": "answered",
+        "fields": {
+          "matched": false,
+          "lists": "OFAC SDN",
+          "matches": null,
+          "sources_agreeing": 3
+        },
+        "detail": "ChainSight — Universal Intelligence & Data Oracle: no match for DSV A/S on OFAC SDN. (3 sources agree)"
+      },
+      {
+        "checkId": "sanctions:vessel",
+        "sources": [
+          {
+            "kind": "telegraph",
+            "name": "ChainSight — Universal Intelligence & Data Oracle",
+            "status": "answered",
+            "fields": {
+              "matched": false,
+              "lists": "OFAC SDN",
+              "matches": null
+            },
+            "detail": "ChainSight — Universal Intelligence & Data Oracle: no match for Pacific Ore on OFAC SDN.",
+            "purchase": {
+              "rail": "solana-x402",
+              "receiptHash": "0xb2dbbf28d17754952bf7e9f5d345d673f9d80dc0fa99139548464f01f294f538",
+              "signalHash": "0xc7502dc4247cfdbe53c92d56052be67f2ceb97f47184a1104f8548134409b65e",
+              "amountUusdc": "10000",
+              "minerId": "302",
+              "latencyMs": 10190,
+              "settlementTx": "B6ZVKYTQr9vVYGZKXTY48QGYcPdP6W7fTLToPnYYPBxHDfEP3eSnVuMFumwDMA7SJb4GrSERgS7ravS4dHrJMqa"
+            }
+          },
+          {
+            "kind": "telegraph",
+            "name": "TxLens",
+            "status": "answered",
+            "fields": {
+              "matched": false,
+              "lists": null,
+              "matches": null
+            },
+            "detail": "TxLens: no match for Pacific Ore.",
+            "purchase": {
+              "rail": "solana-x402",
+              "receiptHash": "0x7be11c20d1873a9edd719c5f83b18abe29c847822a36202f02984d92aaa471f2",
+              "signalHash": "0xacf4d3743a9be57d554b0a17333cf0ca89c3b0e82e2c169b233962370ab61d81",
+              "amountUusdc": "10000",
+              "minerId": "9002",
+              "latencyMs": 7052,
+              "settlementTx": "3fh3rehk6EvEYKtEWMw9g958MqGVMSNvn9ugPkfmp5UD2xeELReay4d8oaZkaJGMHFybeYJkmemef5WVLt37EmzA"
+            }
+          },
+          {
+            "kind": "official",
+            "name": "OFAC SDN list",
+            "status": "answered",
+            "purchase": null,
+            "fields": {
+              "matched": false,
+              "lists": "OFAC SDN",
+              "matches": null
+            },
+            "detail": "No entry for Pacific Ore (IMO9412345) on OFAC's SDN list.",
+            "snapshot": {
+              "url": "https://www.treasury.gov/ofac/downloads/sdn.csv",
+              "sha256": "e83c93e6159498ce0352549f750023eaa47e561e54c496ba1b0c32e3e33872d6",
+              "retrievedAt": "2026-11-25T05:16:13.052Z"
+            }
+          }
+        ],
+        "status": "answered",
+        "fields": {
+          "matched": false,
+          "lists": "OFAC SDN",
+          "matches": null,
+          "sources_agreeing": 3
+        },
+        "detail": "ChainSight — Universal Intelligence & Data Oracle: no match for Pacific Ore on OFAC SDN. (3 sources agree)"
+      },
+      {
+        "checkId": "vessel:vessel",
+        "sources": [
+          {
+            "kind": "telegraph",
+            "name": "TxLens",
+            "status": "unreadable",
+            "fields": {
+              "latitude": null,
+              "longitude": null,
+              "speed_knots": null,
+              "observed_at": null
+            },
+            "detail": "TxLens returned no position for Pacific Ore.",
+            "purchase": {
+              "rail": "solana-x402",
+              "receiptHash": "0x8fbc3dc70f978c093ed8de448af8f90550cbc00a4595301fcd34d9f8f04fafe3",
+              "signalHash": "0x89dc73ae3932fb36ea18b18dfe731e4d645eee6d02df34f7c3fcacd9a5c28a1c",
+              "amountUusdc": "10000",
+              "minerId": "9002",
+              "latencyMs": 7012,
+              "settlementTx": "2u5njGzME4PaDrh6wb1dg8qe3ojU3v12FqwJABe336UPoQwzdnT47pvAMj69ckYbg7yDHE3ecdFMkE3EL2UjTqNx"
+            }
+          }
+        ],
+        "status": "unreadable",
+        "fields": {},
+        "detail": "TxLens returned no position for Pacific Ore."
+      }
+    ],
+    "decision": {
+      "policy": "triad-release-v1",
+      "decision": "CLEAR",
+      "needs": [],
+      "hits": [
+        {
+          "rule": "R-CARGO-PARTY-CHANGED",
+          "effect": "hold_callback",
+          "text": "The pickup party would change from Rotterdam Bulk Agency BV to DSV A/S"
+        }
+      ],
+      "facts": [
+        "DSV A/S is an active registered company (529900X41C0BSLK67H70).",
+        "No sanctions match for DSV A/S.",
+        "No sanctions match for IMO9412345.",
+        "Boliden Treasury Desk confirmed the change by phone (2026-11-25T10:15:00Z)."
+      ],
+      "warnings": [
+        "The pickup party would change from Rotterdam Bulk Agency BV to DSV A/S"
+      ],
+      "unknowns": [
+        "Where is Pacific Ore (IMO9412345) now? TxLens returned no position for Pacific Ore."
+      ],
+      "callback": {
+        "target": {
+          "contactId": "treasury",
+          "name": "Boliden Treasury Desk",
+          "channel": "phone",
+          "address": "+468000001003"
+        },
+        "result": {
+          "contactId": "treasury",
+          "channel": "phone",
+          "outcome": "confirmed",
+          "respondedAt": "2026-11-25T10:15:00Z"
+        },
+        "accepted": true
+      }
+    },
+    "cost": {
+      "telegraphUusdc": "60000",
+      "purchases": 6
+    }
+  }
+}

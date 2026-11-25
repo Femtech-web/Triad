@@ -4,7 +4,7 @@ import {
   setTransactionMessageFeePayerSigner, setTransactionMessageLifetimeUsingBlockhash, signBytes, signTransactionMessageWithSigners,
 } from '@solana/kit';
 import type { Address, Instruction, Rpc, RpcSubscriptions, SolanaRpcApi, SolanaRpcSubscriptionsApi, TransactionSigner } from '@solana/kit';
-import { ASSOCIATED_TOKEN_PROGRAM_ADDRESS, findAssociatedTokenPda, TOKEN_PROGRAM_ADDRESS } from '@solana-program/token';
+import { ASSOCIATED_TOKEN_PROGRAM_ADDRESS, findAssociatedTokenPda, getCreateAssociatedTokenIdempotentInstructionAsync, TOKEN_PROGRAM_ADDRESS } from '@solana-program/token';
 import { fromHex, toHex } from './key.js';
 import type { ReleaseAuthorization } from './key.js';
 
@@ -160,7 +160,9 @@ export function createSolanaSettlement({ rpc, rpcSubscriptions, programAddress, 
       return send([await fundInstruction({ programAddress, buyer: payer, ...f })]);
     },
     async release(a: ReleaseAuthorization, buyer: Address, mint: Address) {
-      return send(await releaseInstructions({ programAddress, relayer: payer, buyer, mint, authorization: a }));
+      // The payee's token account must exist; creating it first keeps the ed25519 check directly before the release.
+      const payeeAccount = await getCreateAssociatedTokenIdempotentInstructionAsync({ payer, owner: address(a.payee), mint });
+      return send([payeeAccount, ...await releaseInstructions({ programAddress, relayer: payer, buyer, mint, authorization: a })]);
     },
     async refund(f: { mint: Address; shipmentKey: Uint8Array }) {
       return send([await refundInstruction({ programAddress, buyer: payer, ...f })]);

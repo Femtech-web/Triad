@@ -5,13 +5,14 @@ import { join } from 'node:path';
 import { createPublicClient, createWalletClient, http, isAddress } from 'viem';
 import type { Address, Hex } from 'viem';
 import { sepolia } from 'viem/chains';
-import { decide, detectChanges, instructionSchema, planChecks } from '@triad/core';
-import type { Instruction } from '@triad/core';
+import { decide, detectChanges, instructionSchema, planChecks, shipmentSchema } from '@triad/core';
+import type { Instruction, Shipment } from '@triad/core';
 import { buildEvidence, evidenceHash, withCallback } from '@triad/evidence';
 import type { EvidenceFile } from '@triad/evidence';
 import { createEscrowClient, createEscrowTelegraphClient, gather, TELEGRAPH_TESTNET } from '@triad/intel';
 import { authorizeEvmRelease, createEvmSettlement, shipmentKey, toHex } from '@triad/settle';
 import { consoleCase } from '../cases';
+import { CHECK_SYNTHETIC, checkInputSchema, toCase } from '../check-model';
 import { evidenceByHash } from '../data';
 import { directory, operatorAccount, releaseOfficerAccount, sdn, seal, sealMatches } from './runtime';
 
@@ -35,11 +36,36 @@ function issue(evidence: EvidenceFile): Issued {
   return { evidence, evidence_sha256: hash, seal: seal(hash) };
 }
 
+// Buys the checks a change makes relevant and decides. Both the attack lab and the everyday check run through here.
+async function decideLive(shipment: Shipment, instruction: Instruction, provenance: EvidenceFile['provenance']): Promise<Issued> {
+  const changeSet = detectChanges(shipment, instruction);
+  // A block from the email alone is final, so nothing is bought for it.
+  const blockedByEmail = decide({ shipment, instruction, changeSet, plan: [], outcomes: [] }).decision === 'BLOCK';
+  const plan = blockedByEmail ? [] : planChecks(shipment, changeSet);
+  const maxCalls = plan.reduce((n, c) => n + (c.required ? 2 : 1), 0);
+  if (maxCalls > MAX_CALLS) throw new ConsoleError(`This instruction would need ${maxCalls} paid calls; the console allows ${MAX_CALLS}.`);
+  const outcomes = plan.length ? await gather(plan, { telegraph: telegraphClient(maxCalls), directory: await directory(), sdn: await sdn() }) : [];
+  const decision = decide({ shipment, instruction, changeSet, plan, outcomes });
+  return issue(buildEvidence({ provenance, shipment, instruction, changeSet, plan, outcomes, decision }));
+}
+
+function telegraphClient(maxCalls: number) {
+  const operator = operatorAccount();
+  return createEscrowTelegraphClient(createEscrowClient({
+    policy: { node: TELEGRAPH_TESTNET.node, network: TELEGRAPH_TESTNET.sepolia.network, diamond: TELEGRAPH_TESTNET.sepolia.diamond, maxCallUusdc: TELEGRAPH_TESTNET.maxCallUusdc },
+    signer: { address: operator.address, signMessage: (message: string) => operator.signMessage({ message }) },
+    maxTotalUusdc: BigInt(maxCalls) * PRICE_UUSDC,
+  }));
+}
+
+const invalid = (what: string, issues: { path: PropertyKey[]; message: string }[]) =>
+  new ConsoleError(`The ${what} is not valid: ${issues.map((i) => `${i.path.join('.')} ${i.message}`).join('; ')}`);
+
 export async function runLive(caseName: string, submitted: unknown): Promise<Issued> {
   const base = consoleCase(caseName);
   if (!base) throw new ConsoleError(`There is no case named ${caseName}.`, 404);
   const parsed = instructionSchema.safeParse(submitted);
-  if (!parsed.success) throw new ConsoleError(`The instruction is not valid: ${parsed.error.issues.map((i) => `${i.path.join('.')} ${i.message}`).join('; ')}`);
+  if (!parsed.success) throw invalid('instruction', parsed.error.issues);
   if (parsed.data.shipmentId !== base.shipment.id) throw new ConsoleError('The instruction names a different shipment.');
 
   const officer = releaseOfficerAccount();
@@ -49,24 +75,19 @@ export async function runLive(caseName: string, submitted: unknown): Promise<Iss
     ...(base.shipment.payout.rail === 'sepolia' ? { releaseOfficer: { name: 'Triad console release desk', rail: 'sepolia' as const, publicKey: officer.address } } : {}),
   };
   const instruction: Instruction = { ...parsed.data, id: `ins-console-${runId}`, shipmentId: shipment.id };
-  const changeSet = detectChanges(shipment, instruction);
-  const plan = planChecks(shipment, changeSet);
-  const maxCalls = plan.reduce((n, c) => n + (c.required ? 2 : 1), 0);
-  if (maxCalls > MAX_CALLS) throw new ConsoleError(`This instruction would need ${maxCalls} paid calls; the console allows ${MAX_CALLS}.`);
+  return decideLive(shipment, instruction, { scenario: `console:${base.name}`, synthetic: [...base.synthetic, 'amount (scaled to 0.01 test USDC for the console)'], network: 'testnet' });
+}
 
-  const operator = operatorAccount();
-  const telegraph = createEscrowTelegraphClient(createEscrowClient({
-    policy: { node: TELEGRAPH_TESTNET.node, network: TELEGRAPH_TESTNET.sepolia.network, diamond: TELEGRAPH_TESTNET.sepolia.diamond, maxCallUusdc: TELEGRAPH_TESTNET.maxCallUusdc },
-    signer: { address: operator.address, signMessage: (message: string) => operator.signMessage({ message }) },
-    maxTotalUusdc: BigInt(maxCalls) * PRICE_UUSDC,
-  }));
-  const [dir, list] = await Promise.all([directory(), sdn()]);
-  const outcomes = await gather(plan, { telegraph, directory: dir, sdn: list });
-  const decision = decide({ shipment, instruction, changeSet, plan, outcomes });
-  return issue(buildEvidence({
-    provenance: { scenario: `console:${base.name}`, synthetic: [...base.synthetic, 'amount (scaled to 0.01 test USDC for the console)'], network: 'testnet' },
-    shipment, instruction, changeSet, plan, outcomes, decision,
-  }));
+// The everyday check: a record and an email described in plain fields. It decides, and never releases anything.
+export async function runCheck(submitted: unknown): Promise<Issued> {
+  const parsed = checkInputSchema.safeParse(submitted);
+  if (!parsed.success) throw invalid('check', parsed.error.issues);
+  const built = toCase(parsed.data, `check-${randomBytes(5).toString('hex')}`);
+  const shipment = shipmentSchema.safeParse(built.shipment);
+  const instruction = instructionSchema.safeParse(built.instruction);
+  if (!shipment.success) throw invalid('record', shipment.error.issues);
+  if (!instruction.success) throw invalid('email', instruction.error.issues);
+  return decideLive(shipment.data, instruction.data, { scenario: 'check', synthetic: CHECK_SYNTHETIC, network: 'testnet' });
 }
 
 // Evidence the server may build on: one it sealed, or one the repository records.
@@ -81,7 +102,8 @@ function trusted(input: { evidence: EvidenceFile; evidence_sha256: string; seal?
 export function answerCallback(input: { evidence: EvidenceFile; evidence_sha256: string; seal?: string; outcome: 'confirmed' | 'denied' }): Issued {
   const evidence = trusted(input);
   if (!evidence.decision.needs.includes('callback') || !evidence.decision.callback.target) throw new ConsoleError('This decision is not waiting for a callback.');
-  return issue(withCallback(evidence, input.outcome, new Date().toISOString(), 'answered in the console by the person playing the trusted contact'));
+  const answeredBy = evidence.provenance.scenario === 'check' ? 'recorded in the app by the payer after calling the trusted contact' : 'answered in the attack lab by the person playing the trusted contact';
+  return issue(withCallback(evidence, input.outcome, new Date().toISOString(), answeredBy));
 }
 
 // Transactions from the operator go one at a time, so concurrent releases never race for a nonce.

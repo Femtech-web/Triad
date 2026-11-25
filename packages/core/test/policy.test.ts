@@ -114,3 +114,12 @@ test('a substitute vessel holds for the callback and is the vessel screened; a s
   assert.equal(swap.decision.decision, 'HOLD');
   assert.equal(run(ins, () => [answered('sanctions:vessel', { matched: true, lists: 'OFAC SDN' })]).decision.decision, 'BLOCK');
 });
+
+test('with no vessel on record yet, a bank change buys no vessel checks and still needs the callback', () => {
+  const { vessel: _vessel, loadPort: _load, dischargePort: _discharge, ...rest } = shipment;
+  const record = shipmentSchema.parse(rest);
+  const { plan, decision } = run(bankChange(), () => cleanEvidence(), undefined, record);
+  assert.deepEqual(plan.map((c) => c.id), ['registry:seller', 'sanctions:seller', 'vat:seller']);
+  assert.deepEqual([decision.decision, decision.needs], ['HOLD', ['callback']]);
+  assert.equal(run(bankChange(), () => cleanEvidence(), phoneConfirm, record).decision.decision, 'CLEAR');
+});

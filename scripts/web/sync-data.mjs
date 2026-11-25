@@ -6,6 +6,11 @@ import { cpSync, existsSync, mkdirSync, readdirSync, rmSync } from 'node:fs';
 import { resolve } from 'node:path';
 
 const root = resolve(import.meta.dirname, '../..');
+// Live runs screen against this snapshot; an app shipped without it would fail every sanctions check.
+if (!existsSync(resolve(root, '.cache/ofac/sdn.csv'))) {
+  console.error('No OFAC snapshot in .cache/ofac. Run `pnpm ofac` first.');
+  process.exit(1);
+}
 const out = resolve(root, 'apps/web/data');
 rmSync(out, { recursive: true, force: true });
 const copy = (from, to) => { if (existsSync(resolve(root, from))) { mkdirSync(resolve(out, to, '..'), { recursive: true }); cpSync(resolve(root, from), resolve(out, to), { recursive: true }); } };

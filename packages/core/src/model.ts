@@ -69,9 +69,10 @@ export const shipmentSchema = z.object({
   consignee: partySchema,
   pickupParty: partySchema.optional(),
   payout: payoutSchema,
-  vessel: vesselSchema,
-  loadPort: z.string().min(2).max(80),
-  dischargePort: z.string().min(2).max(80),
+  // Not every payment has a vessel or ports on record yet, for example a change received before loading.
+  vessel: vesselSchema.optional(),
+  loadPort: z.string().min(2).max(80).optional(),
+  dischargePort: z.string().min(2).max(80).optional(),
   documents: z.array(documentSchema).max(10),
   // Contacts allowed to change this shipment's instructions, by id within the seller's contacts.
   authorizedContactIds: z.array(id).min(1).max(5),

@@ -28,8 +28,9 @@ export function DropVerify() {
       <label className={`${s.dropZone} ${over ? s.over : ''}`} onDragOver={(e) => { e.preventDefault(); setOver(true); }} onDragLeave={() => setOver(false)}
         onDrop={(e) => { e.preventDefault(); setOver(false); void read(e.dataTransfer.files[0]); }}>
         <input type="file" accept="application/json,.json" className={s.fileInput} onChange={(e) => void read(e.target.files?.[0])} />
+        <span className={s.dropIcon} aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"><path d="M12 15V4m0 0-4 4m4-4 4 4M5 15v3a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-3" /></svg></span>
         <span className={s.dropTitle}>Verify a file yourself</span>
-        <span className={s.dropText}>Drop an evidence file here, or choose one: a download from the console, or any file in the repository. It is hashed in this browser and never uploaded.</span>
+        <span className={s.dropText}>Drop an evidence file here or click to choose one: a download from a check, the attack lab, or any file in the repository. It is hashed in this browser and never uploaded.</span>
       </label>
       {error && <p className={s.dropError} role="alert">{error}</p>}
       {loaded && (

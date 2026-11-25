@@ -1,0 +1,233 @@
+{
+  "evidence_sha256": "0xa5102ca0c3010fe8cbc372ad0b5a1536014aaa13976bfae2ba7473c1c95851c0",
+  "evidence": {
+    "format": "triad-evidence-v1",
+    "generatedAt": "2026-11-25T08:08:02.572Z",
+    "provenance": {
+      "scenario": "legit-revised-invoice-antofagasta",
+      "synthetic": [
+        "shipment",
+        "buyer",
+        "seller contacts and mailboxes",
+        "vessel",
+        "payout addresses",
+        "instruction text"
+      ],
+      "network": "testnet"
+    },
+    "shipment": {
+      "id": "bench-antofagasta-40",
+      "reference": "TRD-ANT-1040",
+      "commodity": "Copper concentrate",
+      "quantity": "1200 t",
+      "amount": {
+        "value": "41000000",
+        "currency": "USDC",
+        "decimals": 6
+      },
+      "buyer": {
+        "id": "buyer",
+        "legalName": "Halden Metals Trading AG",
+        "country": "CH",
+        "domain": "haldenmetals.ch",
+        "contacts": []
+      },
+      "seller": {
+        "id": "seller",
+        "legalName": "ANTOFAGASTA PLC",
+        "country": "GB",
+        "registrationId": "213800MY6QVH4FVLD628",
+        "domain": "antofagasta.co.uk",
+        "contacts": [
+          {
+            "id": "treasury",
+            "name": "Antofagasta Treasury Desk",
+            "email": "treasury.desk@antofagasta.co.uk",
+            "phone": "+442070001001",
+            "role": "Treasury"
+          },
+          {
+            "id": "logistics",
+            "name": "Antofagasta Logistics Desk",
+            "email": "logistics.desk@antofagasta.co.uk",
+            "role": "Logistics"
+          }
+        ]
+      },
+      "consignee": {
+        "id": "buyer",
+        "legalName": "Halden Metals Trading AG",
+        "country": "CH",
+        "domain": "haldenmetals.ch",
+        "contacts": []
+      },
+      "pickupParty": {
+        "id": "pickup",
+        "legalName": "Rotterdam Bulk Agency BV",
+        "country": "NL",
+        "contacts": []
+      },
+      "payout": {
+        "holderName": "ANTOFAGASTA PLC",
+        "rail": "sepolia",
+        "address": "0x7c0073b552b5882f87dd5f77884eaed72deda48c",
+        "bankRef": "GB-TRUSTED-40"
+      },
+      "vessel": {
+        "name": "Pacific Ore",
+        "imo": "IMO9412345"
+      },
+      "loadPort": "San Antonio, CL",
+      "dischargePort": "Rotterdam, NL",
+      "documents": [
+        {
+          "kind": "bill_of_lading",
+          "reference": "BL-ANTOFAGASTA-40",
+          "sha256": "ce2dac833c91abe49fa48fc8e58148ba5ea4e3957cf7696eabaa91ff6975736a"
+        }
+      ],
+      "authorizedContactIds": [
+        "treasury",
+        "logistics"
+      ],
+      "releaseOfficer": {
+        "name": "Halden release desk",
+        "rail": "sepolia",
+        "publicKey": "0x152661B3192173Fd6CD7801C8F2241654F8270f4"
+      }
+    },
+    "instruction": {
+      "id": "ins-bench-antofagasta-40-1",
+      "shipmentId": "bench-antofagasta-40",
+      "receivedAt": "2026-11-25T09:00:00Z",
+      "channel": {
+        "kind": "email",
+        "from": "treasury.desk@antofagasta.co.uk",
+        "displayName": "Antofagasta Treasury Desk"
+      },
+      "summary": "Attached is the revised commercial invoice for TRD-ANT-1040 with corrected net weights. Payment details are unchanged.",
+      "changes": {
+        "documents": [
+          {
+            "kind": "commercial_invoice",
+            "reference": "INV-TRD-ANT-1040-R1",
+            "sha256": "4963f69c52589e39e98db23d4e4a5c9e0b45589917190e02a3b8a81c2b20d0ec",
+            "content": "COMMERCIAL INVOICE TRD-ANT-1040-R1. Seller: ANTOFAGASTA PLC. Buyer: Halden Metals Trading AG. Goods: Copper concentrate. Net weight corrected. Payment terms unchanged."
+          }
+        ]
+      }
+    },
+    "changeSet": {
+      "sender": {
+        "from": "treasury.desk@antofagasta.co.uk",
+        "domain": {
+          "sender": "antofagasta.co.uk",
+          "trusted": "antofagasta.co.uk",
+          "relation": "same",
+          "reason": "antofagasta.co.uk is the trusted domain"
+        },
+        "authorizedContactId": "treasury",
+        "displayNameImpersonates": null,
+        "replyTo": null
+      },
+      "changes": [
+        {
+          "kind": "document",
+          "document": {
+            "kind": "commercial_invoice",
+            "reference": "INV-TRD-ANT-1040-R1",
+            "sha256": "4963f69c52589e39e98db23d4e4a5c9e0b45589917190e02a3b8a81c2b20d0ec",
+            "content": "COMMERCIAL INVOICE TRD-ANT-1040-R1. Seller: ANTOFAGASTA PLC. Buyer: Halden Metals Trading AG. Goods: Copper concentrate. Net weight corrected. Payment terms unchanged."
+          },
+          "replaces": null
+        }
+      ],
+      "destinationChanged": false
+    },
+    "plan": [
+      {
+        "id": "document:document",
+        "check": "document",
+        "intent": "DOCUMENT_AUTHENTICITY_GENERAL",
+        "params": {
+          "document": "COMMERCIAL INVOICE TRD-ANT-1040-R1. Seller: ANTOFAGASTA PLC. Buyer: Halden Metals Trading AG. Goods: Copper concentrate. Net weight corrected. Payment terms unchanged."
+        },
+        "role": "document",
+        "subject": {
+          "kind": "document",
+          "reference": "INV-TRD-ANT-1040-R1",
+          "sha256": "4963f69c52589e39e98db23d4e4a5c9e0b45589917190e02a3b8a81c2b20d0ec"
+        },
+        "required": false,
+        "purpose": "Is the new commercial invoice INV-TRD-ANT-1040-R1 authentic?"
+      }
+    ],
+    "outcomes": [
+      {
+        "checkId": "document:document",
+        "sources": [
+          {
+            "kind": "telegraph",
+            "name": "PREFLIGHT Infrastructure Signals",
+            "status": "answered",
+            "fields": {
+              "verdict": "Inconclusive",
+              "authentic": false,
+              "evidence": [
+                "The document contains insufficient detail for a definitive assessment, lacking dates, specific weights, financial values, and bank details.",
+                "The seller, Antofagasta PLC, is a real mining company that produces copper concentrate.",
+                "The invoice identifier 'TRD-ANT-1040-R1' includes an 'R1' suffix which is consistent with the note stating 'Net weight corrected', implying a revision.",
+                "No verifiable signatures, hashes, or stamps are present in the provided text.",
+                "Verification would require the full original document to check for consistent formatting, signatures, and confirmation from the named parties."
+              ]
+            },
+            "detail": "PREFLIGHT Infrastructure Signals: Inconclusive.",
+            "purchase": {
+              "rail": "solana-x402",
+              "receiptHash": "0x07020ea59e191813ba831545c69274ffc81fe55744781992b9f5e2cb8093c1dc",
+              "signalHash": "0x217a9d3ab5d601cfc5db4905faf004a67a21527939f49138dc692f0f73d2ef38",
+              "amountUusdc": "10000",
+              "minerId": "20260828",
+              "latencyMs": 16069,
+              "settlementTx": "rhtekjZhJeJeSwoD13oenba7rj5SRA1eoWMvZ7Yt59gZiTEVe5DVELg1pYiapDcLSuCJiFCHrtD9HuqbACEMcA8"
+            }
+          }
+        ],
+        "status": "answered",
+        "fields": {
+          "verdict": "Inconclusive",
+          "authentic": false,
+          "evidence": [
+            "The document contains insufficient detail for a definitive assessment, lacking dates, specific weights, financial values, and bank details.",
+            "The seller, Antofagasta PLC, is a real mining company that produces copper concentrate.",
+            "The invoice identifier 'TRD-ANT-1040-R1' includes an 'R1' suffix which is consistent with the note stating 'Net weight corrected', implying a revision.",
+            "No verifiable signatures, hashes, or stamps are present in the provided text.",
+            "Verification would require the full original document to check for consistent formatting, signatures, and confirmation from the named parties."
+          ],
+          "sources_agreeing": 1
+        },
+        "detail": "PREFLIGHT Infrastructure Signals: Inconclusive. (one source)"
+      }
+    ],
+    "decision": {
+      "policy": "triad-release-v1",
+      "decision": "CLEAR",
+      "needs": [],
+      "hits": [],
+      "facts": [
+        "INV-TRD-ANT-1040-R1: document check says \"Inconclusive\"."
+      ],
+      "warnings": [],
+      "unknowns": [],
+      "callback": {
+        "target": null,
+        "result": null,
+        "accepted": false
+      }
+    },
+    "cost": {
+      "telegraphUusdc": "10000",
+      "purchases": 1
+    }
+  }
+}

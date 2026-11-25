@@ -1,0 +1,233 @@
+{
+  "evidence_sha256": "0x5b0386957fc5184dad9f917000d402ee5247a5fa8ac9ff891145bc1099f225c6",
+  "evidence": {
+    "format": "triad-evidence-v1",
+    "generatedAt": "2026-11-25T08:08:17.918Z",
+    "provenance": {
+      "scenario": "legit-revised-invoice-aurubis",
+      "synthetic": [
+        "shipment",
+        "buyer",
+        "seller contacts and mailboxes",
+        "vessel",
+        "payout addresses",
+        "instruction text"
+      ],
+      "network": "testnet"
+    },
+    "shipment": {
+      "id": "bench-aurubis-41",
+      "reference": "TRD-AUR-1041",
+      "commodity": "Copper cathodes, LME grade A",
+      "quantity": "1225 t",
+      "amount": {
+        "value": "42000000",
+        "currency": "USDC",
+        "decimals": 6
+      },
+      "buyer": {
+        "id": "buyer",
+        "legalName": "Halden Metals Trading AG",
+        "country": "CH",
+        "domain": "haldenmetals.ch",
+        "contacts": []
+      },
+      "seller": {
+        "id": "seller",
+        "legalName": "Aurubis AG",
+        "country": "DE",
+        "registrationId": "5299005SHIN9ZK7GW242",
+        "domain": "aurubis.com",
+        "contacts": [
+          {
+            "id": "treasury",
+            "name": "Aurubis Treasury Desk",
+            "email": "treasury.desk@aurubis.com",
+            "phone": "+494000001002",
+            "role": "Treasury"
+          },
+          {
+            "id": "logistics",
+            "name": "Aurubis Logistics Desk",
+            "email": "logistics.desk@aurubis.com",
+            "role": "Logistics"
+          }
+        ]
+      },
+      "consignee": {
+        "id": "buyer",
+        "legalName": "Halden Metals Trading AG",
+        "country": "CH",
+        "domain": "haldenmetals.ch",
+        "contacts": []
+      },
+      "pickupParty": {
+        "id": "pickup",
+        "legalName": "Rotterdam Bulk Agency BV",
+        "country": "NL",
+        "contacts": []
+      },
+      "payout": {
+        "holderName": "Aurubis AG",
+        "rail": "sepolia",
+        "address": "0x8c2bbf7ce785c97a48fd248475d4d1c8b09e8b1c",
+        "bankRef": "DE-TRUSTED-41"
+      },
+      "vessel": {
+        "name": "Pacific Ore",
+        "imo": "IMO9412345"
+      },
+      "loadPort": "San Antonio, CL",
+      "dischargePort": "Rotterdam, NL",
+      "documents": [
+        {
+          "kind": "bill_of_lading",
+          "reference": "BL-AURUBIS-41",
+          "sha256": "dea73da1ce1ef50356755087e85009a65a48bf370ee81a8385405965cce26f93"
+        }
+      ],
+      "authorizedContactIds": [
+        "treasury",
+        "logistics"
+      ],
+      "releaseOfficer": {
+        "name": "Halden release desk",
+        "rail": "sepolia",
+        "publicKey": "0x152661B3192173Fd6CD7801C8F2241654F8270f4"
+      }
+    },
+    "instruction": {
+      "id": "ins-bench-aurubis-41-1",
+      "shipmentId": "bench-aurubis-41",
+      "receivedAt": "2026-11-25T09:00:00Z",
+      "channel": {
+        "kind": "email",
+        "from": "treasury.desk@aurubis.com",
+        "displayName": "Aurubis Treasury Desk"
+      },
+      "summary": "Attached is the revised commercial invoice for TRD-AUR-1041 with corrected net weights. Payment details are unchanged.",
+      "changes": {
+        "documents": [
+          {
+            "kind": "commercial_invoice",
+            "reference": "INV-TRD-AUR-1041-R1",
+            "sha256": "68da190b22b4b1bf22ca882ff98eb5e2b7bd76ec9518be2c89163ba445c3b872",
+            "content": "COMMERCIAL INVOICE TRD-AUR-1041-R1. Seller: Aurubis AG. Buyer: Halden Metals Trading AG. Goods: Copper cathodes, LME grade A. Net weight corrected. Payment terms unchanged."
+          }
+        ]
+      }
+    },
+    "changeSet": {
+      "sender": {
+        "from": "treasury.desk@aurubis.com",
+        "domain": {
+          "sender": "aurubis.com",
+          "trusted": "aurubis.com",
+          "relation": "same",
+          "reason": "aurubis.com is the trusted domain"
+        },
+        "authorizedContactId": "treasury",
+        "displayNameImpersonates": null,
+        "replyTo": null
+      },
+      "changes": [
+        {
+          "kind": "document",
+          "document": {
+            "kind": "commercial_invoice",
+            "reference": "INV-TRD-AUR-1041-R1",
+            "sha256": "68da190b22b4b1bf22ca882ff98eb5e2b7bd76ec9518be2c89163ba445c3b872",
+            "content": "COMMERCIAL INVOICE TRD-AUR-1041-R1. Seller: Aurubis AG. Buyer: Halden Metals Trading AG. Goods: Copper cathodes, LME grade A. Net weight corrected. Payment terms unchanged."
+          },
+          "replaces": null
+        }
+      ],
+      "destinationChanged": false
+    },
+    "plan": [
+      {
+        "id": "document:document",
+        "check": "document",
+        "intent": "DOCUMENT_AUTHENTICITY_GENERAL",
+        "params": {
+          "document": "COMMERCIAL INVOICE TRD-AUR-1041-R1. Seller: Aurubis AG. Buyer: Halden Metals Trading AG. Goods: Copper cathodes, LME grade A. Net weight corrected. Payment terms unchanged."
+        },
+        "role": "document",
+        "subject": {
+          "kind": "document",
+          "reference": "INV-TRD-AUR-1041-R1",
+          "sha256": "68da190b22b4b1bf22ca882ff98eb5e2b7bd76ec9518be2c89163ba445c3b872"
+        },
+        "required": false,
+        "purpose": "Is the new commercial invoice INV-TRD-AUR-1041-R1 authentic?"
+      }
+    ],
+    "outcomes": [
+      {
+        "checkId": "document:document",
+        "sources": [
+          {
+            "kind": "telegraph",
+            "name": "PREFLIGHT Infrastructure Signals",
+            "status": "answered",
+            "fields": {
+              "verdict": "Likely authentic",
+              "authentic": true,
+              "evidence": [
+                "Aurubis AG is a real-world, prominent producer of copper products.",
+                "The product 'Copper cathodes, LME grade A' is a standard high-purity product offered by the named seller.",
+                "The revision suffix '-R1' in the reference number is consistent with the note that the net weight was corrected.",
+                "Halden Metals Trading AG is a plausible entity in the metal trading sector.",
+                "The text follows standard commercial naming conventions without obvious errors or contradictions."
+              ]
+            },
+            "detail": "PREFLIGHT Infrastructure Signals: Likely authentic.",
+            "purchase": {
+              "rail": "solana-x402",
+              "receiptHash": "0x28efd5808be1695874c9a1083c9ffe3fa3f04d90d0cbb7953b8abfe71eb5c2cc",
+              "signalHash": "0xc4f5e25deecc18957c2709445f068c6d8e1169be3dda694f2d53d526b91acedf",
+              "amountUusdc": "10000",
+              "minerId": "20260828",
+              "latencyMs": 15306,
+              "settlementTx": "5ZQvfQ9tac6gfscP9HyzNou8poKYRVqVuSxWKmgeg66fXWYYTSSWyDwY6RBEHGbs7CAT3qgGXreARUxXmzewy45n"
+            }
+          }
+        ],
+        "status": "answered",
+        "fields": {
+          "verdict": "Likely authentic",
+          "authentic": true,
+          "evidence": [
+            "Aurubis AG is a real-world, prominent producer of copper products.",
+            "The product 'Copper cathodes, LME grade A' is a standard high-purity product offered by the named seller.",
+            "The revision suffix '-R1' in the reference number is consistent with the note that the net weight was corrected.",
+            "Halden Metals Trading AG is a plausible entity in the metal trading sector.",
+            "The text follows standard commercial naming conventions without obvious errors or contradictions."
+          ],
+          "sources_agreeing": 1
+        },
+        "detail": "PREFLIGHT Infrastructure Signals: Likely authentic. (one source)"
+      }
+    ],
+    "decision": {
+      "policy": "triad-release-v1",
+      "decision": "CLEAR",
+      "needs": [],
+      "hits": [],
+      "facts": [
+        "INV-TRD-AUR-1041-R1: document check says \"Likely authentic\"."
+      ],
+      "warnings": [],
+      "unknowns": [],
+      "callback": {
+        "target": null,
+        "result": null,
+        "accepted": false
+      }
+    },
+    "cost": {
+      "telegraphUusdc": "10000",
+      "purchases": 1
+    }
+  }
+}

@@ -1,0 +1,476 @@
+{
+  "evidence_sha256": "0x07b17eb698483e3ea3d7b0eed0720cfd0e0d60fc530ddbc9ecd342d4981e7211",
+  "evidence": {
+    "format": "triad-evidence-v1",
+    "generatedAt": "2026-11-25T08:04:51.631Z",
+    "provenance": {
+      "scenario": "legit-bank-change-confirmed-glencore",
+      "synthetic": [
+        "shipment",
+        "buyer",
+        "seller contacts and mailboxes",
+        "vessel",
+        "payout addresses",
+        "instruction text"
+      ],
+      "network": "testnet"
+    },
+    "shipment": {
+      "id": "bench-glencore-14",
+      "reference": "TRD-GLE-1014",
+      "commodity": "Cobalt hydroxide",
+      "quantity": "550 t",
+      "amount": {
+        "value": "15000000",
+        "currency": "USDC",
+        "decimals": 6
+      },
+      "buyer": {
+        "id": "buyer",
+        "legalName": "Halden Metals Trading AG",
+        "country": "CH",
+        "domain": "haldenmetals.ch",
+        "contacts": []
+      },
+      "seller": {
+        "id": "seller",
+        "legalName": "GLENCORE INTERNATIONAL AG",
+        "country": "CH",
+        "registrationId": "213800PSSU2QXF1WLR89",
+        "domain": "glencore.com",
+        "contacts": [
+          {
+            "id": "treasury",
+            "name": "Glencore Treasury Desk",
+            "email": "treasury.desk@glencore.com",
+            "phone": "+41410001005",
+            "role": "Treasury"
+          },
+          {
+            "id": "logistics",
+            "name": "Glencore Logistics Desk",
+            "email": "logistics.desk@glencore.com",
+            "role": "Logistics"
+          }
+        ]
+      },
+      "consignee": {
+        "id": "buyer",
+        "legalName": "Halden Metals Trading AG",
+        "country": "CH",
+        "domain": "haldenmetals.ch",
+        "contacts": []
+      },
+      "pickupParty": {
+        "id": "pickup",
+        "legalName": "Rotterdam Bulk Agency BV",
+        "country": "NL",
+        "contacts": []
+      },
+      "payout": {
+        "holderName": "GLENCORE INTERNATIONAL AG",
+        "rail": "sepolia",
+        "address": "0xd9a78bc05fcd7c48a53d2af35a62d2a580b58c40",
+        "bankRef": "CH-TRUSTED-14"
+      },
+      "vessel": {
+        "name": "Pacific Ore",
+        "imo": "IMO9412345"
+      },
+      "loadPort": "San Antonio, CL",
+      "dischargePort": "Rotterdam, NL",
+      "documents": [
+        {
+          "kind": "bill_of_lading",
+          "reference": "BL-GLENCORE-14",
+          "sha256": "1909a61d7350c0eee23590256d0a705c55ad6fb7dcfea950ddc2e5115cf265ca"
+        }
+      ],
+      "authorizedContactIds": [
+        "treasury",
+        "logistics"
+      ],
+      "releaseOfficer": {
+        "name": "Halden release desk",
+        "rail": "sepolia",
+        "publicKey": "0x152661B3192173Fd6CD7801C8F2241654F8270f4"
+      }
+    },
+    "instruction": {
+      "id": "ins-bench-glencore-14-1",
+      "shipmentId": "bench-glencore-14",
+      "receivedAt": "2026-11-25T09:00:00Z",
+      "channel": {
+        "kind": "email",
+        "from": "treasury.desk@glencore.com",
+        "displayName": "Glencore Treasury Desk"
+      },
+      "summary": "We have moved our USD receiving account to a new bank. Please use the updated details below for TRD-GLE-1014.",
+      "changes": {
+        "payout": {
+          "holderName": "GLENCORE INTERNATIONAL AG",
+          "rail": "sepolia",
+          "address": "0x6d10293a77cb75c2861017092369817c1196804a",
+          "bankRef": "NEW-GLENCORE-NEW"
+        }
+      }
+    },
+    "changeSet": {
+      "sender": {
+        "from": "treasury.desk@glencore.com",
+        "domain": {
+          "sender": "glencore.com",
+          "trusted": "glencore.com",
+          "relation": "same",
+          "reason": "glencore.com is the trusted domain"
+        },
+        "authorizedContactId": "treasury",
+        "displayNameImpersonates": null,
+        "replyTo": null
+      },
+      "changes": [
+        {
+          "kind": "payout",
+          "before": {
+            "holderName": "GLENCORE INTERNATIONAL AG",
+            "rail": "sepolia",
+            "address": "0xd9a78bc05fcd7c48a53d2af35a62d2a580b58c40",
+            "bankRef": "CH-TRUSTED-14"
+          },
+          "after": {
+            "holderName": "GLENCORE INTERNATIONAL AG",
+            "rail": "sepolia",
+            "address": "0x6d10293a77cb75c2861017092369817c1196804a",
+            "bankRef": "NEW-GLENCORE-NEW"
+          },
+          "holderVsSeller": "same"
+        }
+      ],
+      "destinationChanged": true
+    },
+    "plan": [
+      {
+        "id": "registry:seller",
+        "check": "registry",
+        "intent": "CORPORATE_REGISTRY_LOOKUP_GENERAL",
+        "params": {
+          "company": "GLENCORE INTERNATIONAL AG",
+          "jurisdiction": "Switzerland"
+        },
+        "role": "seller",
+        "subject": {
+          "kind": "entity",
+          "name": "GLENCORE INTERNATIONAL AG",
+          "country": "CH",
+          "registrationId": "213800PSSU2QXF1WLR89"
+        },
+        "required": true,
+        "purpose": "Payment details changed: is GLENCORE INTERNATIONAL AG a registered, active company?"
+      },
+      {
+        "id": "sanctions:seller",
+        "check": "sanctions",
+        "intent": "SANCTIONS_SCREENING_MATCH_GENERAL",
+        "params": {
+          "name": "GLENCORE INTERNATIONAL AG"
+        },
+        "role": "seller",
+        "subject": {
+          "kind": "entity",
+          "name": "GLENCORE INTERNATIONAL AG",
+          "country": "CH",
+          "registrationId": "213800PSSU2QXF1WLR89"
+        },
+        "required": true,
+        "purpose": "Payment details changed: is GLENCORE INTERNATIONAL AG on a sanctions list?"
+      },
+      {
+        "id": "sanctions:vessel",
+        "check": "sanctions",
+        "intent": "SANCTIONS_SCREENING_MATCH_GENERAL",
+        "params": {
+          "name": "Pacific Ore"
+        },
+        "role": "vessel",
+        "subject": {
+          "kind": "vessel",
+          "name": "Pacific Ore",
+          "imo": "IMO9412345"
+        },
+        "required": true,
+        "purpose": "Is the vessel Pacific Ore (IMO9412345) sanctioned?"
+      },
+      {
+        "id": "vessel:vessel",
+        "check": "vessel",
+        "intent": "VESSEL_TELEMETRY_VERIFY_GENERAL",
+        "params": {
+          "vessel": "IMO9412345"
+        },
+        "role": "vessel",
+        "subject": {
+          "kind": "vessel",
+          "name": "Pacific Ore",
+          "imo": "IMO9412345"
+        },
+        "required": false,
+        "purpose": "Where is Pacific Ore (IMO9412345) now?"
+      }
+    ],
+    "outcomes": [
+      {
+        "checkId": "registry:seller",
+        "sources": [
+          {
+            "kind": "telegraph",
+            "name": "Praman Desk Compliance & Procurement Auditor",
+            "status": "answered",
+            "fields": {
+              "active": true,
+              "legal_name": "GLENCORE INTERNATIONAL AG",
+              "registration_id": "213800PSSU2QXF1WLR89"
+            },
+            "detail": "Praman Desk Compliance & Procurement Auditor: GLENCORE INTERNATIONAL AG is active (213800PSSU2QXF1WLR89).",
+            "purchase": {
+              "rail": "solana-x402",
+              "receiptHash": "0x76fa7035a133fc5ae3795b62522c2ee021196b0904ef1895995612c717c1e9af",
+              "signalHash": "0x509ca1df7789fada3b9328e6b67968d0bfa9e0ed0018e6bfb498d4c7ca85ca65",
+              "amountUusdc": "10000",
+              "minerId": "6164",
+              "latencyMs": 7646,
+              "settlementTx": "23HqTRRitw9umV7n9m7DkBWKqg7Tuzna7bHeQMTb8yNt8btD8LtZHPkq9g2RyZg8sjQem7uXNJQHf4AFDryfoHuh"
+            }
+          },
+          {
+            "kind": "telegraph",
+            "name": "Miner 98001",
+            "status": "unavailable",
+            "fields": {},
+            "detail": "Expected a 402 payment challenge, got HTTP 503.",
+            "purchase": null
+          }
+        ],
+        "status": "answered",
+        "fields": {
+          "active": true,
+          "legal_name": "GLENCORE INTERNATIONAL AG",
+          "registration_id": "213800PSSU2QXF1WLR89",
+          "sources_agreeing": 1
+        },
+        "detail": "Praman Desk Compliance & Procurement Auditor: GLENCORE INTERNATIONAL AG is active (213800PSSU2QXF1WLR89). (one source)"
+      },
+      {
+        "checkId": "sanctions:seller",
+        "sources": [
+          {
+            "kind": "telegraph",
+            "name": "ChainSight — Universal Intelligence & Data Oracle",
+            "status": "answered",
+            "fields": {
+              "matched": false,
+              "lists": null,
+              "matches": null
+            },
+            "detail": "ChainSight — Universal Intelligence & Data Oracle: no match for GLENCORE INTERNATIONAL AG.",
+            "purchase": {
+              "rail": "solana-x402",
+              "receiptHash": "0x84f10f91711c7ca0195d75c2b8b2e3aeb370740b2b0783c564400ed7e97f10d9",
+              "signalHash": "0xc08324d7dfe6d204d0227a0ebb59277e1c63d62557fe2a00126a6404761854e5",
+              "amountUusdc": "10000",
+              "minerId": "302",
+              "latencyMs": 9796,
+              "settlementTx": "SBFXkXLipu2ZNkAbMRaEJGxFrpyqXLtMuQzfknpYNDp9kseE946vwhDoCyfjzvHntK5abjBUuDaPDydFQJ8tiLo"
+            }
+          },
+          {
+            "kind": "telegraph",
+            "name": "TxLens",
+            "status": "answered",
+            "fields": {
+              "matched": false,
+              "lists": null,
+              "matches": null
+            },
+            "detail": "TxLens: no match for GLENCORE INTERNATIONAL AG.",
+            "purchase": {
+              "rail": "solana-x402",
+              "receiptHash": "0xfe66e3de07128f6f689003c98adb8be52b47739fa09b16874b2ac5c2b18c2a20",
+              "signalHash": "0x6005d301654a3c33161bbe35db0cfea6a95984b7c3be0e0a5dee7196dcce425d",
+              "amountUusdc": "10000",
+              "minerId": "9002",
+              "latencyMs": 7578,
+              "settlementTx": "3HGd2DZDbu4U6eSZib5aK644xvdBYGv4i7yiw4zNR4fpH9RdydRrwPVcurTvXXrX4ePBQ73Wd7qN8yPtSy9ZiNF3"
+            }
+          },
+          {
+            "kind": "official",
+            "name": "OFAC SDN list",
+            "status": "answered",
+            "purchase": null,
+            "fields": {
+              "matched": false,
+              "lists": "OFAC SDN",
+              "matches": null
+            },
+            "detail": "No entry for GLENCORE INTERNATIONAL AG on OFAC's SDN list.",
+            "snapshot": {
+              "url": "https://www.treasury.gov/ofac/downloads/sdn.csv",
+              "sha256": "e83c93e6159498ce0352549f750023eaa47e561e54c496ba1b0c32e3e33872d6",
+              "retrievedAt": "2026-11-25T05:16:13.052Z"
+            }
+          }
+        ],
+        "status": "answered",
+        "fields": {
+          "matched": false,
+          "lists": null,
+          "matches": null,
+          "sources_agreeing": 3
+        },
+        "detail": "ChainSight — Universal Intelligence & Data Oracle: no match for GLENCORE INTERNATIONAL AG. (3 sources agree)"
+      },
+      {
+        "checkId": "sanctions:vessel",
+        "sources": [
+          {
+            "kind": "telegraph",
+            "name": "ChainSight — Universal Intelligence & Data Oracle",
+            "status": "answered",
+            "fields": {
+              "matched": false,
+              "lists": "OFAC SDN",
+              "matches": null
+            },
+            "detail": "ChainSight — Universal Intelligence & Data Oracle: no match for Pacific Ore on OFAC SDN.",
+            "purchase": {
+              "rail": "solana-x402",
+              "receiptHash": "0xc32b4baf015efd80eb719e033a676fbbc2aafb88c4d1d348a377130a9f5d10e7",
+              "signalHash": "0xb5cd35d5052864270d420b3428737dded6b0b4b6ea3ca1f43590cf4417931fa1",
+              "amountUusdc": "10000",
+              "minerId": "302",
+              "latencyMs": 10506,
+              "settlementTx": "3JFGEeAyjidDLkfVUYrkjr7DCan4Dya3BTv6tNj27Z5R3wFxYVWsqdjwC75dxpNX9JFWN12SPhW9dZnE3KUuBMv1"
+            }
+          },
+          {
+            "kind": "telegraph",
+            "name": "TxLens",
+            "status": "answered",
+            "fields": {
+              "matched": false,
+              "lists": null,
+              "matches": null
+            },
+            "detail": "TxLens: no match for Pacific Ore.",
+            "purchase": {
+              "rail": "solana-x402",
+              "receiptHash": "0x79cb1d446264e43943abc6b5ad45331d3e596f472f1c9269702f9107148a16ed",
+              "signalHash": "0x0fd1e9b505ff5262c3f895c222f2d8fbb8925116ba92c82a166613c1cb897695",
+              "amountUusdc": "10000",
+              "minerId": "9002",
+              "latencyMs": 6065,
+              "settlementTx": "2Ne5ag1stsKdpnCiuW2dN5Z49TYuUfF2BDKzBCbfjRFNb7Rge93nSs9tbtpLmGBfCsMKjcfBui6BoDH39nwc2xE5"
+            }
+          },
+          {
+            "kind": "official",
+            "name": "OFAC SDN list",
+            "status": "answered",
+            "purchase": null,
+            "fields": {
+              "matched": false,
+              "lists": "OFAC SDN",
+              "matches": null
+            },
+            "detail": "No entry for Pacific Ore (IMO9412345) on OFAC's SDN list.",
+            "snapshot": {
+              "url": "https://www.treasury.gov/ofac/downloads/sdn.csv",
+              "sha256": "e83c93e6159498ce0352549f750023eaa47e561e54c496ba1b0c32e3e33872d6",
+              "retrievedAt": "2026-11-25T05:16:13.052Z"
+            }
+          }
+        ],
+        "status": "answered",
+        "fields": {
+          "matched": false,
+          "lists": "OFAC SDN",
+          "matches": null,
+          "sources_agreeing": 3
+        },
+        "detail": "ChainSight — Universal Intelligence & Data Oracle: no match for Pacific Ore on OFAC SDN. (3 sources agree)"
+      },
+      {
+        "checkId": "vessel:vessel",
+        "sources": [
+          {
+            "kind": "telegraph",
+            "name": "TxLens",
+            "status": "unreadable",
+            "fields": {
+              "latitude": null,
+              "longitude": null,
+              "speed_knots": null,
+              "observed_at": null
+            },
+            "detail": "TxLens returned no position for Pacific Ore.",
+            "purchase": {
+              "rail": "solana-x402",
+              "receiptHash": "0x702f6c1ef707a851f2348c28dbcdc3878ca4b9b4e906f4cf43a9162d807b239b",
+              "signalHash": "0x5f51c69886e20aebae9a3f79a541140af819cf69b31d668b8e4cfbacd5bc9919",
+              "amountUusdc": "10000",
+              "minerId": "9002",
+              "latencyMs": 7575,
+              "settlementTx": "459HCvd7uvZJA8bPjkkJT3JwXAxK81gLFaeMLXBa6MroZo3a6h2gPScPbV5kBby1AmAridu3i3wDpYtLaWoQAJZ6"
+            }
+          }
+        ],
+        "status": "unreadable",
+        "fields": {},
+        "detail": "TxLens returned no position for Pacific Ore."
+      }
+    ],
+    "decision": {
+      "policy": "triad-release-v1",
+      "decision": "CLEAR",
+      "needs": [],
+      "hits": [
+        {
+          "rule": "R-PAYOUT-CHANGED",
+          "effect": "hold_callback",
+          "text": "Payment would move from account CH-TRUSTED-14 to account NEW-GLENCORE-NEW"
+        }
+      ],
+      "facts": [
+        "GLENCORE INTERNATIONAL AG is an active registered company (213800PSSU2QXF1WLR89).",
+        "No sanctions match for GLENCORE INTERNATIONAL AG.",
+        "No sanctions match for IMO9412345.",
+        "Glencore Treasury Desk confirmed the change by phone (2026-11-25T10:15:00Z)."
+      ],
+      "warnings": [
+        "Payment would move from account CH-TRUSTED-14 to account NEW-GLENCORE-NEW"
+      ],
+      "unknowns": [
+        "Where is Pacific Ore (IMO9412345) now? TxLens returned no position for Pacific Ore."
+      ],
+      "callback": {
+        "target": {
+          "contactId": "treasury",
+          "name": "Glencore Treasury Desk",
+          "channel": "phone",
+          "address": "+41410001005"
+        },
+        "result": {
+          "contactId": "treasury",
+          "channel": "phone",
+          "outcome": "confirmed",
+          "respondedAt": "2026-11-25T10:15:00Z"
+        },
+        "accepted": true
+      }
+    },
+    "cost": {
+      "telegraphUusdc": "60000",
+      "purchases": 6
+    }
+  }
+}

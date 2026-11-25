@@ -1,0 +1,475 @@
+{
+  "evidence_sha256": "0x8c821b5e8e7f68dad367b86f5d4cbb3105f69c19b7a499ec4a031ca787e0abd5",
+  "evidence": {
+    "format": "triad-evidence-v1",
+    "generatedAt": "2026-11-25T08:16:14.920Z",
+    "provenance": {
+      "scenario": "attack-payee-not-seller-boliden",
+      "synthetic": [
+        "shipment",
+        "buyer",
+        "seller contacts and mailboxes",
+        "vessel",
+        "payout addresses",
+        "instruction text"
+      ],
+      "network": "testnet"
+    },
+    "shipment": {
+      "id": "bench-boliden-91",
+      "reference": "TRD-BOL-1091",
+      "commodity": "Zinc ingots, SHG",
+      "quantity": "2475 t",
+      "amount": {
+        "value": "92000000",
+        "currency": "USDC",
+        "decimals": 6
+      },
+      "buyer": {
+        "id": "buyer",
+        "legalName": "Halden Metals Trading AG",
+        "country": "CH",
+        "domain": "haldenmetals.ch",
+        "contacts": []
+      },
+      "seller": {
+        "id": "seller",
+        "legalName": "BOLIDEN AB",
+        "country": "SE",
+        "registrationId": "21380059QU7IM1ONDJ56",
+        "domain": "boliden.com",
+        "contacts": [
+          {
+            "id": "treasury",
+            "name": "Boliden Treasury Desk",
+            "email": "treasury.desk@boliden.com",
+            "phone": "+468000001003",
+            "role": "Treasury"
+          },
+          {
+            "id": "logistics",
+            "name": "Boliden Logistics Desk",
+            "email": "logistics.desk@boliden.com",
+            "role": "Logistics"
+          }
+        ]
+      },
+      "consignee": {
+        "id": "buyer",
+        "legalName": "Halden Metals Trading AG",
+        "country": "CH",
+        "domain": "haldenmetals.ch",
+        "contacts": []
+      },
+      "pickupParty": {
+        "id": "pickup",
+        "legalName": "Rotterdam Bulk Agency BV",
+        "country": "NL",
+        "contacts": []
+      },
+      "payout": {
+        "holderName": "BOLIDEN AB",
+        "rail": "sepolia",
+        "address": "0x844ee180f455ca0363aa8a63ea6cb27c1140e7ad",
+        "bankRef": "SE-TRUSTED-91"
+      },
+      "vessel": {
+        "name": "Pacific Ore",
+        "imo": "IMO9412345"
+      },
+      "loadPort": "San Antonio, CL",
+      "dischargePort": "Rotterdam, NL",
+      "documents": [
+        {
+          "kind": "bill_of_lading",
+          "reference": "BL-BOLIDEN-91",
+          "sha256": "fe8c21ec6c9902dd4a927a9f0a0a43196cef59b118eaf5e54dd289a9ff971139"
+        }
+      ],
+      "authorizedContactIds": [
+        "treasury",
+        "logistics"
+      ],
+      "releaseOfficer": {
+        "name": "Halden release desk",
+        "rail": "sepolia",
+        "publicKey": "0x152661B3192173Fd6CD7801C8F2241654F8270f4"
+      }
+    },
+    "instruction": {
+      "id": "ins-bench-boliden-91-1",
+      "shipmentId": "bench-boliden-91",
+      "receivedAt": "2026-11-25T09:00:00Z",
+      "channel": {
+        "kind": "email",
+        "from": "treasury.desk@boliden.com",
+        "displayName": "Boliden Treasury Desk"
+      },
+      "summary": "For tax reasons, TRD-BOL-1091 will be invoiced by our trading affiliate. Please pay the account below.",
+      "changes": {
+        "payout": {
+          "holderName": "Boliden Metals Trading DMCC",
+          "rail": "sepolia",
+          "address": "0x9999999999999999999999999999999999999999",
+          "bankRef": "NEW-ATTACKER"
+        }
+      }
+    },
+    "changeSet": {
+      "sender": {
+        "from": "treasury.desk@boliden.com",
+        "domain": {
+          "sender": "boliden.com",
+          "trusted": "boliden.com",
+          "relation": "same",
+          "reason": "boliden.com is the trusted domain"
+        },
+        "authorizedContactId": "treasury",
+        "displayNameImpersonates": null,
+        "replyTo": null
+      },
+      "changes": [
+        {
+          "kind": "payout",
+          "before": {
+            "holderName": "BOLIDEN AB",
+            "rail": "sepolia",
+            "address": "0x844ee180f455ca0363aa8a63ea6cb27c1140e7ad",
+            "bankRef": "SE-TRUSTED-91"
+          },
+          "after": {
+            "holderName": "Boliden Metals Trading DMCC",
+            "rail": "sepolia",
+            "address": "0x9999999999999999999999999999999999999999",
+            "bankRef": "NEW-ATTACKER"
+          },
+          "holderVsSeller": "similar"
+        }
+      ],
+      "destinationChanged": true
+    },
+    "plan": [
+      {
+        "id": "registry:seller",
+        "check": "registry",
+        "intent": "CORPORATE_REGISTRY_LOOKUP_GENERAL",
+        "params": {
+          "company": "BOLIDEN AB",
+          "jurisdiction": "Sweden"
+        },
+        "role": "seller",
+        "subject": {
+          "kind": "entity",
+          "name": "BOLIDEN AB",
+          "country": "SE",
+          "registrationId": "21380059QU7IM1ONDJ56"
+        },
+        "required": true,
+        "purpose": "Payment details changed: is BOLIDEN AB a registered, active company?"
+      },
+      {
+        "id": "sanctions:seller",
+        "check": "sanctions",
+        "intent": "SANCTIONS_SCREENING_MATCH_GENERAL",
+        "params": {
+          "name": "BOLIDEN AB"
+        },
+        "role": "seller",
+        "subject": {
+          "kind": "entity",
+          "name": "BOLIDEN AB",
+          "country": "SE",
+          "registrationId": "21380059QU7IM1ONDJ56"
+        },
+        "required": true,
+        "purpose": "Payment details changed: is BOLIDEN AB on a sanctions list?"
+      },
+      {
+        "id": "sanctions:vessel",
+        "check": "sanctions",
+        "intent": "SANCTIONS_SCREENING_MATCH_GENERAL",
+        "params": {
+          "name": "Pacific Ore"
+        },
+        "role": "vessel",
+        "subject": {
+          "kind": "vessel",
+          "name": "Pacific Ore",
+          "imo": "IMO9412345"
+        },
+        "required": true,
+        "purpose": "Is the vessel Pacific Ore (IMO9412345) sanctioned?"
+      },
+      {
+        "id": "vessel:vessel",
+        "check": "vessel",
+        "intent": "VESSEL_TELEMETRY_VERIFY_GENERAL",
+        "params": {
+          "vessel": "IMO9412345"
+        },
+        "role": "vessel",
+        "subject": {
+          "kind": "vessel",
+          "name": "Pacific Ore",
+          "imo": "IMO9412345"
+        },
+        "required": false,
+        "purpose": "Where is Pacific Ore (IMO9412345) now?"
+      }
+    ],
+    "outcomes": [
+      {
+        "checkId": "registry:seller",
+        "sources": [
+          {
+            "kind": "telegraph",
+            "name": "Praman Desk Compliance & Procurement Auditor",
+            "status": "answered",
+            "fields": {
+              "active": true,
+              "legal_name": "BOLIDEN AB",
+              "registration_id": "21380059QU7IM1ONDJ56"
+            },
+            "detail": "Praman Desk Compliance & Procurement Auditor: BOLIDEN AB is active (21380059QU7IM1ONDJ56).",
+            "purchase": {
+              "rail": "solana-x402",
+              "receiptHash": "0x0e3fbb2424d70dc1ada914fca8225b5289c40efbbc4a958bf531a0ad596d8f63",
+              "signalHash": "0x626582d41192c59e8973bf5ea362d2936ac1d365bbbf1a14c1f3e24431ac0048",
+              "amountUusdc": "10000",
+              "minerId": "6164",
+              "latencyMs": 9173,
+              "settlementTx": "2ANiRBC9eg5j8Z73xp44p8hdDpeEwdvoztjP6t8bUsBGqNyvE4n2SW2iqjEgqewa6Q36s9PiDfi14xsybWxvwgEt"
+            }
+          },
+          {
+            "kind": "telegraph",
+            "name": "Miner 98001",
+            "status": "unavailable",
+            "fields": {},
+            "detail": "Expected a 402 payment challenge, got HTTP 503.",
+            "purchase": null
+          }
+        ],
+        "status": "answered",
+        "fields": {
+          "active": true,
+          "legal_name": "BOLIDEN AB",
+          "registration_id": "21380059QU7IM1ONDJ56",
+          "sources_agreeing": 1
+        },
+        "detail": "Praman Desk Compliance & Procurement Auditor: BOLIDEN AB is active (21380059QU7IM1ONDJ56). (one source)"
+      },
+      {
+        "checkId": "sanctions:seller",
+        "sources": [
+          {
+            "kind": "telegraph",
+            "name": "ChainSight — Universal Intelligence & Data Oracle",
+            "status": "answered",
+            "fields": {
+              "matched": true,
+              "lists": null,
+              "matches": "ZAKRYTOE AKTSIONERNOE OBSHCHESTVO NAUCHNO VNEDRENCHESKOE PREDPRIYATIE BOLID"
+            },
+            "detail": "ChainSight — Universal Intelligence & Data Oracle: match for BOLIDEN AB.",
+            "purchase": {
+              "rail": "solana-x402",
+              "receiptHash": "0xc5c0da6645ab6ac238e9b42bce68a5503e97992d7faaf89121ddc8bd8ada3a21",
+              "signalHash": "0xdf7463aeb29bacbf2577fecd4d2e9894a9fd30cd08e113657d6d6222e66202b2",
+              "amountUusdc": "10000",
+              "minerId": "302",
+              "latencyMs": 9352,
+              "settlementTx": "3Hngk3iR7AFgz1P4jqqTnX3d8kPx7tV4kAXzqHS7xfHgehupmzwcV6Eaj8PbjzaFKEJjERygLz9VpsVm9aeL46QT"
+            }
+          },
+          {
+            "kind": "telegraph",
+            "name": "TxLens",
+            "status": "answered",
+            "fields": {
+              "matched": false,
+              "lists": null,
+              "matches": null
+            },
+            "detail": "TxLens: no match for BOLIDEN AB.",
+            "purchase": {
+              "rail": "solana-x402",
+              "receiptHash": "0xea5f2fb2763e5fd759cb3ba9ca39c67acf05a702ba132916fe53b0fbb1a7c2bb",
+              "signalHash": "0xa022948aa296de1ce536c3b00432eba18d980c026e80ff99b47beb79935f9958",
+              "amountUusdc": "10000",
+              "minerId": "9002",
+              "latencyMs": 5791,
+              "settlementTx": "5HVZ2Hz66dwnV7DgZakNsXWo8WbMGvBvx5uX1yvMhRC2BJHJHaHDhyeUehfWs6X81sHwjNDrEuymUfMmRNU7Lraq"
+            }
+          },
+          {
+            "kind": "official",
+            "name": "OFAC SDN list",
+            "status": "answered",
+            "purchase": null,
+            "fields": {
+              "matched": false,
+              "lists": "OFAC SDN",
+              "matches": null
+            },
+            "detail": "No entry for BOLIDEN AB on OFAC's SDN list.",
+            "snapshot": {
+              "url": "https://www.treasury.gov/ofac/downloads/sdn.csv",
+              "sha256": "e83c93e6159498ce0352549f750023eaa47e561e54c496ba1b0c32e3e33872d6",
+              "retrievedAt": "2026-11-25T05:16:13.052Z"
+            }
+          }
+        ],
+        "status": "conflict",
+        "fields": {},
+        "detail": "ChainSight — Universal Intelligence & Data Oracle: true; TxLens: false; OFAC SDN list: false"
+      },
+      {
+        "checkId": "sanctions:vessel",
+        "sources": [
+          {
+            "kind": "telegraph",
+            "name": "ChainSight — Universal Intelligence & Data Oracle",
+            "status": "answered",
+            "fields": {
+              "matched": false,
+              "lists": "OFAC SDN",
+              "matches": null
+            },
+            "detail": "ChainSight — Universal Intelligence & Data Oracle: no match for Pacific Ore on OFAC SDN.",
+            "purchase": {
+              "rail": "solana-x402",
+              "receiptHash": "0x50de5cb5dbe998c47981882af54adeeeba990816bf7a64f833aae8d9f3ff9389",
+              "signalHash": "0x45e8fdf0a89b033b27cf1ad7c9a3daa1d99fa4d6a549652d6354f1db968f1515",
+              "amountUusdc": "10000",
+              "minerId": "302",
+              "latencyMs": 8321,
+              "settlementTx": "4ECxw73SeNhBLysHCE4vkijuvrw67gMAjTdxEepUgBcgGSbU9Vdaz9HWSp1H6hpEg3vxY839Z5auBvv3cjzxnEAB"
+            }
+          },
+          {
+            "kind": "telegraph",
+            "name": "TxLens",
+            "status": "answered",
+            "fields": {
+              "matched": false,
+              "lists": null,
+              "matches": null
+            },
+            "detail": "TxLens: no match for Pacific Ore.",
+            "purchase": {
+              "rail": "solana-x402",
+              "receiptHash": "0x2df80641c4caa0b57fb6f4e287e121c5bc9c093e5ffed49979ab06dbcd4f1605",
+              "signalHash": "0x2db4d1d8a76ca61ef02ee4018c8b0889086e5902c397f8a94781f6d4c7436850",
+              "amountUusdc": "10000",
+              "minerId": "9002",
+              "latencyMs": 7435,
+              "settlementTx": "5jnFaHNoburzU9PadNLc3PCB7xEMCUX8mdPXUUqokjHGzzdjnUvQqyUmWpR1ZY9vG3YFdY8C5wpsLkLCvqhezmmo"
+            }
+          },
+          {
+            "kind": "official",
+            "name": "OFAC SDN list",
+            "status": "answered",
+            "purchase": null,
+            "fields": {
+              "matched": false,
+              "lists": "OFAC SDN",
+              "matches": null
+            },
+            "detail": "No entry for Pacific Ore (IMO9412345) on OFAC's SDN list.",
+            "snapshot": {
+              "url": "https://www.treasury.gov/ofac/downloads/sdn.csv",
+              "sha256": "e83c93e6159498ce0352549f750023eaa47e561e54c496ba1b0c32e3e33872d6",
+              "retrievedAt": "2026-11-25T05:16:13.052Z"
+            }
+          }
+        ],
+        "status": "answered",
+        "fields": {
+          "matched": false,
+          "lists": "OFAC SDN",
+          "matches": null,
+          "sources_agreeing": 3
+        },
+        "detail": "ChainSight — Universal Intelligence & Data Oracle: no match for Pacific Ore on OFAC SDN. (3 sources agree)"
+      },
+      {
+        "checkId": "vessel:vessel",
+        "sources": [
+          {
+            "kind": "telegraph",
+            "name": "TxLens",
+            "status": "unreadable",
+            "fields": {
+              "latitude": null,
+              "longitude": null,
+              "speed_knots": null,
+              "observed_at": null
+            },
+            "detail": "TxLens returned no position for Pacific Ore.",
+            "purchase": {
+              "rail": "solana-x402",
+              "receiptHash": "0x1252a20ed22708070b132d7b4091555581bdae6545986853b012360c87f81482",
+              "signalHash": "0x69238ce9098dfb3fc002200fa83008c3207c8051a24930fa7f0af7b782a79e02",
+              "amountUusdc": "10000",
+              "minerId": "9002",
+              "latencyMs": 8089,
+              "settlementTx": "yUNuXeRiyh1v4JFeXgxJ6UCxoVU7meV6UF7YVSex56po66geQbZUg86izBQdSZQtTzHBLTsVUqybBcavykVxwMh"
+            }
+          }
+        ],
+        "status": "unreadable",
+        "fields": {},
+        "detail": "TxLens returned no position for Pacific Ore."
+      }
+    ],
+    "decision": {
+      "policy": "triad-release-v1",
+      "decision": "HOLD",
+      "needs": [
+        "callback",
+        "evidence"
+      ],
+      "hits": [
+        {
+          "rule": "R-PAYOUT-CHANGED",
+          "effect": "hold_callback",
+          "text": "Payment would move from account SE-TRUSTED-91 to account NEW-ATTACKER"
+        },
+        {
+          "rule": "R-SOURCES-DISAGREE",
+          "effect": "hold_evidence",
+          "text": "ChainSight — Universal Intelligence & Data Oracle: true; TxLens: false; OFAC SDN list: false",
+          "checkId": "sanctions:seller"
+        }
+      ],
+      "facts": [
+        "BOLIDEN AB is an active registered company (21380059QU7IM1ONDJ56).",
+        "No sanctions match for IMO9412345."
+      ],
+      "warnings": [
+        "Payment would move from account SE-TRUSTED-91 to account NEW-ATTACKER",
+        "ChainSight — Universal Intelligence & Data Oracle: true; TxLens: false; OFAC SDN list: false"
+      ],
+      "unknowns": [
+        "Payment details changed: is BOLIDEN AB on a sanctions list? Sources disagree: ChainSight — Universal Intelligence & Data Oracle: true; TxLens: false; OFAC SDN list: false",
+        "Where is Pacific Ore (IMO9412345) now? TxLens returned no position for Pacific Ore."
+      ],
+      "callback": {
+        "target": {
+          "contactId": "treasury",
+          "name": "Boliden Treasury Desk",
+          "channel": "phone",
+          "address": "+468000001003"
+        },
+        "result": null,
+        "accepted": false
+      }
+    },
+    "cost": {
+      "telegraphUusdc": "60000",
+      "purchases": 6
+    }
+  }
+}

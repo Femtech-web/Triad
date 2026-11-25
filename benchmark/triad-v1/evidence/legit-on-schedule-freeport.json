@@ -1,0 +1,148 @@
+{
+  "evidence_sha256": "0xf24841ecc36a4c3dc33a94691184db328ba50be07576e2d09a6b5f571ce27a5b",
+  "evidence": {
+    "format": "triad-evidence-v1",
+    "generatedAt": "2026-11-25T07:45:36.191Z",
+    "provenance": {
+      "scenario": "legit-on-schedule-freeport",
+      "synthetic": [
+        "shipment",
+        "buyer",
+        "seller contacts and mailboxes",
+        "vessel",
+        "payout addresses",
+        "instruction text"
+      ],
+      "network": "testnet"
+    },
+    "shipment": {
+      "id": "bench-freeport-3",
+      "reference": "TRD-FRE-1003",
+      "commodity": "Copper cathodes, COMEX grade 1",
+      "quantity": "275 t",
+      "amount": {
+        "value": "4000000",
+        "currency": "USDC",
+        "decimals": 6
+      },
+      "buyer": {
+        "id": "buyer",
+        "legalName": "Halden Metals Trading AG",
+        "country": "CH",
+        "domain": "haldenmetals.ch",
+        "contacts": []
+      },
+      "seller": {
+        "id": "seller",
+        "legalName": "FREEPORT-MCMORAN INC.",
+        "country": "US",
+        "registrationId": "549300IRDTHJQ1PVET45",
+        "domain": "fcx.com",
+        "contacts": [
+          {
+            "id": "treasury",
+            "name": "Freeport-McMoRan Treasury Desk",
+            "email": "treasury.desk@fcx.com",
+            "phone": "+16020001004",
+            "role": "Treasury"
+          },
+          {
+            "id": "logistics",
+            "name": "Freeport-McMoRan Logistics Desk",
+            "email": "logistics.desk@fcx.com",
+            "role": "Logistics"
+          }
+        ]
+      },
+      "consignee": {
+        "id": "buyer",
+        "legalName": "Halden Metals Trading AG",
+        "country": "CH",
+        "domain": "haldenmetals.ch",
+        "contacts": []
+      },
+      "pickupParty": {
+        "id": "pickup",
+        "legalName": "Rotterdam Bulk Agency BV",
+        "country": "NL",
+        "contacts": []
+      },
+      "payout": {
+        "holderName": "FREEPORT-MCMORAN INC.",
+        "rail": "sepolia",
+        "address": "0x57c5b377f90acf07938e088434c18fdca358b49b",
+        "bankRef": "US-TRUSTED-3"
+      },
+      "vessel": {
+        "name": "Pacific Ore",
+        "imo": "IMO9412345"
+      },
+      "loadPort": "San Antonio, CL",
+      "dischargePort": "Rotterdam, NL",
+      "documents": [
+        {
+          "kind": "bill_of_lading",
+          "reference": "BL-FREEPORT-3",
+          "sha256": "9e90865f55bffb6c168b9f68cd8766384f36d3d7330dbf5a742dbe3c450b9bdd"
+        }
+      ],
+      "authorizedContactIds": [
+        "treasury",
+        "logistics"
+      ],
+      "releaseOfficer": {
+        "name": "Halden release desk",
+        "rail": "sepolia",
+        "publicKey": "0x152661B3192173Fd6CD7801C8F2241654F8270f4"
+      }
+    },
+    "instruction": {
+      "id": "ins-bench-freeport-3-1",
+      "shipmentId": "bench-freeport-3",
+      "receivedAt": "2026-11-25T09:00:00Z",
+      "channel": {
+        "kind": "email",
+        "from": "treasury.desk@fcx.com",
+        "displayName": "Freeport-McMoRan Treasury Desk"
+      },
+      "summary": "Delivery of TRD-FRE-1003 confirmed at Rotterdam. Please settle the invoice as agreed.",
+      "changes": {}
+    },
+    "changeSet": {
+      "sender": {
+        "from": "treasury.desk@fcx.com",
+        "domain": {
+          "sender": "fcx.com",
+          "trusted": "fcx.com",
+          "relation": "same",
+          "reason": "fcx.com is the trusted domain"
+        },
+        "authorizedContactId": "treasury",
+        "displayNameImpersonates": null,
+        "replyTo": null
+      },
+      "changes": [],
+      "destinationChanged": false
+    },
+    "plan": [],
+    "outcomes": [],
+    "decision": {
+      "policy": "triad-release-v1",
+      "decision": "CLEAR",
+      "needs": [],
+      "hits": [],
+      "facts": [],
+      "warnings": [],
+      "unknowns": [],
+      "callback": {
+        "target": null,
+        "result": null,
+        "accepted": false
+      }
+    },
+    "cost": {
+      "telegraphUusdc": "0",
+      "purchases": 0
+    }
+  }
+}

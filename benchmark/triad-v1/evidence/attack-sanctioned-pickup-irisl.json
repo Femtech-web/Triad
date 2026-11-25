@@ -1,0 +1,486 @@
+{
+  "evidence_sha256": "0x3425010a34764f89e999586fa2ef09e672865a83cb3867dbeca266254ac07d4f",
+  "evidence": {
+    "format": "triad-evidence-v1",
+    "generatedAt": "2026-11-25T08:17:44.580Z",
+    "provenance": {
+      "scenario": "attack-sanctioned-pickup-irisl",
+      "synthetic": [
+        "shipment",
+        "buyer",
+        "seller contacts and mailboxes",
+        "vessel",
+        "payout addresses",
+        "instruction text"
+      ],
+      "network": "testnet"
+    },
+    "shipment": {
+      "id": "bench-boliden-102",
+      "reference": "TRD-BOL-1102",
+      "commodity": "Zinc ingots, SHG",
+      "quantity": "2750 t",
+      "amount": {
+        "value": "103000000",
+        "currency": "USDC",
+        "decimals": 6
+      },
+      "buyer": {
+        "id": "buyer",
+        "legalName": "Halden Metals Trading AG",
+        "country": "CH",
+        "domain": "haldenmetals.ch",
+        "contacts": []
+      },
+      "seller": {
+        "id": "seller",
+        "legalName": "BOLIDEN AB",
+        "country": "SE",
+        "registrationId": "21380059QU7IM1ONDJ56",
+        "domain": "boliden.com",
+        "contacts": [
+          {
+            "id": "treasury",
+            "name": "Boliden Treasury Desk",
+            "email": "treasury.desk@boliden.com",
+            "phone": "+468000001003",
+            "role": "Treasury"
+          },
+          {
+            "id": "logistics",
+            "name": "Boliden Logistics Desk",
+            "email": "logistics.desk@boliden.com",
+            "role": "Logistics"
+          }
+        ]
+      },
+      "consignee": {
+        "id": "buyer",
+        "legalName": "Halden Metals Trading AG",
+        "country": "CH",
+        "domain": "haldenmetals.ch",
+        "contacts": []
+      },
+      "pickupParty": {
+        "id": "pickup",
+        "legalName": "Rotterdam Bulk Agency BV",
+        "country": "NL",
+        "contacts": []
+      },
+      "payout": {
+        "holderName": "BOLIDEN AB",
+        "rail": "sepolia",
+        "address": "0x844ee180f455ca0363aa8a63ea6cb27c1140e7ad",
+        "bankRef": "SE-TRUSTED-102"
+      },
+      "vessel": {
+        "name": "Pacific Ore",
+        "imo": "IMO9412345"
+      },
+      "loadPort": "San Antonio, CL",
+      "dischargePort": "Rotterdam, NL",
+      "documents": [
+        {
+          "kind": "bill_of_lading",
+          "reference": "BL-BOLIDEN-102",
+          "sha256": "bf1ac6b7427fee0454210e7578ad9d250872e139614ec5cd1cf2edd22337c1ac"
+        }
+      ],
+      "authorizedContactIds": [
+        "treasury",
+        "logistics"
+      ],
+      "releaseOfficer": {
+        "name": "Halden release desk",
+        "rail": "sepolia",
+        "publicKey": "0x152661B3192173Fd6CD7801C8F2241654F8270f4"
+      }
+    },
+    "instruction": {
+      "id": "ins-bench-boliden-102-1",
+      "shipmentId": "bench-boliden-102",
+      "receivedAt": "2026-11-25T09:00:00Z",
+      "channel": {
+        "kind": "email",
+        "from": "logistics.desk@boliden.com",
+        "displayName": "Boliden Logistics Desk"
+      },
+      "summary": "Change of forwarding agent: please release the cargo at Rotterdam to Islamic Republic of Iran Shipping Lines.",
+      "changes": {
+        "pickupParty": {
+          "id": "sdn-irisl",
+          "legalName": "Islamic Republic of Iran Shipping Lines",
+          "country": "IR",
+          "contacts": []
+        }
+      }
+    },
+    "changeSet": {
+      "sender": {
+        "from": "logistics.desk@boliden.com",
+        "domain": {
+          "sender": "boliden.com",
+          "trusted": "boliden.com",
+          "relation": "same",
+          "reason": "boliden.com is the trusted domain"
+        },
+        "authorizedContactId": "logistics",
+        "displayNameImpersonates": null,
+        "replyTo": null
+      },
+      "changes": [
+        {
+          "kind": "pickup_party",
+          "before": {
+            "id": "pickup",
+            "legalName": "Rotterdam Bulk Agency BV",
+            "country": "NL",
+            "contacts": []
+          },
+          "after": {
+            "id": "sdn-irisl",
+            "legalName": "Islamic Republic of Iran Shipping Lines",
+            "country": "IR",
+            "contacts": []
+          }
+        }
+      ],
+      "destinationChanged": true
+    },
+    "plan": [
+      {
+        "id": "registry:pickup_party",
+        "check": "registry",
+        "intent": "CORPORATE_REGISTRY_LOOKUP_GENERAL",
+        "params": {
+          "company": "Islamic Republic of Iran Shipping Lines",
+          "jurisdiction": "Iran"
+        },
+        "role": "pickup_party",
+        "subject": {
+          "kind": "entity",
+          "name": "Islamic Republic of Iran Shipping Lines",
+          "country": "IR"
+        },
+        "required": true,
+        "purpose": "Pickup party changed: is Islamic Republic of Iran Shipping Lines a registered, active company?"
+      },
+      {
+        "id": "sanctions:pickup_party",
+        "check": "sanctions",
+        "intent": "SANCTIONS_SCREENING_MATCH_GENERAL",
+        "params": {
+          "name": "Islamic Republic of Iran Shipping Lines"
+        },
+        "role": "pickup_party",
+        "subject": {
+          "kind": "entity",
+          "name": "Islamic Republic of Iran Shipping Lines",
+          "country": "IR"
+        },
+        "required": true,
+        "purpose": "Pickup party changed: is Islamic Republic of Iran Shipping Lines on a sanctions list?"
+      },
+      {
+        "id": "sanctions:vessel",
+        "check": "sanctions",
+        "intent": "SANCTIONS_SCREENING_MATCH_GENERAL",
+        "params": {
+          "name": "Pacific Ore"
+        },
+        "role": "vessel",
+        "subject": {
+          "kind": "vessel",
+          "name": "Pacific Ore",
+          "imo": "IMO9412345"
+        },
+        "required": true,
+        "purpose": "Is the vessel Pacific Ore (IMO9412345) sanctioned?"
+      },
+      {
+        "id": "vessel:vessel",
+        "check": "vessel",
+        "intent": "VESSEL_TELEMETRY_VERIFY_GENERAL",
+        "params": {
+          "vessel": "IMO9412345"
+        },
+        "role": "vessel",
+        "subject": {
+          "kind": "vessel",
+          "name": "Pacific Ore",
+          "imo": "IMO9412345"
+        },
+        "required": false,
+        "purpose": "Where is Pacific Ore (IMO9412345) now?"
+      }
+    ],
+    "outcomes": [
+      {
+        "checkId": "registry:pickup_party",
+        "sources": [
+          {
+            "kind": "telegraph",
+            "name": "Praman Desk Compliance & Procurement Auditor",
+            "status": "unbound",
+            "fields": {
+              "active": false,
+              "legal_name": null,
+              "registration_id": null
+            },
+            "detail": "Praman Desk Compliance & Procurement Auditor said \"inactive\" without naming the company or its registration.",
+            "purchase": {
+              "rail": "solana-x402",
+              "receiptHash": "0x4d303aded197e6b6d8bf149a4bacb29b640171c7e3775bbe206ea5b2c8fe96bb",
+              "signalHash": "0x3b348dcd986560d5bc187cb435e624be2f91c348cb5913941ff223fa22992b8d",
+              "amountUusdc": "10000",
+              "minerId": "6164",
+              "latencyMs": 8410,
+              "settlementTx": "3PtLRjWCRLNNcE6MMGmy5h7EDiJn63kyT953PvNJcBD8sV8eHKqqzmsXDCxxdpFQDw43iwDcEDxvcjVJ6JTxeRZs"
+            }
+          },
+          {
+            "kind": "telegraph",
+            "name": "GLEIF LEI Tesla",
+            "status": "unreadable",
+            "fields": {
+              "active": null,
+              "legal_name": null,
+              "registration_id": null
+            },
+            "detail": "GLEIF LEI Tesla did not say whether Islamic Republic of Iran Shipping Lines is active.",
+            "purchase": {
+              "rail": "solana-x402",
+              "receiptHash": "0x7547fe06aac48b8710383f234846b5238d90ec334ec8e9c06f44dd143f306423",
+              "signalHash": "0xb5b55d6a6b832c435c5fd35d4547af1d3918b674681936a970cd76059b1e1ddc",
+              "amountUusdc": "10000",
+              "minerId": "98001",
+              "latencyMs": 7286,
+              "settlementTx": "3QamUdszN1PgSVgGJBT1qrkQGrmgdQbJ9egafXPwxDwE2gUyxkLZD9eWKV5wStA4n5ynXasADY2bxvDN6VXcMg9o"
+            }
+          }
+        ],
+        "status": "unbound",
+        "fields": {},
+        "detail": "Praman Desk Compliance & Procurement Auditor said \"inactive\" without naming the company or its registration. GLEIF LEI Tesla did not say whether Islamic Republic of Iran Shipping Lines is active."
+      },
+      {
+        "checkId": "sanctions:pickup_party",
+        "sources": [
+          {
+            "kind": "telegraph",
+            "name": "ChainSight — Universal Intelligence & Data Oracle",
+            "status": "answered",
+            "fields": {
+              "matched": true,
+              "lists": null,
+              "matches": "ISLAMIC REPUBLIC OF IRAN SHIPPING LINES"
+            },
+            "detail": "ChainSight — Universal Intelligence & Data Oracle: match for Islamic Republic of Iran Shipping Lines.",
+            "purchase": {
+              "rail": "solana-x402",
+              "receiptHash": "0x1b837664ef934481568767171b6eefb56d67c082e99c87e8d41fd49ab2a641e5",
+              "signalHash": "0xc6c08da0638032a2f24b08da358914ea6d849c2b18b43c6eec58314929657885",
+              "amountUusdc": "10000",
+              "minerId": "302",
+              "latencyMs": 13313,
+              "settlementTx": "5S82rFroaYeFE9srNe3asvwhW5r4TYi7jQ7WCw1mhqiz7oSN1AMGbzqtthHo6KFz67zKhJFd8RzR7pYfPUM4mBFe"
+            }
+          },
+          {
+            "kind": "telegraph",
+            "name": "TxLens",
+            "status": "answered",
+            "fields": {
+              "matched": true,
+              "lists": "US Treasury OFAC SDN list",
+              "matches": "ISLAMIC REPUBLIC OF IRAN SHIPPING LINES, ISLAMIC REPUBLIC OF IRAN SHIPPING LINES INVESTMENT, ISLAMIC REPUBLIC OF IRAN - CHINA SHIPPING LINES, ISLAMIC REPUBLIC OF IRAN - MIDDLE EAST SHIPPING LINES COMPANY, LAW ENFORCEMENT FORCES OF THE ISLAMIC REPUBLIC OF IRAN"
+            },
+            "detail": "TxLens: match for Islamic Republic of Iran Shipping Lines on US Treasury OFAC SDN list.",
+            "purchase": {
+              "rail": "solana-x402",
+              "receiptHash": "0x39946db5f07f4eea1a6fc38874bee384185284afc3cd5a2dfc7bfd9e0c27dd7e",
+              "signalHash": "0x2b66743e506ebf66dc6c3980c1ed0246ca4fdd03559906bf7a539511ff14310e",
+              "amountUusdc": "10000",
+              "minerId": "9002",
+              "latencyMs": 10829,
+              "settlementTx": "2SLF1jso7hvC32wULH8rw5vE4ZoR4GES9Dmv2t3qY8xNT1NuwevAC33mBiqv5N61TDdfLJ1HqEVJ5EHYFF6r8tzn"
+            }
+          },
+          {
+            "kind": "official",
+            "name": "OFAC SDN list",
+            "status": "answered",
+            "purchase": null,
+            "fields": {
+              "matched": true,
+              "lists": "OFAC SDN",
+              "matches": "ISLAMIC REPUBLIC OF IRAN SHIPPING LINES (SDN 25396; IRAN] [NPWMD] [IFSR] [IFCA); ISLAMIC REPUBLIC OF IRAN SHIPPING LINES INVESTMENT (SDN 25432; IRAN); ISLAMIC REPUBLIC OF IRAN - CHINA SHIPPING LINES (SDN 25783; IRAN); ISLAMIC REPUBLIC OF IRAN - MIDDLE EAST SHIPPING LINES COMPANY (SDN 25797; IRAN); SHIPPING WELFARE SERVICES INSTITUTE (SDN 25799; IRAN)"
+            },
+            "detail": "OFAC's SDN list matches Islamic Republic of Iran Shipping Lines: ISLAMIC REPUBLIC OF IRAN SHIPPING LINES (SDN 25396; IRAN] [NPWMD] [IFSR] [IFCA); ISLAMIC REPUBLIC OF IRAN SHIPPING LINES INVESTMENT (SDN 25432; IRAN); ISLAMIC REPUBLIC OF IRAN - CHINA SHIPPING LINES (SDN 25783; IRAN); ISLAMIC REPUBLIC OF IRAN - MIDDLE EAST SHIPPING LINES COMPANY (SDN 25797; IRAN); SHIPPING WELFARE SERVICES INSTITUTE (SDN 25799; IRAN).",
+            "snapshot": {
+              "url": "https://www.treasury.gov/ofac/downloads/sdn.csv",
+              "sha256": "e83c93e6159498ce0352549f750023eaa47e561e54c496ba1b0c32e3e33872d6",
+              "retrievedAt": "2026-11-25T05:16:13.052Z"
+            }
+          }
+        ],
+        "status": "answered",
+        "fields": {
+          "matched": true,
+          "lists": "OFAC SDN",
+          "matches": "ISLAMIC REPUBLIC OF IRAN SHIPPING LINES (SDN 25396; IRAN] [NPWMD] [IFSR] [IFCA); ISLAMIC REPUBLIC OF IRAN SHIPPING LINES INVESTMENT (SDN 25432; IRAN); ISLAMIC REPUBLIC OF IRAN - CHINA SHIPPING LINES (SDN 25783; IRAN); ISLAMIC REPUBLIC OF IRAN - MIDDLE EAST SHIPPING LINES COMPANY (SDN 25797; IRAN); SHIPPING WELFARE SERVICES INSTITUTE (SDN 25799; IRAN)"
+        },
+        "detail": "OFAC's SDN list matches Islamic Republic of Iran Shipping Lines: ISLAMIC REPUBLIC OF IRAN SHIPPING LINES (SDN 25396; IRAN] [NPWMD] [IFSR] [IFCA); ISLAMIC REPUBLIC OF IRAN SHIPPING LINES INVESTMENT (SDN 25432; IRAN); ISLAMIC REPUBLIC OF IRAN - CHINA SHIPPING LINES (SDN 25783; IRAN); ISLAMIC REPUBLIC OF IRAN - MIDDLE EAST SHIPPING LINES COMPANY (SDN 25797; IRAN); SHIPPING WELFARE SERVICES INSTITUTE (SDN 25799; IRAN)."
+      },
+      {
+        "checkId": "sanctions:vessel",
+        "sources": [
+          {
+            "kind": "telegraph",
+            "name": "ChainSight — Universal Intelligence & Data Oracle",
+            "status": "answered",
+            "fields": {
+              "matched": false,
+              "lists": "OFAC SDN",
+              "matches": null
+            },
+            "detail": "ChainSight — Universal Intelligence & Data Oracle: no match for Pacific Ore on OFAC SDN.",
+            "purchase": {
+              "rail": "solana-x402",
+              "receiptHash": "0x5e2b61d4503fed35d615d9e40f3756170ef89674273e7a6186ece14de1948f8b",
+              "signalHash": "0xab7c2b5b0de4b9a7bffc33ddec79582a0ee8567e933b29c7e69ec30d05db8626",
+              "amountUusdc": "10000",
+              "minerId": "302",
+              "latencyMs": 7552,
+              "settlementTx": "4nkN7xwxFacfA2apVSRSBrMXkV3pBbSGCHteA5erFkwCb7hntXscq5qy27z67HSsGih1eeYbPiDSChqDbdjtirdZ"
+            }
+          },
+          {
+            "kind": "telegraph",
+            "name": "TxLens",
+            "status": "answered",
+            "fields": {
+              "matched": false,
+              "lists": null,
+              "matches": null
+            },
+            "detail": "TxLens: no match for Pacific Ore.",
+            "purchase": {
+              "rail": "solana-x402",
+              "receiptHash": "0x47e121ac05b8fcd998901870a97c6bc9236f048077f93bd4aaa7ba5850fa2531",
+              "signalHash": "0x0cdf25f58169a0a96384c2f4781b599e7cd1fa6d20cec01cd925381f1e3b2b72",
+              "amountUusdc": "10000",
+              "minerId": "9002",
+              "latencyMs": 6469,
+              "settlementTx": "E4sTjBKJoLH5UtozwDoCJafGA32CnT93DkB1hMSugNKCn2hNH47regRVFyGhnWVv758sjX9k1oiakv6uFkqGH5j"
+            }
+          },
+          {
+            "kind": "official",
+            "name": "OFAC SDN list",
+            "status": "answered",
+            "purchase": null,
+            "fields": {
+              "matched": false,
+              "lists": "OFAC SDN",
+              "matches": null
+            },
+            "detail": "No entry for Pacific Ore (IMO9412345) on OFAC's SDN list.",
+            "snapshot": {
+              "url": "https://www.treasury.gov/ofac/downloads/sdn.csv",
+              "sha256": "e83c93e6159498ce0352549f750023eaa47e561e54c496ba1b0c32e3e33872d6",
+              "retrievedAt": "2026-11-25T05:16:13.052Z"
+            }
+          }
+        ],
+        "status": "answered",
+        "fields": {
+          "matched": false,
+          "lists": "OFAC SDN",
+          "matches": null,
+          "sources_agreeing": 3
+        },
+        "detail": "ChainSight — Universal Intelligence & Data Oracle: no match for Pacific Ore on OFAC SDN. (3 sources agree)"
+      },
+      {
+        "checkId": "vessel:vessel",
+        "sources": [
+          {
+            "kind": "telegraph",
+            "name": "TxLens",
+            "status": "unreadable",
+            "fields": {
+              "latitude": null,
+              "longitude": null,
+              "speed_knots": null,
+              "observed_at": null
+            },
+            "detail": "TxLens returned no position for Pacific Ore.",
+            "purchase": {
+              "rail": "solana-x402",
+              "receiptHash": "0x07b4255630ad27d47e4e9c4a868db979967bbce98c3c354e57d3d3a79302d9d4",
+              "signalHash": "0x9d78b2e4fdfa82915c0519a1f81cda00f9725c8caed1aa5d595d6c678f797be2",
+              "amountUusdc": "10000",
+              "minerId": "9002",
+              "latencyMs": 6681,
+              "settlementTx": "4ugwMHFM1quowc787P4pjBSaPqvyHk5fNs34NjUCpQ233ZRz6XxNXznmkcpDCwyL94fqceYTzSDyxvySUoQP5T9o"
+            }
+          }
+        ],
+        "status": "unreadable",
+        "fields": {},
+        "detail": "TxLens returned no position for Pacific Ore."
+      }
+    ],
+    "decision": {
+      "policy": "triad-release-v1",
+      "decision": "BLOCK",
+      "needs": [],
+      "hits": [
+        {
+          "rule": "R-CARGO-PARTY-CHANGED",
+          "effect": "hold_callback",
+          "text": "The pickup party would change from Rotterdam Bulk Agency BV to Islamic Republic of Iran Shipping Lines"
+        },
+        {
+          "rule": "R-EVIDENCE-MISSING",
+          "effect": "hold_evidence",
+          "text": "Pickup party changed: is Islamic Republic of Iran Shipping Lines a registered, active company? Praman Desk Compliance & Procurement Auditor said \"inactive\" without naming the company or its registration. GLEIF LEI Tesla did not say whether Islamic Republic of Iran Shipping Lines is active.",
+          "checkId": "registry:pickup_party"
+        },
+        {
+          "rule": "R-SANCTIONS-MATCH",
+          "effect": "block",
+          "text": "Islamic Republic of Iran Shipping Lines matches a sanctions list entry (OFAC SDN)",
+          "checkId": "sanctions:pickup_party"
+        }
+      ],
+      "facts": [
+        "No sanctions match for IMO9412345."
+      ],
+      "warnings": [
+        "The pickup party would change from Rotterdam Bulk Agency BV to Islamic Republic of Iran Shipping Lines",
+        "Pickup party changed: is Islamic Republic of Iran Shipping Lines a registered, active company? Praman Desk Compliance & Procurement Auditor said \"inactive\" without naming the company or its registration. GLEIF LEI Tesla did not say whether Islamic Republic of Iran Shipping Lines is active.",
+        "Islamic Republic of Iran Shipping Lines matches a sanctions list entry (OFAC SDN)"
+      ],
+      "unknowns": [
+        "Pickup party changed: is Islamic Republic of Iran Shipping Lines a registered, active company? Praman Desk Compliance & Procurement Auditor said \"inactive\" without naming the company or its registration. GLEIF LEI Tesla did not say whether Islamic Republic of Iran Shipping Lines is active.",
+        "Where is Pacific Ore (IMO9412345) now? TxLens returned no position for Pacific Ore."
+      ],
+      "callback": {
+        "target": {
+          "contactId": "treasury",
+          "name": "Boliden Treasury Desk",
+          "channel": "phone",
+          "address": "+468000001003"
+        },
+        "result": null,
+        "accepted": false
+      }
+    },
+    "cost": {
+      "telegraphUusdc": "70000",
+      "purchases": 7
+    }
+  }
+}

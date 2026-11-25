@@ -1,0 +1,319 @@
+{
+  "evidence_sha256": "0x377f072bf5accba5a8df086d09e9c135b276ad2dcc98511194b2703b693a5fd8",
+  "evidence": {
+    "format": "triad-evidence-v1",
+    "generatedAt": "2026-11-25T08:18:07.449Z",
+    "provenance": {
+      "scenario": "attack-sanctioned-vessel-imo9413559",
+      "synthetic": [
+        "shipment",
+        "buyer",
+        "seller contacts and mailboxes",
+        "vessel",
+        "payout addresses",
+        "instruction text"
+      ],
+      "network": "testnet"
+    },
+    "shipment": {
+      "id": "bench-freeport-110",
+      "reference": "TRD-FRE-1110",
+      "commodity": "Copper cathodes, COMEX grade 1",
+      "quantity": "2950 t",
+      "amount": {
+        "value": "111000000",
+        "currency": "USDC",
+        "decimals": 6
+      },
+      "buyer": {
+        "id": "buyer",
+        "legalName": "Halden Metals Trading AG",
+        "country": "CH",
+        "domain": "haldenmetals.ch",
+        "contacts": []
+      },
+      "seller": {
+        "id": "seller",
+        "legalName": "FREEPORT-MCMORAN INC.",
+        "country": "US",
+        "registrationId": "549300IRDTHJQ1PVET45",
+        "domain": "fcx.com",
+        "contacts": [
+          {
+            "id": "treasury",
+            "name": "Freeport-McMoRan Treasury Desk",
+            "email": "treasury.desk@fcx.com",
+            "phone": "+16020001004",
+            "role": "Treasury"
+          },
+          {
+            "id": "logistics",
+            "name": "Freeport-McMoRan Logistics Desk",
+            "email": "logistics.desk@fcx.com",
+            "role": "Logistics"
+          }
+        ]
+      },
+      "consignee": {
+        "id": "buyer",
+        "legalName": "Halden Metals Trading AG",
+        "country": "CH",
+        "domain": "haldenmetals.ch",
+        "contacts": []
+      },
+      "pickupParty": {
+        "id": "pickup",
+        "legalName": "Rotterdam Bulk Agency BV",
+        "country": "NL",
+        "contacts": []
+      },
+      "payout": {
+        "holderName": "FREEPORT-MCMORAN INC.",
+        "rail": "sepolia",
+        "address": "0x57c5b377f90acf07938e088434c18fdca358b49b",
+        "bankRef": "US-TRUSTED-110"
+      },
+      "vessel": {
+        "name": "Pacific Ore",
+        "imo": "IMO9412345"
+      },
+      "loadPort": "San Antonio, CL",
+      "dischargePort": "Rotterdam, NL",
+      "documents": [
+        {
+          "kind": "bill_of_lading",
+          "reference": "BL-FREEPORT-110",
+          "sha256": "9edb9c0aebb09116b2d13487ecb1b7478c1845f2f322f55e3022e781ac14b876"
+        }
+      ],
+      "authorizedContactIds": [
+        "treasury",
+        "logistics"
+      ],
+      "releaseOfficer": {
+        "name": "Halden release desk",
+        "rail": "sepolia",
+        "publicKey": "0x152661B3192173Fd6CD7801C8F2241654F8270f4"
+      }
+    },
+    "instruction": {
+      "id": "ins-bench-freeport-110-1",
+      "shipmentId": "bench-freeport-110",
+      "receivedAt": "2026-11-25T09:00:00Z",
+      "channel": {
+        "kind": "email",
+        "from": "logistics.desk@fcx.com",
+        "displayName": "Freeport-McMoRan Logistics Desk"
+      },
+      "summary": "Owing to a schedule change the cargo will be carried by NS Antarctic (IMO9413559) instead of Pacific Ore.",
+      "changes": {
+        "vessel": {
+          "name": "NS Antarctic",
+          "imo": "IMO9413559"
+        }
+      }
+    },
+    "changeSet": {
+      "sender": {
+        "from": "logistics.desk@fcx.com",
+        "domain": {
+          "sender": "fcx.com",
+          "trusted": "fcx.com",
+          "relation": "same",
+          "reason": "fcx.com is the trusted domain"
+        },
+        "authorizedContactId": "logistics",
+        "displayNameImpersonates": null,
+        "replyTo": null
+      },
+      "changes": [
+        {
+          "kind": "vessel",
+          "before": {
+            "name": "Pacific Ore",
+            "imo": "IMO9412345"
+          },
+          "after": {
+            "name": "NS Antarctic",
+            "imo": "IMO9413559"
+          }
+        }
+      ],
+      "destinationChanged": true
+    },
+    "plan": [
+      {
+        "id": "sanctions:vessel",
+        "check": "sanctions",
+        "intent": "SANCTIONS_SCREENING_MATCH_GENERAL",
+        "params": {
+          "name": "NS Antarctic"
+        },
+        "role": "vessel",
+        "subject": {
+          "kind": "vessel",
+          "name": "NS Antarctic",
+          "imo": "IMO9413559"
+        },
+        "required": true,
+        "purpose": "Is the vessel NS Antarctic (IMO9413559) sanctioned?"
+      },
+      {
+        "id": "vessel:vessel",
+        "check": "vessel",
+        "intent": "VESSEL_TELEMETRY_VERIFY_GENERAL",
+        "params": {
+          "vessel": "IMO9413559"
+        },
+        "role": "vessel",
+        "subject": {
+          "kind": "vessel",
+          "name": "NS Antarctic",
+          "imo": "IMO9413559"
+        },
+        "required": false,
+        "purpose": "Where is NS Antarctic (IMO9413559) now?"
+      }
+    ],
+    "outcomes": [
+      {
+        "checkId": "sanctions:vessel",
+        "sources": [
+          {
+            "kind": "telegraph",
+            "name": "ChainSight — Universal Intelligence & Data Oracle",
+            "status": "answered",
+            "fields": {
+              "matched": true,
+              "lists": null,
+              "matches": "NS ANTARCTIC"
+            },
+            "detail": "ChainSight — Universal Intelligence & Data Oracle: match for NS Antarctic.",
+            "purchase": {
+              "rail": "solana-x402",
+              "receiptHash": "0x40ecca4c50829ce87f7bafbeb10cfafa91f607ee3ae7453ebcc0fa14e44d9fd6",
+              "signalHash": "0x179ed650dfd6175a5a8f111d2c0cedfa8157e022519eb262e595268156552846",
+              "amountUusdc": "10000",
+              "minerId": "302",
+              "latencyMs": 14967,
+              "settlementTx": "2Z3vWwnDZsTNejFkWjwBvFtqUz5X5pxc6rPGumVR2WetGVniH2LPsBTQRBS7KGLzkDtdxwS5epxMkZxcdYjkdSn1"
+            }
+          },
+          {
+            "kind": "telegraph",
+            "name": "TxLens",
+            "status": "answered",
+            "fields": {
+              "matched": true,
+              "lists": "OFAC SDN list",
+              "matches": "NS ANTARCTIC"
+            },
+            "detail": "TxLens: match for NS Antarctic on OFAC SDN list.",
+            "purchase": {
+              "rail": "solana-x402",
+              "receiptHash": "0x4dc6a68faa17e479a12025d061e09398fb59638bbf8a441bd50484f0d5ad045c",
+              "signalHash": "0xa3105828565c0d238439ab38cd7a9c5846fc7e86a602c41742cebfd49a02c13c",
+              "amountUusdc": "10000",
+              "minerId": "9002",
+              "latencyMs": 7891,
+              "settlementTx": "3LVSN5bh514mPSmXFLMDiM5Ym6giRr576t6dQKXLKw7j3LxBmXd1QVWbV9siAfcargakMz4Vcdona8QEWSSpcQmB"
+            }
+          },
+          {
+            "kind": "official",
+            "name": "OFAC SDN list",
+            "status": "answered",
+            "purchase": null,
+            "fields": {
+              "matched": true,
+              "lists": "OFAC SDN",
+              "matches": "NS ANTARCTIC (SDN 46972; RUSSIA-EO14024)"
+            },
+            "detail": "OFAC's SDN list matches NS Antarctic (IMO9413559): NS ANTARCTIC (SDN 46972; RUSSIA-EO14024).",
+            "snapshot": {
+              "url": "https://www.treasury.gov/ofac/downloads/sdn.csv",
+              "sha256": "e83c93e6159498ce0352549f750023eaa47e561e54c496ba1b0c32e3e33872d6",
+              "retrievedAt": "2026-11-25T05:16:13.052Z"
+            }
+          }
+        ],
+        "status": "answered",
+        "fields": {
+          "matched": true,
+          "lists": "OFAC SDN",
+          "matches": "NS ANTARCTIC (SDN 46972; RUSSIA-EO14024)"
+        },
+        "detail": "OFAC's SDN list matches NS Antarctic (IMO9413559): NS ANTARCTIC (SDN 46972; RUSSIA-EO14024)."
+      },
+      {
+        "checkId": "vessel:vessel",
+        "sources": [
+          {
+            "kind": "telegraph",
+            "name": "PREFLIGHT Infrastructure Signals",
+            "status": "unreadable",
+            "fields": {
+              "latitude": null,
+              "longitude": null,
+              "speed_knots": null,
+              "observed_at": null
+            },
+            "detail": "PREFLIGHT Infrastructure Signals returned no position for NS Antarctic.",
+            "purchase": {
+              "rail": "solana-x402",
+              "receiptHash": "0xd3bbf7e0dbd2574129d13e3f9ba209135b81ac12bdb8570e7b5a3b79ddf91f1e",
+              "signalHash": "0x32f1e60e9f1b1c15aaaf78a9734e8aced2aa7346426c130b296debc69f6115ae",
+              "amountUusdc": "10000",
+              "minerId": "20260828",
+              "latencyMs": 13379,
+              "settlementTx": "5bkHChLDhJXdi2ywC3J3Es23VkckkoafHKND5PXHLZck1g3ckn6CEFgiqxEhm8XphgqFttmwg7VxmQ8wPPWstViP"
+            }
+          }
+        ],
+        "status": "unreadable",
+        "fields": {},
+        "detail": "PREFLIGHT Infrastructure Signals returned no position for NS Antarctic."
+      }
+    ],
+    "decision": {
+      "policy": "triad-release-v1",
+      "decision": "BLOCK",
+      "needs": [],
+      "hits": [
+        {
+          "rule": "R-VESSEL-CHANGED",
+          "effect": "hold_callback",
+          "text": "The cargo would move on NS Antarctic (IMO9413559) instead of Pacific Ore (IMO9412345)"
+        },
+        {
+          "rule": "R-SANCTIONS-MATCH",
+          "effect": "block",
+          "text": "IMO9413559 matches a sanctions list entry (OFAC SDN)",
+          "checkId": "sanctions:vessel"
+        }
+      ],
+      "facts": [],
+      "warnings": [
+        "The cargo would move on NS Antarctic (IMO9413559) instead of Pacific Ore (IMO9412345)",
+        "IMO9413559 matches a sanctions list entry (OFAC SDN)"
+      ],
+      "unknowns": [
+        "Where is NS Antarctic (IMO9413559) now? PREFLIGHT Infrastructure Signals returned no position for NS Antarctic."
+      ],
+      "callback": {
+        "target": {
+          "contactId": "treasury",
+          "name": "Freeport-McMoRan Treasury Desk",
+          "channel": "phone",
+          "address": "+16020001004"
+        },
+        "result": null,
+        "accepted": false
+      }
+    },
+    "cost": {
+      "telegraphUusdc": "30000",
+      "purchases": 3
+    }
+  }
+}

@@ -35,10 +35,13 @@ export interface CheckRequest {
 }
 
 // Registries are asked with the country's name; the record stores ISO codes.
-const COUNTRY_NAMES: Record<string, string> = {
-  AE: 'United Arab Emirates', AU: 'Australia', BR: 'Brazil', CA: 'Canada', CH: 'Switzerland', CN: 'China', DE: 'Germany', FR: 'France',
-  GB: 'United Kingdom', HK: 'Hong Kong', IN: 'India', IT: 'Italy', JP: 'Japan', KR: 'South Korea', MY: 'Malaysia', NL: 'Netherlands',
-  NO: 'Norway', SA: 'Saudi Arabia', SG: 'Singapore', TR: 'Turkey', US: 'United States', ZA: 'South Africa', CL: 'Chile', PE: 'Peru',
+export const COUNTRY_NAMES: Record<string, string> = {
+  AE: 'United Arab Emirates', AR: 'Argentina', AT: 'Austria', AU: 'Australia', BE: 'Belgium', BR: 'Brazil', CA: 'Canada', CH: 'Switzerland',
+  CL: 'Chile', CN: 'China', CO: 'Colombia', DE: 'Germany', DK: 'Denmark', EG: 'Egypt', ES: 'Spain', FI: 'Finland', FR: 'France',
+  GB: 'United Kingdom', GH: 'Ghana', GR: 'Greece', HK: 'Hong Kong', ID: 'Indonesia', IE: 'Ireland', IL: 'Israel', IN: 'India', IR: 'Iran',
+  IT: 'Italy', JP: 'Japan', KE: 'Kenya', KR: 'South Korea', KZ: 'Kazakhstan', LU: 'Luxembourg', MX: 'Mexico', MY: 'Malaysia', NG: 'Nigeria',
+  NL: 'Netherlands', NO: 'Norway', PE: 'Peru', PH: 'Philippines', PL: 'Poland', PT: 'Portugal', QA: 'Qatar', RU: 'Russia', SA: 'Saudi Arabia',
+  SE: 'Sweden', SG: 'Singapore', TH: 'Thailand', TR: 'Turkey', UA: 'Ukraine', US: 'United States', VN: 'Vietnam', ZA: 'South Africa',
 };
 export const countryName = (code: string): string => COUNTRY_NAMES[code] ?? code;
 
@@ -83,9 +86,9 @@ export function planChecks(shipment: Shipment, changeSet: ChangeSet): CheckReque
     plan.push(request('identity', 'seller', entity(shipment.seller), { company: shipment.seller.legalName }, false, `What web domain do sources give for ${shipment.seller.legalName}?`));
     plan.push(request('mail', 'sender_domain', { kind: 'domain', domain: senderDomain }, { domain: senderDomain, record_type: 'MX' }, false, `Does ${senderDomain} receive mail at all?`));
   }
-  if (changeSet.destinationChanged) {
-    // The vessel that would actually carry the cargo: the substitute if the instruction names one.
-    const carrier = changeSet.changes.find((c) => c.kind === 'vessel')?.after ?? shipment.vessel;
+  // The vessel that would actually carry the cargo: the substitute if the instruction names one.
+  const carrier = changeSet.changes.find((c) => c.kind === 'vessel')?.after ?? shipment.vessel;
+  if (changeSet.destinationChanged && carrier) {
     const vessel: Subject = { kind: 'vessel', name: carrier.name, imo: carrier.imo };
     // Sanctioned tankers are listed by name and IMO; the vessel carrying the cargo is screened like a party.
     plan.push(request('sanctions', 'vessel', vessel, { name: carrier.name }, true, `Is the vessel ${carrier.name} (${carrier.imo}) sanctioned?`));

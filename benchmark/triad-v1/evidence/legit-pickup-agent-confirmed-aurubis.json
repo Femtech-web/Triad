@@ -1,0 +1,477 @@
+{
+  "evidence_sha256": "0x28295a45e4711a899acaa7f9eafdd2a89619607e1a05757a76b129c6da8623fe",
+  "evidence": {
+    "format": "triad-evidence-v1",
+    "generatedAt": "2026-11-25T08:05:45.706Z",
+    "provenance": {
+      "scenario": "legit-pickup-agent-confirmed-aurubis",
+      "synthetic": [
+        "shipment",
+        "buyer",
+        "seller contacts and mailboxes",
+        "vessel",
+        "payout addresses",
+        "instruction text"
+      ],
+      "network": "testnet"
+    },
+    "shipment": {
+      "id": "bench-aurubis-21",
+      "reference": "TRD-AUR-1021",
+      "commodity": "Copper cathodes, LME grade A",
+      "quantity": "725 t",
+      "amount": {
+        "value": "22000000",
+        "currency": "USDC",
+        "decimals": 6
+      },
+      "buyer": {
+        "id": "buyer",
+        "legalName": "Halden Metals Trading AG",
+        "country": "CH",
+        "domain": "haldenmetals.ch",
+        "contacts": []
+      },
+      "seller": {
+        "id": "seller",
+        "legalName": "Aurubis AG",
+        "country": "DE",
+        "registrationId": "5299005SHIN9ZK7GW242",
+        "domain": "aurubis.com",
+        "contacts": [
+          {
+            "id": "treasury",
+            "name": "Aurubis Treasury Desk",
+            "email": "treasury.desk@aurubis.com",
+            "phone": "+494000001002",
+            "role": "Treasury"
+          },
+          {
+            "id": "logistics",
+            "name": "Aurubis Logistics Desk",
+            "email": "logistics.desk@aurubis.com",
+            "role": "Logistics"
+          }
+        ]
+      },
+      "consignee": {
+        "id": "buyer",
+        "legalName": "Halden Metals Trading AG",
+        "country": "CH",
+        "domain": "haldenmetals.ch",
+        "contacts": []
+      },
+      "pickupParty": {
+        "id": "pickup",
+        "legalName": "Rotterdam Bulk Agency BV",
+        "country": "NL",
+        "contacts": []
+      },
+      "payout": {
+        "holderName": "Aurubis AG",
+        "rail": "sepolia",
+        "address": "0x8c2bbf7ce785c97a48fd248475d4d1c8b09e8b1c",
+        "bankRef": "DE-TRUSTED-21"
+      },
+      "vessel": {
+        "name": "Pacific Ore",
+        "imo": "IMO9412345"
+      },
+      "loadPort": "San Antonio, CL",
+      "dischargePort": "Rotterdam, NL",
+      "documents": [
+        {
+          "kind": "bill_of_lading",
+          "reference": "BL-AURUBIS-21",
+          "sha256": "0290225fc1a90a46858bedb4673ee01455e47df607078b6b23a4ea3dbddb330b"
+        }
+      ],
+      "authorizedContactIds": [
+        "treasury",
+        "logistics"
+      ],
+      "releaseOfficer": {
+        "name": "Halden release desk",
+        "rail": "sepolia",
+        "publicKey": "0x152661B3192173Fd6CD7801C8F2241654F8270f4"
+      }
+    },
+    "instruction": {
+      "id": "ins-bench-aurubis-21-1",
+      "shipmentId": "bench-aurubis-21",
+      "receivedAt": "2026-11-25T09:00:00Z",
+      "channel": {
+        "kind": "email",
+        "from": "logistics.desk@aurubis.com",
+        "displayName": "Aurubis Logistics Desk"
+      },
+      "summary": "Please release the cargo at Rotterdam to our new forwarding agent, A.P. MØLLER - MÆRSK A/S.",
+      "changes": {
+        "pickupParty": {
+          "id": "maersk",
+          "legalName": "A.P. MØLLER - MÆRSK A/S",
+          "country": "DK",
+          "registrationId": "549300D2K6PKKKXVNN73",
+          "contacts": []
+        }
+      }
+    },
+    "changeSet": {
+      "sender": {
+        "from": "logistics.desk@aurubis.com",
+        "domain": {
+          "sender": "aurubis.com",
+          "trusted": "aurubis.com",
+          "relation": "same",
+          "reason": "aurubis.com is the trusted domain"
+        },
+        "authorizedContactId": "logistics",
+        "displayNameImpersonates": null,
+        "replyTo": null
+      },
+      "changes": [
+        {
+          "kind": "pickup_party",
+          "before": {
+            "id": "pickup",
+            "legalName": "Rotterdam Bulk Agency BV",
+            "country": "NL",
+            "contacts": []
+          },
+          "after": {
+            "id": "maersk",
+            "legalName": "A.P. MØLLER - MÆRSK A/S",
+            "country": "DK",
+            "registrationId": "549300D2K6PKKKXVNN73",
+            "contacts": []
+          }
+        }
+      ],
+      "destinationChanged": true
+    },
+    "plan": [
+      {
+        "id": "registry:pickup_party",
+        "check": "registry",
+        "intent": "CORPORATE_REGISTRY_LOOKUP_GENERAL",
+        "params": {
+          "company": "A.P. MØLLER - MÆRSK A/S",
+          "jurisdiction": "Denmark"
+        },
+        "role": "pickup_party",
+        "subject": {
+          "kind": "entity",
+          "name": "A.P. MØLLER - MÆRSK A/S",
+          "country": "DK",
+          "registrationId": "549300D2K6PKKKXVNN73"
+        },
+        "required": true,
+        "purpose": "Pickup party changed: is A.P. MØLLER - MÆRSK A/S a registered, active company?"
+      },
+      {
+        "id": "sanctions:pickup_party",
+        "check": "sanctions",
+        "intent": "SANCTIONS_SCREENING_MATCH_GENERAL",
+        "params": {
+          "name": "A.P. MØLLER - MÆRSK A/S"
+        },
+        "role": "pickup_party",
+        "subject": {
+          "kind": "entity",
+          "name": "A.P. MØLLER - MÆRSK A/S",
+          "country": "DK",
+          "registrationId": "549300D2K6PKKKXVNN73"
+        },
+        "required": true,
+        "purpose": "Pickup party changed: is A.P. MØLLER - MÆRSK A/S on a sanctions list?"
+      },
+      {
+        "id": "sanctions:vessel",
+        "check": "sanctions",
+        "intent": "SANCTIONS_SCREENING_MATCH_GENERAL",
+        "params": {
+          "name": "Pacific Ore"
+        },
+        "role": "vessel",
+        "subject": {
+          "kind": "vessel",
+          "name": "Pacific Ore",
+          "imo": "IMO9412345"
+        },
+        "required": true,
+        "purpose": "Is the vessel Pacific Ore (IMO9412345) sanctioned?"
+      },
+      {
+        "id": "vessel:vessel",
+        "check": "vessel",
+        "intent": "VESSEL_TELEMETRY_VERIFY_GENERAL",
+        "params": {
+          "vessel": "IMO9412345"
+        },
+        "role": "vessel",
+        "subject": {
+          "kind": "vessel",
+          "name": "Pacific Ore",
+          "imo": "IMO9412345"
+        },
+        "required": false,
+        "purpose": "Where is Pacific Ore (IMO9412345) now?"
+      }
+    ],
+    "outcomes": [
+      {
+        "checkId": "registry:pickup_party",
+        "sources": [
+          {
+            "kind": "telegraph",
+            "name": "Praman Desk Compliance & Procurement Auditor",
+            "status": "answered",
+            "fields": {
+              "active": true,
+              "legal_name": "A.P. MØLLER - MÆRSK A/S",
+              "registration_id": "549300D2K6PKKKXVNN73"
+            },
+            "detail": "Praman Desk Compliance & Procurement Auditor: A.P. MØLLER - MÆRSK A/S is active (549300D2K6PKKKXVNN73).",
+            "purchase": {
+              "rail": "solana-x402",
+              "receiptHash": "0xcb1eb125fa61586ee386ad7ec7d65ef92ebd69f61c3cb308ab89065c4b30901d",
+              "signalHash": "0x9a7ebff8d6f040f7615f3b88486d3ed64140438a432a2bbe12af43575cc4095f",
+              "amountUusdc": "10000",
+              "minerId": "6164",
+              "latencyMs": 8124,
+              "settlementTx": "3SAQRmRu1NywRjWKiM3igb4GQESZwZob6JHdPk4368mrnajfuHF6BfKn1qMSW868qXttYGRY13i95eT9HhgUSpwr"
+            }
+          },
+          {
+            "kind": "telegraph",
+            "name": "Miner 98001",
+            "status": "unavailable",
+            "fields": {},
+            "detail": "Expected a 402 payment challenge, got HTTP 503.",
+            "purchase": null
+          }
+        ],
+        "status": "answered",
+        "fields": {
+          "active": true,
+          "legal_name": "A.P. MØLLER - MÆRSK A/S",
+          "registration_id": "549300D2K6PKKKXVNN73",
+          "sources_agreeing": 1
+        },
+        "detail": "Praman Desk Compliance & Procurement Auditor: A.P. MØLLER - MÆRSK A/S is active (549300D2K6PKKKXVNN73). (one source)"
+      },
+      {
+        "checkId": "sanctions:pickup_party",
+        "sources": [
+          {
+            "kind": "telegraph",
+            "name": "ChainSight — Universal Intelligence & Data Oracle",
+            "status": "answered",
+            "fields": {
+              "matched": false,
+              "lists": "OFAC SDN",
+              "matches": null
+            },
+            "detail": "ChainSight — Universal Intelligence & Data Oracle: no match for A.P. MØLLER - MÆRSK A/S on OFAC SDN.",
+            "purchase": {
+              "rail": "solana-x402",
+              "receiptHash": "0xfd67776d6982b5fb76a109d5f4d2d29a7433b9098488568b76f64682e543fcc7",
+              "signalHash": "0x7c8bd1c990adfd7724a3dcc7fb0e21ebab837e49993200d6263be1d1214ebe74",
+              "amountUusdc": "10000",
+              "minerId": "302",
+              "latencyMs": 7759,
+              "settlementTx": "2HzmQS6wmNKxDLSLkQxgeMNsqDjEdoeRgMymw84jKYn2UWRXENQ7jg3ER4KUCnN5FK5fpp1hdH8xoZhYSgfk98zz"
+            }
+          },
+          {
+            "kind": "telegraph",
+            "name": "TxLens",
+            "status": "answered",
+            "fields": {
+              "matched": false,
+              "lists": null,
+              "matches": null
+            },
+            "detail": "TxLens: no match for A.P. MØLLER - MÆRSK A/S.",
+            "purchase": {
+              "rail": "solana-x402",
+              "receiptHash": "0x17d4f4e8f0fbd134f76ed81d955bcc48b40d42cfd3778af886ce69b5d58242e1",
+              "signalHash": "0xae93822ecaa8d5b8438c39129715cae87bc05586ba171c43fe3a6c0716e8d8df",
+              "amountUusdc": "10000",
+              "minerId": "9002",
+              "latencyMs": 8907,
+              "settlementTx": "3iN8H7R9Fpq9andaKHfNEExsUk5w873N4SrhWf216T1Sk59eX5nhS5QMoK5pVi6gt7zzc2KybAZYwQT4ZB4Ea4Yz"
+            }
+          },
+          {
+            "kind": "official",
+            "name": "OFAC SDN list",
+            "status": "answered",
+            "purchase": null,
+            "fields": {
+              "matched": false,
+              "lists": "OFAC SDN",
+              "matches": null
+            },
+            "detail": "No entry for A.P. MØLLER - MÆRSK A/S on OFAC's SDN list.",
+            "snapshot": {
+              "url": "https://www.treasury.gov/ofac/downloads/sdn.csv",
+              "sha256": "e83c93e6159498ce0352549f750023eaa47e561e54c496ba1b0c32e3e33872d6",
+              "retrievedAt": "2026-11-25T05:16:13.052Z"
+            }
+          }
+        ],
+        "status": "answered",
+        "fields": {
+          "matched": false,
+          "lists": "OFAC SDN",
+          "matches": null,
+          "sources_agreeing": 3
+        },
+        "detail": "ChainSight — Universal Intelligence & Data Oracle: no match for A.P. MØLLER - MÆRSK A/S on OFAC SDN. (3 sources agree)"
+      },
+      {
+        "checkId": "sanctions:vessel",
+        "sources": [
+          {
+            "kind": "telegraph",
+            "name": "ChainSight — Universal Intelligence & Data Oracle",
+            "status": "answered",
+            "fields": {
+              "matched": false,
+              "lists": "OFAC SDN",
+              "matches": null
+            },
+            "detail": "ChainSight — Universal Intelligence & Data Oracle: no match for Pacific Ore on OFAC SDN.",
+            "purchase": {
+              "rail": "solana-x402",
+              "receiptHash": "0xd7f2d170cbff8683ec0deeaff93371676c180df77f7bb9c9352d35c4c23bd155",
+              "signalHash": "0x25285cc92d6c5c53e8db3803d3bfde9032c0d752bc46da79501acf02d2474dd7",
+              "amountUusdc": "10000",
+              "minerId": "302",
+              "latencyMs": 9055,
+              "settlementTx": "64HzpWW9Y8ffoibjizPY4QkjSDtbJXoq6pTTeAqR9smBDnaEwpTGxQRwmUEXhbXjpHpfZsv923qGTAFMBRpmRdh5"
+            }
+          },
+          {
+            "kind": "telegraph",
+            "name": "TxLens",
+            "status": "answered",
+            "fields": {
+              "matched": false,
+              "lists": null,
+              "matches": null
+            },
+            "detail": "TxLens: no match for Pacific Ore.",
+            "purchase": {
+              "rail": "solana-x402",
+              "receiptHash": "0x344425195e269515253c2a19a6c5cfc46e079b046a6e54a1e24cd3b22d1f389f",
+              "signalHash": "0x064113c2d594bd12c1e9f546f81f411c10e577b064c12af9ba777b26f02fd89e",
+              "amountUusdc": "10000",
+              "minerId": "9002",
+              "latencyMs": 5753,
+              "settlementTx": "64P8SqSaDzh6wtXrxgEYLBoiUG26HBi8ZfPh2TuiWnV67TGPDVLLbSaRxsrCVpXRdaaTrhTSCkw8UY8LQEyyvQ29"
+            }
+          },
+          {
+            "kind": "official",
+            "name": "OFAC SDN list",
+            "status": "answered",
+            "purchase": null,
+            "fields": {
+              "matched": false,
+              "lists": "OFAC SDN",
+              "matches": null
+            },
+            "detail": "No entry for Pacific Ore (IMO9412345) on OFAC's SDN list.",
+            "snapshot": {
+              "url": "https://www.treasury.gov/ofac/downloads/sdn.csv",
+              "sha256": "e83c93e6159498ce0352549f750023eaa47e561e54c496ba1b0c32e3e33872d6",
+              "retrievedAt": "2026-11-25T05:16:13.052Z"
+            }
+          }
+        ],
+        "status": "answered",
+        "fields": {
+          "matched": false,
+          "lists": "OFAC SDN",
+          "matches": null,
+          "sources_agreeing": 3
+        },
+        "detail": "ChainSight — Universal Intelligence & Data Oracle: no match for Pacific Ore on OFAC SDN. (3 sources agree)"
+      },
+      {
+        "checkId": "vessel:vessel",
+        "sources": [
+          {
+            "kind": "telegraph",
+            "name": "TxLens",
+            "status": "unreadable",
+            "fields": {
+              "latitude": null,
+              "longitude": null,
+              "speed_knots": null,
+              "observed_at": null
+            },
+            "detail": "TxLens returned no position for Pacific Ore.",
+            "purchase": {
+              "rail": "solana-x402",
+              "receiptHash": "0x4d4bf825edfedc0703d5994398835ed82b0ede6637e981904c8a0653f57fbf32",
+              "signalHash": "0x73ff03f646a5b299538971a61cc803d2acbcc50d64de603c18f38ba09494a741",
+              "amountUusdc": "10000",
+              "minerId": "9002",
+              "latencyMs": 7416,
+              "settlementTx": "92GcasEWo9G93nNDmZdrvBwLzPDbAki9oGWhtAGsRzyNiBmCwJ4K5YUeUgTMeUVsBXiNKSG4KeeU8pHKxjZFqKA"
+            }
+          }
+        ],
+        "status": "unreadable",
+        "fields": {},
+        "detail": "TxLens returned no position for Pacific Ore."
+      }
+    ],
+    "decision": {
+      "policy": "triad-release-v1",
+      "decision": "CLEAR",
+      "needs": [],
+      "hits": [
+        {
+          "rule": "R-CARGO-PARTY-CHANGED",
+          "effect": "hold_callback",
+          "text": "The pickup party would change from Rotterdam Bulk Agency BV to A.P. MØLLER - MÆRSK A/S"
+        }
+      ],
+      "facts": [
+        "A.P. MØLLER - MÆRSK A/S is an active registered company (549300D2K6PKKKXVNN73).",
+        "No sanctions match for A.P. MØLLER - MÆRSK A/S.",
+        "No sanctions match for IMO9412345.",
+        "Aurubis Treasury Desk confirmed the change by phone (2026-11-25T10:15:00Z)."
+      ],
+      "warnings": [
+        "The pickup party would change from Rotterdam Bulk Agency BV to A.P. MØLLER - MÆRSK A/S"
+      ],
+      "unknowns": [
+        "Where is Pacific Ore (IMO9412345) now? TxLens returned no position for Pacific Ore."
+      ],
+      "callback": {
+        "target": {
+          "contactId": "treasury",
+          "name": "Aurubis Treasury Desk",
+          "channel": "phone",
+          "address": "+494000001002"
+        },
+        "result": {
+          "contactId": "treasury",
+          "channel": "phone",
+          "outcome": "confirmed",
+          "respondedAt": "2026-11-25T10:15:00Z"
+        },
+        "accepted": true
+      }
+    },
+    "cost": {
+      "telegraphUusdc": "60000",
+      "purchases": 6
+    }
+  }
+}

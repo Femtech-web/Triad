@@ -1,22 +1,23 @@
-import type { Metadata } from 'next';
+import type { Metadata, Viewport } from 'next';
 import Link from 'next/link';
-import { IBM_Plex_Mono, IBM_Plex_Sans, Instrument_Serif } from 'next/font/google';
+import { Bricolage_Grotesque, Instrument_Sans, JetBrains_Mono } from 'next/font/google';
 import { Mark } from '@/components/mark';
 import { Nav } from '@/components/nav';
 import './globals.css';
 
-const serif = Instrument_Serif({ subsets: ['latin'], weight: '400', style: ['normal', 'italic'], variable: '--font-serif' });
-const sans = IBM_Plex_Sans({ subsets: ['latin'], weight: ['400', '500', '600'], variable: '--font-sans' });
-const mono = IBM_Plex_Mono({ subsets: ['latin'], weight: ['400', '600'], variable: '--font-mono' });
+const display = Bricolage_Grotesque({ subsets: ['latin'], axes: ['opsz'], variable: '--font-display' });
+const sans = Instrument_Sans({ subsets: ['latin'], variable: '--font-sans' });
+const mono = JetBrains_Mono({ subsets: ['latin'], variable: '--font-mono' });
 
 export const metadata: Metadata = {
-  title: 'Triad: release gate for commodity trades',
-  description: 'A supplier payment or cargo release moves only when the record, independent intelligence bought through Telegraph and the previously trusted contact agree.',
+  title: 'Triad · Check a payment change before you pay',
+  description: 'Triad stops payment-redirection and cargo-release fraud: a changed instruction moves money or cargo only when the record, independent checks bought through Telegraph, and the contact you already trusted agree.',
 };
+export const viewport: Viewport = { themeColor: '#07080b', colorScheme: 'dark' };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" className={`${serif.variable} ${sans.variable} ${mono.variable}`}>
+    <html lang="en" className={`${display.variable} ${sans.variable} ${mono.variable}`}>
       <body>
         <header className="masthead">
           <div className="wrap">
@@ -27,8 +28,13 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <main>{children}</main>
         <footer className="footer">
           <div className="wrap">
-            <span>Triad · built for Telegraph Hackathon Season II (Mission 08). Testnets only: Ethereum Sepolia and Solana devnet, test USDC.</span>
-            <span>Every decision ships with its evidence file.</span>
+            <span>Triad · built on Telegraph for Hackathon Season II, Mission 08. Testnets only: Ethereum Sepolia and Solana devnet.</span>
+            <nav aria-label="Footer">
+              <Link href="/check">Check a payment</Link>
+              <Link href="/console">Attack lab</Link>
+              <Link href="/benchmark">Benchmark</Link>
+              <Link href="/evidence">Evidence</Link>
+            </nav>
           </div>
         </footer>
       </body>
