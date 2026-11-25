@@ -2,14 +2,14 @@ import Link from 'next/link';
 import { Verdict } from '@/components/verdict';
 import { HeroDecision } from '@/components/hero-decision';
 import { Words } from '@/components/reveal';
-import { LedgerTape } from '@/components/ledger-tape';
+import { LedgerRecent } from '@/components/ledger-recent';
 import { Stamp } from '@/components/note';
 import { benchmarkReport, bestDecision, deployment, releases, roiReport, sales } from '@/lib/data';
 import { money, short } from '@/lib/format';
 import { GATES, NOTE, noteSerial } from '@/lib/gates';
 import s from './landing.module.css';
 
-// The ledger strip reads live decisions; the rest of the page is the shipped record.
+// The ledger list reads live decisions; the rest of the page is the shipped record.
 export const revalidate = 60;
 
 const WITNESSES = [
@@ -56,7 +56,7 @@ export default function Home() {
 
       <section className={`wrap rise d4 ${s.windowWrap}`} aria-label="Example decisions">
         <HeroDecision />
-        <LedgerTape />
+        <LedgerRecent />
       </section>
 
       <section className={`wrap ${s.section}`}>
