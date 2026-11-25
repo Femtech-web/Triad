@@ -8,6 +8,7 @@ import { attestationMessage } from '@triad/evidence/canonical';
 import type { Attestation } from '@triad/evidence/canonical';
 import { loadDirectory, loadSdnListCached, TELEGRAPH_TESTNET } from '@triad/intel';
 import type { MinerDirectory, SdnList } from '@triad/intel';
+import { onVercel } from './where';
 
 // What the console's server needs: its testnet keys, a seal for the evidence it issues, the OFAC snapshot it screens
 // against, Telegraph's Miner directory, and a per-client rate limit. Keys come from the environment when deployed and
@@ -18,7 +19,8 @@ const HEX_KEY = /^0x[0-9a-fA-F]{64}$/;
 
 function evmKey(env: string, file: string): Hex | null {
   const fromEnv = process.env[env];
-  if (fromEnv) {
+  // Locally a pulled .env.local holds a placeholder, which falls through to the .secrets file.
+  if (fromEnv && (onVercel || HEX_KEY.test(fromEnv))) {
     if (!HEX_KEY.test(fromEnv)) throw new Error(`${env} is not a private key.`);
     return fromEnv as Hex;
   }

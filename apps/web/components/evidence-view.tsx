@@ -4,6 +4,7 @@ import type { Attestation, EvidenceFile } from '@triad/evidence/canonical';
 import { checkTitle, EFFECT_LABEL, EFFECT_TONE, short, SOLANA_TX, STATUS_LABEL, statusTone, usdc } from '@/lib/format';
 import { Verdict } from './verdict';
 import { VerifyBadge } from './verify-badge';
+import { NoteLine } from './note';
 import s from './evidence.module.css';
 
 // Telegraph's node keeps every paid answer under its signal hash: the Miner, the Intent, the answer and the payment.
@@ -66,9 +67,10 @@ export function EvidenceView({ evidence, hash, compact, attestation, issuer }: {
       {!compact && (
         <header className={s.head}>
           <div className={s.headText}>
-            <p className="label">Evidence file · {evidence.format}</p>
+            <NoteLine verdict={decision.decision} hash={hash} changes={changeSet.changes.map((c) => c.kind)} press />
             <h1 className={s.title}>{scenario === 'check' ? 'A payment check' : scenario?.replace(/^console:/, 'Attack lab: ') ?? 'Decision'}</h1>
             <p className={`mono ${s.hash}`}>{hash}</p>
+            <p className="muted">Evidence file · {evidence.format}</p>
           </div>
           <Verdict verdict={decision.decision} size="lg" reveal />
         </header>

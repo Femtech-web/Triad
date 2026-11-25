@@ -2,7 +2,7 @@
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 
-const LINKS = [['/console', 'Attack lab', ''], ['/benchmark', 'Benchmark', 'hide-sm'], ['/ledger', 'Ledger', 'hide-sm'], ['/evidence', 'Evidence', 'hide-sm']] as const;
+const LINKS = [['/console', 'Attack lab', 'hide-xs'], ['/benchmark', 'Benchmark', 'hide-sm'], ['/ledger', 'Ledger', 'hide-sm'], ['/evidence', 'Notes', 'hide-sm'], ['/docs', 'Docs', 'hide-sm']] as const;
 
 export function Nav() {
   const path = usePathname();

@@ -3,6 +3,7 @@ import Link from 'next/link';
 import { Bricolage_Grotesque, Instrument_Sans, JetBrains_Mono } from 'next/font/google';
 import { Mark } from '@/components/mark';
 import { Nav } from '@/components/nav';
+import { Reveal } from '@/components/reveal';
 import './globals.css';
 
 const display = Bricolage_Grotesque({ subsets: ['latin'], axes: ['opsz'], variable: '--font-display' });
@@ -26,6 +27,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           </div>
         </header>
         <main>{children}</main>
+        <Reveal />
         <footer className="footer">
           <div className="wrap">
             <span>Triad · built on Telegraph for Hackathon Season II, Mission 08. Testnets only: Ethereum Sepolia and Solana devnet.</span>
@@ -34,7 +36,8 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
               <Link href="/console">Attack lab</Link>
               <Link href="/benchmark">Benchmark</Link>
               <Link href="/ledger">Ledger</Link>
-              <Link href="/evidence">Evidence</Link>
+              <Link href="/evidence">Notes</Link>
+              <Link href="/docs">Docs</Link>
             </nav>
           </div>
         </footer>

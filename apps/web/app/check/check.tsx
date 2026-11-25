@@ -267,8 +267,8 @@ export function Check({ issuer }: { issuer: string | null }) {
           <fieldset className={`card ${s.step}`}>
             <legend className={s.legend}><span className={s.num}>3</span><span><b>What it asks you to change</b><small>Where the money or the cargo would go instead.</small></span></legend>
             <div className="segmented" role="group" aria-label="Kind of change">
-              {([['payout', 'Bank account'], ['pickup', 'Pickup agent'], ['none', 'Nothing, just pay']] as const).map(([k, label]) => (
-                <button key={k} type="button" aria-pressed={form.change.kind === k} onClick={() => set('change', 'kind', k)}>{label}</button>
+              {([['payout', 'Bank account', 'G-01'], ['pickup', 'Pickup agent', 'G-02'], ['none', 'Nothing, just pay', '']] as const).map(([k, label, gate]) => (
+                <button key={k} type="button" aria-pressed={form.change.kind === k} onClick={() => set('change', 'kind', k)}>{gate && <span className="mono muted">{gate} </span>}{label}</button>
               ))}
             </div>
             {form.change.kind === 'payout' && (
@@ -304,9 +304,9 @@ export function Check({ issuer }: { issuer: string | null }) {
               )
             ) : latest ? (
               <>
-                <Decision history={history.map((h) => h.evidence)} onCallback={answer} onRetry={retry} onShare={shareIt} permalink={permalink} busy={Boolean(busy)} atStake={amountUsd > 0 ? { usd: amountUsd, paper: false } : null} />
+                <Decision history={history.map((h) => h.evidence)} hash={latest.evidence_sha256} onCallback={answer} onRetry={retry} onShare={shareIt} permalink={permalink} busy={Boolean(busy)} atStake={amountUsd > 0 ? { usd: amountUsd, paper: false } : null} />
                 <div className={s.panelFoot}>
-                  <a className="btn secondary sm" download={`triad-${latest.evidence_sha256.slice(2, 14)}.json`} href={`data:application/json;charset=utf-8,${encodeURIComponent(JSON.stringify({ evidence_sha256: latest.evidence_sha256, evidence: latest.evidence, attestation: latest.attestation ?? null }, null, 2))}`}>Download evidence</a>
+                  <a className="btn secondary sm" download={`triad-${latest.evidence_sha256.slice(2, 14)}.json`} href={`data:application/json;charset=utf-8,${encodeURIComponent(JSON.stringify({ evidence_sha256: latest.evidence_sha256, evidence: latest.evidence, attestation: latest.attestation ?? null }, null, 2))}`}>Download the note</a>
                   <span className="mono muted">{latest.evidence_sha256.slice(0, 14)}…</span>
                 </div>
               </>
@@ -337,7 +337,7 @@ export function Check({ issuer }: { issuer: string | null }) {
         <section className={`wrap ${s.evidence}`}>
           <details className={`card ${s.details}`}>
             <summary>
-              <span><b>The evidence file</b><span className="muted"> · every check, every source, every receipt</span></span>
+              <span><b>The note’s evidence</b><span className="muted"> · every check, every source, every receipt</span></span>
               <span className="mono muted">{latest.evidence_sha256.slice(0, 18)}…</span>
             </summary>
             <div className={s.detailsBody}><EvidenceView evidence={latest.evidence} hash={latest.evidence_sha256} compact attestation={latest.attestation ?? null} issuer={issuer} /></div>

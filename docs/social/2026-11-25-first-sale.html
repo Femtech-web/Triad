@@ -1,0 +1,68 @@
+<!doctype html>
+<html><head><meta charset="utf-8">
+<title>Triad · first sale · 25 Nov 2026</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,600;12..96,700&family=Instrument+Sans:wght@400;500;600&family=JetBrains+Mono:wght@400;500;600&display=block">
+<style>
+  :root { --bg:#07080b; --panel:#0f1217; --line:rgba(255,255,255,.08); --line2:rgba(255,255,255,.14); --text:#eef1f6; --t2:#a9b1be; --t3:#737c8b; --accent:#8fb0ff; --clear:#3ddc9a; --hold:#f7b84b; --block:#ff6b6b; }
+  * { box-sizing:border-box; margin:0; padding:0; }
+  html,body { width:1600px; height:900px; background:var(--bg); color:var(--text); font-family:'Instrument Sans',sans-serif; overflow:hidden; }
+  .mono { font-family:'JetBrains Mono',monospace; }
+  .page { position:relative; width:1600px; height:900px; padding:52px 76px; background:
+     radial-gradient(900px 520px at 90% -10%, rgba(143,176,255,.16), transparent 62%),
+     radial-gradient(760px 460px at -8% 110%, rgba(255,107,107,.08), transparent 60%), var(--bg); }
+  .grid { position:absolute; inset:0; background-image:linear-gradient(var(--line) 1px,transparent 1px),linear-gradient(90deg,var(--line) 1px,transparent 1px); background-size:80px 80px; opacity:.35; mask-image:linear-gradient(180deg,rgba(0,0,0,.85),transparent 75%); }
+  .top { position:relative; display:flex; align-items:center; justify-content:space-between; }
+  .brand { display:flex; align-items:center; gap:14px; font:600 34px/1 'Bricolage Grotesque'; letter-spacing:-.02em; }
+  .brand svg { width:52px; height:52px; }
+  .pill { display:flex; align-items:center; gap:10px; font-size:17px; color:var(--t2); border:1px solid var(--line2); padding:11px 18px; border-radius:999px; }
+  .pill i { width:9px; height:9px; border-radius:50%; background:var(--clear); box-shadow:0 0 12px var(--clear); }
+  h1 { position:relative; margin-top:46px; font:700 76px/1.02 'Bricolage Grotesque'; letter-spacing:-.035em; max-width:1240px; }
+  h1 span { color:var(--accent); }
+  .sub { position:relative; margin-top:20px; font-size:24px; line-height:1.45; color:var(--t2); max-width:1180px; }
+  .sub b { color:var(--text); font-weight:600; }
+  .cols { position:relative; display:grid; grid-template-columns:1.15fr 1fr; gap:26px; margin-top:40px; }
+  .card { background:linear-gradient(180deg,rgba(255,255,255,.04),rgba(255,255,255,.01)),var(--panel); border:1px solid var(--line2); border-radius:20px; padding:26px 30px; }
+  .label { font:600 13px/1 'Instrument Sans'; letter-spacing:.16em; text-transform:uppercase; color:var(--accent); margin-bottom:14px; }
+  .rows div { display:grid; grid-template-columns:150px 1fr; gap:16px; padding:11px 0; border-top:1px solid var(--line); font-size:19px; align-items:center; }
+  .rows dt { color:var(--t3); }
+  .rows dd { color:var(--text); }
+  .ok { color:var(--clear); }
+  .stamp { display:inline-flex; align-items:center; height:30px; padding:0 10px; border:2px solid var(--block); color:var(--block); border-radius:5px; font:700 14px/1 'Bricolage Grotesque'; letter-spacing:.18em; transform:rotate(-4deg); margin-right:12px; }
+  .big { font:700 92px/1 'Bricolage Grotesque'; letter-spacing:-.04em; }
+  .big small { font-size:40px; color:var(--t3); }
+  .vs { margin-top:10px; font-size:19px; color:var(--t2); line-height:1.4; }
+  .chains { display:flex; gap:10px; margin-top:22px; }
+  .chip { font-size:15px; color:var(--t2); border:1px solid var(--line2); border-radius:8px; padding:7px 11px; }
+  .chip.on { color:var(--accent); border-color:rgba(143,176,255,.4); }
+  .brief { margin-top:16px; font-size:17px; color:var(--t3); line-height:1.45; }
+  .foot { position:absolute; left:76px; right:76px; bottom:40px; display:flex; justify-content:space-between; font-size:17px; color:var(--t3); }
+  .foot b { color:var(--text); font-weight:500; }
+</style></head>
+<body><div class="page"><div class="grid"></div>
+  <div class="top">
+    <div class="brand"><svg viewBox="0 0 32 32"><defs><linearGradient id="r" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#fff" stop-opacity=".95"/><stop offset="1" stop-color="#8fb0ff" stop-opacity=".85"/></linearGradient></defs><g fill="none" stroke="url(#r)" stroke-width="1.7"><circle cx="16" cy="11.2" r="7.2"/><circle cx="11.2" cy="19.6" r="7.2"/><circle cx="20.8" cy="19.6" r="7.2"/></g><circle cx="16" cy="16.8" r="2.1" fill="#3ddc9a"/></svg>Triad</div>
+    <div class="pill"><i></i>25 Nov 2026 · live on Telegraph testnet</div>
+  </div>
+  <h1>An agent paid Triad <span>$0.05</span> to stop a fake bank change.</h1>
+  <p class="sub">The email came from <b class="mono">glencor.com</b>, one letter off the supplier’s real domain. Triad answered <b>BLOCK</b>, settled the x402 payment on Solana, and logged the decision on its public ledger.</p>
+  <div class="cols">
+    <div class="card">
+      <p class="label">The first sale</p>
+      <dl class="rows">
+        <div><dt>Bought</dt><dd>One payment check · <span class="mono">POST /api/v1/check</span></dd></div>
+        <div><dt>Paid</dt><dd>0.05 USDC over x402 · Solana devnet</dd></div>
+        <div><dt>Settled</dt><dd class="mono">mgsyaJcH…3wp6a · <span class="ok">Finalized</span></dd></div>
+        <div><dt>Issued</dt><dd><span class="stamp">Stop</span>Stop note <span class="mono">TRN-9E91-A267</span></dd></div>
+        <div><dt>Signed by</dt><dd class="mono">0xE107…2dCf · EIP-191</dd></div>
+      </dl>
+    </div>
+    <div class="card">
+      <p class="label">The gate behind it</p>
+      <p class="big">0<small> / 20</small></p>
+      <p class="vs">attacks released in 40 frozen cases. A registry-and-sanctions screen on the same paid answers released 11.</p>
+      <div class="chains"><span class="chip on">Solana devnet</span><span class="chip on">Ethereum Sepolia</span><span class="chip">x402 · escrow · Anchor · Foundry</span></div>
+      <p class="brief">Built for use case 4 of Telegraph’s Solana brief: verified global trade.</p>
+    </div>
+  </div>
+  <div class="foot"><span><b>triad-five-steel.vercel.app/check</b> · @Telegraphprotoc</span><span>The buyer was our own test wallet. Testnets only.</span></div>
+</div></body></html>

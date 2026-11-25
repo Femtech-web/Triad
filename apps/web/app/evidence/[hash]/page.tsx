@@ -3,9 +3,9 @@ import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { EvidenceView } from '@/components/evidence-view';
 import { evidenceByHash, releasesFor } from '@/lib/data';
-import { short } from '@/lib/format';
 import { sharedEvidence } from '@/lib/server/ledger';
 import { attest, issuerAddress } from '@/lib/server/runtime';
+import { noteSerial } from '@/lib/gates';
 import s from '../evidence.module.css';
 
 // Signing keys exist only in the deployment runtime, never in the local build.
@@ -32,10 +32,10 @@ export default async function EvidencePage({ params }: { params: Promise<{ hash:
   const scenario = stored.evidence.provenance.scenario;
   return (
     <section className={`wrap ${s.detail}`}>
-      <p className={s.crumbs}><Link href="/evidence">Evidence</Link> / <span className="mono">{short(stored.evidence_sha256)}</span>{stored.sharedAt && <> · shared {stored.sharedAt.slice(0, 16).replace('T', ' ')} UTC by the person who ran it</>}</p>
+      <p className={s.crumbs}><Link href="/evidence">Notes</Link> / <span className="mono">{noteSerial(stored.evidence_sha256)}</span>{stored.sharedAt && <> · shared {stored.sharedAt.slice(0, 16).replace('T', ' ')} UTC by the person who ran it</>}</p>
       <EvidenceView evidence={stored.evidence} hash={stored.evidence_sha256} attestation={stored.attestation} issuer={issuerAddress()} />
       <div className={s.actions}>
-        <a className="btn secondary" href={`/api/evidence/${stored.evidence_sha256}`} download={`triad-${stored.evidence_sha256.slice(2, 14)}.json`}>Download the file</a>
+        <a className="btn secondary" href={`/api/evidence/${stored.evidence_sha256}`} download={`triad-${stored.evidence_sha256.slice(2, 14)}.json`}>Download the note</a>
         {scenario && <Link className="btn secondary" href={`/console?case=${encodeURIComponent(scenario)}`}>Open this case in the attack lab</Link>}
       </div>
       {released.map((r) => (

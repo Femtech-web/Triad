@@ -13,6 +13,7 @@ import { CATEGORY_LABEL, checkTitle, paperValue, RELATION_LABEL, short, usdc } f
 import { MOVES } from '@/lib/moves';
 import { preflight } from '@/lib/preflight';
 import { postStream } from '@/lib/stream-client';
+import { noteSerial } from '@/lib/gates';
 import s from './console.module.css';
 
 interface Issued { evidence: EvidenceFile; evidence_sha256: string; seal?: string; attestation?: Attestation | null }
@@ -370,10 +371,10 @@ export function Console({ cases, live, prices, issuer }: { cases: ConsoleCase[];
 
           {latest && decision && (
             <div ref={resultRef} className={`card ${s.result}`}>
-              <div className="card-head"><span className="card-title">{run!.mode === 'live' ? 'Live decision' : 'Recorded decision'}</span><span className="mono muted">{short(latest.evidence_sha256, 8, 6)}</span></div>
+              <div className="card-head"><span className="card-title">{run!.mode === 'live' ? 'Live decision' : 'Recorded decision'}</span><span className="mono muted" title={latest.evidence_sha256}>{noteSerial(latest.evidence_sha256)}</span></div>
               <div className="card-body">
                 {stale && <p className={s.stale}>You have edited the instruction since this run.</p>}
-                <Decision history={run!.steps.map((x) => x.evidence)} onCallback={callback} onRetry={retry} onShare={run!.mode === 'live' || run!.steps.length > 1 ? shareIt : undefined} permalink={run!.permalink} busy={Boolean(busy)} role="play"
+                <Decision history={run!.steps.map((x) => x.evidence)} hash={run!.steps.at(-1)!.evidence_sha256} onCallback={callback} onRetry={retry} onShare={run!.mode === 'live' || run!.steps.length > 1 ? shareIt : undefined} permalink={run!.permalink} busy={Boolean(busy)} role="play"
                   atStake={(() => { const v = paperValue(current.shipment.commodity, current.shipment.quantity, prices); return v ? { usd: v, paper: true } : null; })()}>
                   {decision.decision === 'CLEAR' && (
                     <div className={s.releaseBox}>

@@ -2,13 +2,14 @@
 import type { EvidenceFile } from '@triad/evidence/canonical';
 import { EFFECT_LABEL, EFFECT_TONE, money } from '@/lib/format';
 import { headline, nextSteps } from '@/lib/plain';
+import { NoteLine } from './note';
 import { Verdict } from './verdict';
 import s from './decision.module.css';
 
 // One decision as the person acting on it needs it: the verdict, what it means, what to do, and why.
 // `role` decides who answers the callback: the payer recording the call, or the viewer playing the contact.
-export function Decision({ history, onCallback, onRetry, onShare, permalink, busy, role = 'record', atStake, children }: {
-  history: EvidenceFile[]; onCallback?: (outcome: 'confirmed' | 'denied') => void; onRetry?: () => void; onShare?: () => void; permalink?: string | null;
+export function Decision({ history, hash, onCallback, onRetry, onShare, permalink, busy, role = 'record', atStake, children }: {
+  history: EvidenceFile[]; hash?: string; onCallback?: (outcome: 'confirmed' | 'denied') => void; onRetry?: () => void; onShare?: () => void; permalink?: string | null;
   busy?: boolean; role?: 'record' | 'play'; atStake?: { usd: number; paper: boolean } | null; children?: React.ReactNode;
 }) {
   const evidence = history.at(-1)!;
@@ -19,6 +20,7 @@ export function Decision({ history, onCallback, onRetry, onShare, permalink, bus
   const awaitingCall = d.needs.includes('callback') && target && onCallback;
   return (
     <div className={s.decision}>
+      {hash && <NoteLine key={hash} verdict={d.decision} hash={hash} changes={evidence.changeSet.changes.map((c) => c.kind)} press />}
       <div className={s.verdictRow}>
         {before && <><Verdict verdict={before} className={s.before} /><span className={s.arrow} aria-hidden="true">→</span></>}
         <Verdict key={evidence.generatedAt} verdict={d.decision} size="lg" reveal />
@@ -57,7 +59,7 @@ export function Decision({ history, onCallback, onRetry, onShare, permalink, bus
               const resolved = h.effect === 'hold_callback' && d.callback.accepted && d.callback.result?.outcome === 'confirmed';
               return <li key={i}><span className={`chip ${resolved ? 'clear' : EFFECT_TONE[h.effect]}`}>{resolved ? 'confirmed by call' : EFFECT_LABEL[h.effect]}</span><span>{h.text}</span></li>;
             })}
-            {d.hits.length > 5 && <li className="muted">and {d.hits.length - 5} more in the evidence file</li>}
+            {d.hits.length > 5 && <li className="muted">and {d.hits.length - 5} more in the note’s evidence</li>}
           </ul>
         </div>
       )}

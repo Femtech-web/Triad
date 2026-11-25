@@ -1,9 +1,10 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import { Verdict } from '@/components/verdict';
-import { short, usdc } from '@/lib/format';
+import { usdc } from '@/lib/format';
 import { readLedger } from '@/lib/server/ledger';
 import { operatorAccount } from '@/lib/server/runtime';
+import { noteSerial } from '@/lib/gates';
 import s from './ledger.module.css';
 
 export const metadata: Metadata = { title: 'Ledger · Triad', description: 'Every decision the Triad app makes, in public: verdict, rules, cost, time and hash. Never a name, an email or an account.' };
@@ -47,7 +48,7 @@ export default async function LedgerPage() {
             {ledger.recent.length ? (
               <div className={`card ${s.scroll}`}>
                 <table>
-                  <thead><tr><th>When (UTC)</th><th>Where</th><th>Verdict</th><th>Rules that fired</th><th>Bought</th><th>Evidence</th></tr></thead>
+                  <thead><tr><th>When (UTC)</th><th>Where</th><th>Verdict</th><th>Rules that fired</th><th>Bought</th><th>Note</th></tr></thead>
                   <tbody>
                     {ledger.recent.map((e) => (
                       <tr key={`${e.at}-${e.hash}`}>
@@ -56,7 +57,7 @@ export default async function LedgerPage() {
                         <td><Verdict verdict={e.decision} /></td>
                         <td><div className={s.rules}>{e.rules.length ? e.rules.slice(0, 3).map((r) => <span key={r} className="chip">{r}</span>) : <span className="muted">none</span>}{e.rules.length > 3 && <span className="muted">+{e.rules.length - 3}</span>}</div></td>
                         <td>{e.step === 'callback' ? <span className="muted">nothing</span> : <>{e.purchases} <span className="muted">· {usdc(e.costUusdc)}</span></>}</td>
-                        <td>{e.shared ? <Link className="mono" href={`/evidence/${e.hash}`}>{short(e.hash, 8, 4)} ↗</Link> : <span className="mono muted" title="Not shared by the person who ran it">{short(e.hash, 8, 4)} · private</span>}</td>
+                        <td>{e.shared ? <Link className="mono" href={`/evidence/${e.hash}`} title={e.hash}>{noteSerial(e.hash)} ↗</Link> : <span className="mono muted" title="Not shared by the person who ran it">{noteSerial(e.hash)} · private</span>}</td>
                       </tr>
                     ))}
                   </tbody>

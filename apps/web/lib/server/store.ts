@@ -2,6 +2,7 @@ import 'server-only';
 import { mkdir, readdir, readFile, writeFile } from 'node:fs/promises';
 import { dirname, join } from 'node:path';
 import { get, list, put } from '@vercel/blob';
+import { onVercel } from './where';
 
 // Where shared evidence and the public ledger live: the deployment's Vercel Blob store when it has one, a folder under
 // the repository's .cache when run locally, and nowhere otherwise (the app then runs without permalinks or a ledger).
@@ -53,5 +54,5 @@ const folderStore: Store = {
 
 // The Blob store only on Vercel itself (or when asked for), so local runs with a pulled token never write to the
 // production ledger.
-const useBlob = Boolean(process.env.BLOB_READ_WRITE_TOKEN) && (Boolean(process.env.VERCEL) || process.env.TRIAD_STORE === 'blob');
-export const store: Store | null = useBlob ? blobStore : process.env.VERCEL ? null : folderStore;
+const useBlob = Boolean(process.env.BLOB_READ_WRITE_TOKEN) && (onVercel || process.env.TRIAD_STORE === 'blob');
+export const store: Store | null = useBlob ? blobStore : onVercel ? null : folderStore;

@@ -51,6 +51,8 @@ A fixed, versioned policy (`triad-release-v1`, 23 named rules) turns that into o
 | `HOLD` | Nothing proves it wrong, but it can't move yet. It names what is missing: the **callback**, **evidence**, or both. |
 | `CLEAR` | Nothing that controls where money or cargo goes has changed, or the trusted contact confirmed the change and every required check passed. |
 
+**Gates and notes.** One engine runs a gate per kind of change: **G-01 Payment change** (new bank details), **G-02 Cargo release** (a new consignee or pickup agent) and **G-03 Vessel substitution**. Each decision is issued as a signed, numbered note named for what it lets happen: a **release note** (CLEAR), a **hold note** (HOLD) or a **stop note** (BLOCK). The serial is the start of the evidence hash, so `TRN-7F83-957F` is the Sovcomflot stop note, and a serial always leads back to one file.
+
 Every decision ships with an **evidence file**: canonical JSON holding the record, the instruction, every purchase with its Telegraph receipt and signal hash, the OFAC snapshot hash, and the rules that fired. Its SHA-256 is what the release officer signs and the escrow stores, so the money can only move against the file.
 
 ## Money moves only against evidence
