@@ -1,13 +1,13 @@
 'use client';
 import { useState } from 'react';
 import { evidenceHashWeb } from '@triad/evidence/canonical';
-import type { EvidenceFile } from '@triad/evidence/canonical';
+import type { Attestation, EvidenceFile } from '@triad/evidence/canonical';
 import { EvidenceView } from '@/components/evidence-view';
 import s from './evidence.module.css';
 
 // Any evidence file, including one downloaded from a live console run, checked entirely in this browser.
-export function DropVerify() {
-  const [loaded, setLoaded] = useState<{ evidence: EvidenceFile; hash: string; stated: boolean } | null>(null);
+export function DropVerify({ issuer }: { issuer: string | null }) {
+  const [loaded, setLoaded] = useState<{ evidence: EvidenceFile; hash: string; stated: boolean; attestation: Attestation | null } | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [over, setOver] = useState(false);
 
@@ -16,10 +16,10 @@ export function DropVerify() {
     setError(null);
     try {
       if (file.size > 2_000_000) throw new Error('That file is larger than any evidence file.');
-      const json = JSON.parse(await file.text()) as { evidence_sha256?: string; evidence?: EvidenceFile } & Partial<EvidenceFile>;
+      const json = JSON.parse(await file.text()) as { evidence_sha256?: string; evidence?: EvidenceFile; attestation?: Attestation } & Partial<EvidenceFile>;
       const evidence = (json.evidence ?? json) as EvidenceFile;
       if (!evidence.decision || !evidence.outcomes) throw new Error('This is not a Triad evidence file.');
-      setLoaded({ evidence, hash: json.evidence_sha256 ?? (await evidenceHashWeb(evidence)), stated: Boolean(json.evidence_sha256) });
+      setLoaded({ evidence, hash: json.evidence_sha256 ?? (await evidenceHashWeb(evidence)), stated: Boolean(json.evidence_sha256), attestation: json.attestation ?? null });
     } catch (e) { setLoaded(null); setError((e as Error).message); }
   }
 
@@ -36,7 +36,7 @@ export function DropVerify() {
       {loaded && (
         <div className={s.dropped}>
           {!loaded.stated && <p className="muted">The file states no hash, so the one shown is the hash your browser computed.</p>}
-          <EvidenceView evidence={loaded.evidence} hash={loaded.hash} />
+          <EvidenceView evidence={loaded.evidence} hash={loaded.hash} attestation={loaded.attestation} issuer={issuer} />
         </div>
       )}
     </>

@@ -3,6 +3,7 @@ import Link from 'next/link';
 import { Verdict } from '@/components/verdict';
 import { decisions, releases } from '@/lib/data';
 import { short, usdc } from '@/lib/format';
+import { issuerAddress } from '@/lib/server/runtime';
 import { DropVerify } from './drop-verify';
 import s from './evidence.module.css';
 
@@ -20,7 +21,7 @@ export default function EvidenceIndex() {
       </section>
 
       <section className={`wrap rise d3 ${s.drop}`}>
-        <DropVerify />
+        <DropVerify issuer={issuerAddress()} />
       </section>
 
       <section className={`wrap ${s.table}`}>

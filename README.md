@@ -6,7 +6,7 @@
 
 ### A release gate for physical commodity trades: a supplier payment or a cargo release moves only when the record, independent checks bought through Telegraph, and the previously trusted contact agree.
 
-[**Live app**](https://triad-five-steel.vercel.app) · [Check a payment](https://triad-five-steel.vercel.app/check) · [Benchmark](benchmark/triad-v1) · [Design](docs/design.md) · [Evidence on record](docs/results)
+[**Live app**](https://triad-five-steel.vercel.app) · [Check a payment](https://triad-five-steel.vercel.app/check) · [Judges, start here](#judges-start-here) · [Benchmark](benchmark/triad-v1) · [Design](docs/design.md) · [Evidence on record](docs/results)
 
 ![Tests](https://img.shields.io/badge/tests-45%20passing-2e9e6b)
 ![Benchmark](https://img.shields.io/badge/attacks%20released-0%2F20%20vs%20baseline%2011%2F20-c0392b)
@@ -16,6 +16,18 @@
 **Telegraph Hackathon Season II:** Apps & Agents · Mission 08
 
 </div>
+
+## Judges, start here
+
+Everything below is free, and needs no wallet or login. Networks: Ethereum Sepolia and Solana devnet, test USDC.
+
+| What | Run it | Check it | Inspect the request and payment | Break it | Reproduce it |
+| --- | --- | --- | --- | --- | --- |
+| **Payment check** | [`/check`](https://triad-five-steel.vercel.app/check): pick the example **Real mailbox, new account**, then **Check it**. Answers stream in as each paid check lands. You get HOLD; record "They didn't send it" and it becomes BLOCK | **Download evidence**, then drop the file on [`/evidence`](https://triad-five-steel.vercel.app/evidence): the hash and Triad's signature are re-checked in your browser | Every answer's signal hash links to Telegraph's own record of it (`/engine/v1/signal/<hash>`); the payer's ledger is linked on [`/ledger`](https://triad-five-steel.vercel.app/ledger) | Example **Look-alike domain**: BLOCK from the email alone, nothing bought | `pnpm check` |
+| **Attack lab** | [`/console`](https://triad-five-steel.vercel.app/console): choose any of the 40 cases, then **Replay recorded run** (free) or **Run it live** | The evidence file under the decision | Receipts and signals per answer | Apply the **Attacker's moves**, or put your own Sepolia address in the payout and try to get paid | `pnpm -s triad decide benchmark/scenarios/pickup-swap-sanctioned.json` |
+| **Benchmark** | [`/benchmark`](https://triad-five-steel.vercel.app/benchmark) | Each Triad verdict links to its evidence file | Each x402 payment's Solana transaction is in the file | [12,585 independent look-alikes](benchmark/independent/lookalikes/README.md), none cleared | `pnpm bench grade`, `pnpm bench:roi`, `pnpm bench:lookalikes` |
+| **Agents** | `POST https://triad-five-steel.vercel.app/api/v1/check`: 5 free a day, then $0.05 over x402; or the [MCP server](apps/mcp) | The MCP tool `verify_evidence` | The `PAYMENT-REQUIRED` challenge, then the settlement in `PAYMENT-RESPONSE` | Send a look-alike sender | `pnpm --filter @triad/mcp start` |
+| **Release on-chain** | An attack-lab CLEAR, then **Fund the escrow and release** (0.01 test USDC) | [Sepolia release](https://sepolia.etherscan.io/tx/0xd46048560cd6c9c2ca909c30258a5486144830ac354344f6180defcfbb93ce58), [Solana release](https://explorer.solana.com/tx/4DXdA22k8fzK8QCYMRa7UZooy86catQAoRDUBnFjeABF1MKoswHd2vVqjJXsiYonp2tnHKQcNf1cqvGFQxfEWJnV?cluster=devnet) | The signed authorization names the evidence hash; the escrow stores it | Change any signed field and the escrow reverts | `(cd contracts/evm && forge test)`, `(cd programs/solana && anchor build && cargo test)` |
 
 ## The problem
 
@@ -57,6 +69,8 @@ Both escrows pay exactly what was signed or revert, release a shipment once, and
 - **Sepolia release:** the [release of shipment `shp-cu-0002`](https://sepolia.etherscan.io/tx/0xd46048560cd6c9c2ca909c30258a5486144830ac354344f6180defcfbb93ce58) paid 1 test USDC against evidence [`0x75ec263e…f00f09`](docs/results/decisions/2026-11-25T0507Z-release-on-schedule-sepolia.json).
 - **Solana release:** the [release of shipment `shp-cu-0003`](https://explorer.solana.com/tx/4DXdA22k8fzK8QCYMRa7UZooy86catQAoRDUBnFjeABF1MKoswHd2vVqjJXsiYonp2tnHKQcNf1cqvGFQxfEWJnV?cluster=devnet) paid 1 devnet USDC against evidence [`0xd4585c2f…33e`](docs/results/decisions/2026-11-25T080415Z-release-on-schedule-solana.json). The escrow account now reads `Released` and stores that hash.
 - **The Sovcomflot block:** [`0x7f83957f…dea93d`](docs/results/decisions/2026-11-24T0625Z-pickup-swap-sanctioned.json), 6 paid checks, records which source missed the match.
+
+**Signed evidence.** Triad's issuer key `0xE107c20e529d13b8ac6E1Bad05224664dc912dCf` ([`deployments/issuer.json`](deployments/issuer.json)) signs every evidence file's hash (EIP-191, message `Triad evidence file\n<hash>`). The signature travels beside the file, never inside it, so the hash doesn't change. The evidence viewer, the MCP tool and any EIP-191 library recover the signer offline.
 
 ## The benchmark
 
@@ -115,6 +129,23 @@ Live at **https://triad-five-steel.vercel.app**, on testnets.
 
 **Verify any evidence file** in your browser: the viewer recomputes the SHA-256 from the canonical bytes with Web Crypto, and a dropped-in file is never uploaded.
 
+
+**For agents.** `POST /api/v1/check` takes the same fields as the page and returns the verdict, the plain-language next steps, and the signed evidence file. Each address gets 5 free checks a day. After that, a check costs **$0.05 in devnet USDC over x402 on Solana**, settled through the public x402 facilitator only after a decision was made.
+```sh
+curl -s https://triad-five-steel.vercel.app/api/v1/check -H 'content-type: application/json' -d '{
+  "supplier": {"legalName": "GLENCORE INTERNATIONAL AG", "country": "CH", "domain": "glencore.com"},
+  "account":  {"holder": "GLENCORE INTERNATIONAL AG", "number": "CH9300762011623852957"},
+  "contact":  {"name": "Glencore Treasury Desk", "email": "treasury.desk@glencore.com", "phone": "+41410001005"},
+  "email":    {"fromName": "Glencore Treasury Desk", "from": "treasury.desk@glencor.com", "message": "Our bank account has changed."},
+  "change":   {"kind": "payout", "holder": "GLENCORE INTERNATIONAL AG", "number": "CH5604835012345678009"}
+}' | jq '{decision, headline, nextSteps}'
+```
+The [MCP server](apps/mcp) (`pnpm --filter @triad/mcp start`) gives an agent four tools: `check_payment_change`, `record_callback_answer`, `share_decision` and `verify_evidence`. With `TRIAD_PAYER_KEYFILE` set to a devnet keypair, it pays the x402 price itself once the free allowance is used.
+
+**From your inbox.** The [browser extension](apps/extension), for Chrome and Firefox, reads the open email in Gmail or Outlook on the web, only when you click its icon. It matches the email to a supplier you saved, a list that stays in your browser, and opens the check filled in. The email travels in the URL fragment, which never reaches a server until you press "Check it".
+
+**Every decision, in public.** [`/ledger`](https://triad-five-steel.vercel.app/ledger) lists every decision the app makes: the verdict, the rules that fired, what was bought, when, and the hash. It never shows names, emails, phone numbers or accounts. A full evidence file becomes public only when its owner presses **Share**, which gives it a permalink.
+
 From the command line:
 
 ```sh
@@ -124,6 +155,42 @@ pnpm -s triad decide benchmark/scenarios/pickup-swap-sanctioned.json --send   # 
 pnpm -s triad verify docs/results/decisions/2026-11-24T0625Z-pickup-swap-sanctioned.json
 pnpm -s triad release <evidence.json> [--send]                               # pay a CLEAR decision on Sepolia
 ```
+
+## Commercial summary
+
+- **Who is it for?**
+  - Physical commodity desks, and the treasury and operations teams who pay suppliers and release cargo on emailed instructions.
+  - The banks that finance those trades.
+  - Agents that run payables.
+- **What does it improve?** "An email asked us to change something" becomes a decision with evidence:
+  - the sender is compared with the record;
+  - checks are bought only for what changed, two sources for anything that matters plus OFAC's own list;
+  - a call goes to the contact you already knew;
+  - only the signed evidence hash can release escrowed money.
+- **What does it do today?** It runs live on testnets:
+  - the web check, the attack lab, an agent API that sells checks over x402, an MCP server and a browser extension for Gmail and Outlook;
+  - a public ledger of every decision;
+  - releases on Ethereum Sepolia and Solana devnet.
+
+  In the frozen benchmark it released 0 of 20 attacks, where a registry-and-sanctions screen released 11.
+- **Why would someone adopt it?**
+  - **Cost:** a check costs a few cents of intelligence, and the median paid decision spent 0.007 USDC per $1M of cargo.
+  - **Defensible decisions:** each decision comes with an evidence file that an auditor, insurer or bank can verify without trusting Triad.
+  - **Low friction:** it only slows down the changes that need slowing.
+- **How can someone try it?**
+  - In a browser, at [https://triad-five-steel.vercel.app/check](https://triad-five-steel.vercel.app/check).
+  - From an email, with the [extension](apps/extension).
+  - From an agent, through `POST /api/v1/check` or the [MCP server](apps/mcp).
+
+### Status and updates
+
+- **21 Nov:** claimed Mission 08 on [bounties#196](https://github.com/telegraphprotocol/bounties/issues/196) and posted the first progress update.
+- **24 Nov:** the first live decision blocked PAO Sovcomflot, a sanctioned pickup agent that the ranked sanctions answer had missed. Progress posted on #196.
+- **25 Nov:**
+  - escrows deployed and released on both chains;
+  - the 40-case benchmark graded;
+  - the app published, with the intelligence P&L and the independent look-alike set.
+- **Adoption:** no independent use is confirmed yet. The [public ledger](https://triad-five-steel.vercel.app/ledger) counts every decision the app makes.
 
 ## How it works
 
@@ -177,6 +244,8 @@ Live runs need testnet keys (`pnpm keys` writes owner-only files to `.secrets/`)
 ```
 apps/web            the payment check, attack lab, callback, release, evidence viewer and benchmark (Next.js)
 apps/cli            triad decide | verify | fund | release
+apps/mcp            the MCP server for agents
+apps/extension      the Gmail and Outlook browser extension
 packages/           core · intel · evidence · settle
 contracts/evm       ShipmentEscrow (Foundry)
 programs/solana     triad_escrow (Anchor)

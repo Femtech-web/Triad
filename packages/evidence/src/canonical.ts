@@ -41,6 +41,11 @@ export async function evidenceHashWeb(file: EvidenceFile): Promise<`0x${string}`
   return `0x${Array.from(new Uint8Array(digest), (b) => b.toString(16).padStart(2, '0')).join('')}`;
 }
 
+// Triad's issuer signs this message (EIP-191) for every evidence file it issues. The signature travels beside the file,
+// never inside it, so the file's hash is the same signed or not.
+export const attestationMessage = (hash: string) => `Triad evidence file\n${hash.toLowerCase()}`;
+export interface Attestation { scheme: 'eip191'; signer: `0x${string}`; signature: `0x${string}` }
+
 // Everything checkable without the hash: the format, and that every paid answer has a receipt and a signal hash.
 export function contentProblems(file: EvidenceFile): string[] {
   const problems: string[] = [];

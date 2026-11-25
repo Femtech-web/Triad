@@ -31,5 +31,6 @@ console.log(JSON.stringify({
   'solana-operator (devnet: deploys the program, funds escrows, pays x402; needs SOL + devnet USDC)': solana('operator'),
   'solana-release-officer (signs ed25519 releases; no funds)': solana('release-officer'),
   'evm-demo-seller (receives demo releases on Sepolia; no funds)': evm('demo-seller'),
+  'evm-issuer (signs the hash of every evidence file so anyone can check it came from Triad; no funds)': evm('issuer'),
   'solana-demo-seller (receives demo releases on devnet; no funds)': solana('demo-seller'),
 }, null, 2));

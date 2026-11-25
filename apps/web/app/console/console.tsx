@@ -1,21 +1,24 @@
 'use client';
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { instructionSchema } from '@triad/core';
+import type { CheckOutcome, CheckRequest } from '@triad/core';
 import type { Instruction, Party, Shipment } from '@triad/core';
-import type { EvidenceFile } from '@triad/evidence/canonical';
+import type { Attestation, EvidenceFile } from '@triad/evidence/canonical';
 import { Decision } from '@/components/decision';
+import { LiveChecks } from '@/components/live-checks';
 import { EvidenceView } from '@/components/evidence-view';
 import { Verdict } from '@/components/verdict';
 import type { ConsoleCase } from '@/lib/cases';
 import { CATEGORY_LABEL, checkTitle, paperValue, RELATION_LABEL, short, usdc } from '@/lib/format';
 import { MOVES } from '@/lib/moves';
 import { preflight } from '@/lib/preflight';
+import { postStream } from '@/lib/stream-client';
 import s from './console.module.css';
 
-interface Issued { evidence: EvidenceFile; evidence_sha256: string; seal?: string }
+interface Issued { evidence: EvidenceFile; evidence_sha256: string; seal?: string; attestation?: Attestation | null }
 interface Release { escrow: string; fundTx: string | null; releaseTx: string; explorer: string; payee: string; amount: string; signer: string }
-interface Run { mode: 'live' | 'replay'; steps: Issued[]; release: Release | null; draftKey: string }
-type Busy = { kind: 'live' | 'replay' | 'callback' | 'release'; started: number } | null;
+interface Run { mode: 'live' | 'replay'; steps: Issued[]; release: Release | null; draftKey: string; permalink: string | null }
+type Busy = { kind: 'live' | 'replay' | 'callback' | 'release' | 'retry' | 'share'; started: number } | null;
 
 const PRICE_UUSDC = 10_000;
 const keyOf = (i: Instruction) => JSON.stringify(i);
@@ -256,12 +259,15 @@ function Preflight({ shipment, draft }: { shipment: Shipment; draft: Instruction
 
 /* The lab */
 
-export function Console({ cases, live, prices }: { cases: ConsoleCase[]; live: { enabled: boolean; reason: string | null }; prices: Record<string, number> }) {
+export function Console({ cases, live, prices, issuer }: { cases: ConsoleCase[]; live: { enabled: boolean; reason: string | null }; prices: Record<string, number>; issuer: string | null }) {
   const [caseName, setCaseName] = useState(cases[0]!.name);
   const current = cases.find((c) => c.name === caseName) ?? cases[0]!;
   const [draft, setDraft] = useState<Instruction>(current.instruction);
   const [run, setRun] = useState<Run | null>(null);
   const [busy, setBusy] = useState<Busy>(null);
+  const [livePlan, setLivePlan] = useState<CheckRequest[]>([]);
+  const [landed, setLanded] = useState<Map<string, CheckOutcome>>(new Map());
+  const stream = { plan: (p: CheckRequest[]) => { setLivePlan(p); setLanded(new Map()); }, outcome: (o: CheckOutcome) => setLanded((m) => new Map(m).set(o.checkId, o)) };
   const [error, setError] = useState<string | null>(null);
   const elapsed = useElapsed(busy);
   const resultRef = useRef<HTMLDivElement>(null);
@@ -297,15 +303,25 @@ export function Console({ cases, live, prices }: { cases: ConsoleCase[]; live: {
   const replay = () => act('replay', async () => {
     const response = await fetch(`/api/evidence/${current.recorded!.hash}`);
     if (!response.ok) throw new Error('The recorded evidence could not be loaded.');
-    setRun({ mode: 'replay', steps: [await response.json() as Issued], release: null, draftKey: keyOf(draft) });
+    setRun({ mode: 'replay', steps: [await response.json() as Issued], release: null, draftKey: keyOf(draft), permalink: null });
   });
   const runLive = () => act('live', async () => {
-    const issued = await post<Issued>('/api/decide', { case: current.name, instruction: instructionSchema.parse(draft) });
-    setRun({ mode: 'live', steps: [issued], release: null, draftKey: keyOf(draft) });
+    setLivePlan([]);
+    const issued = await postStream<Issued>('/api/decide', { case: current.name, instruction: instructionSchema.parse(draft) }, stream);
+    setRun({ mode: 'live', steps: [issued], release: null, draftKey: keyOf(draft), permalink: null });
   });
   const callback = (outcome: 'confirmed' | 'denied') => act('callback', async () => {
     const next = await post<Issued>('/api/callback', { ...latest!, outcome });
-    setRun((r) => (r ? { ...r, steps: [...r.steps, next] } : r));
+    setRun((r) => (r ? { ...r, steps: [...r.steps, next], permalink: null } : r));
+  });
+  const retry = () => act('retry', async () => {
+    setLivePlan([]);
+    const next = await postStream<Issued>('/api/retry', latest!, stream);
+    setRun((r) => (r ? { ...r, steps: [...r.steps, next], permalink: null } : r));
+  });
+  const shareIt = () => act('share', async () => {
+    const { permalink } = await post<{ permalink: string }>('/api/share', latest!);
+    setRun((r) => (r ? { ...r, permalink } : r));
   });
   const release = () => act('release', async () => {
     const done = await post<Release>('/api/release', { ...latest!, rail: 'sepolia' });
@@ -345,7 +361,9 @@ export function Console({ cases, live, prices }: { cases: ConsoleCase[]; live: {
                 {!live.enabled ? live.reason : 'Live runs pay real testnet fees through Telegraph and keep every receipt. 10 to 60 seconds.'}
                 {current.recorded && edited ? ' The recorded run is for the case as written; reset to replay it.' : ''}
               </p>
-              {busy?.kind === 'live' && <div className={s.progress} aria-live="polite"><span className={s.bar} />Asking Telegraph’s Miners and OFAC’s list. Nothing is released while this runs.</div>}
+              {(busy?.kind === 'live' || busy?.kind === 'retry') && (livePlan.length
+                ? <div className={s.liveBox} aria-live="polite"><LiveChecks plan={livePlan} outcomes={landed} elapsed={elapsed} /></div>
+                : <div className={s.progress} aria-live="polite"><span className={s.bar} />Reading the instruction against the record. Nothing is released while this runs.</div>)}
               {error && <p className={s.error} role="alert">{error}</p>}
             </div>
           </div>
@@ -355,7 +373,7 @@ export function Console({ cases, live, prices }: { cases: ConsoleCase[]; live: {
               <div className="card-head"><span className="card-title">{run!.mode === 'live' ? 'Live decision' : 'Recorded decision'}</span><span className="mono muted">{short(latest.evidence_sha256, 8, 6)}</span></div>
               <div className="card-body">
                 {stale && <p className={s.stale}>You have edited the instruction since this run.</p>}
-                <Decision history={run!.steps.map((x) => x.evidence)} onCallback={callback} busy={Boolean(busy)} role="play"
+                <Decision history={run!.steps.map((x) => x.evidence)} onCallback={callback} onRetry={retry} onShare={run!.mode === 'live' || run!.steps.length > 1 ? shareIt : undefined} permalink={run!.permalink} busy={Boolean(busy)} role="play"
                   atStake={(() => { const v = paperValue(current.shipment.commodity, current.shipment.quantity, prices); return v ? { usd: v, paper: true } : null; })()}>
                   {decision.decision === 'CLEAR' && (
                     <div className={s.releaseBox}>
@@ -386,9 +404,9 @@ export function Console({ cases, live, prices }: { cases: ConsoleCase[]; live: {
         <section className={`wrap ${s.evidence}`}>
           <div className={s.evidenceHead}>
             <h2 className="h2">The evidence file</h2>
-            <a className="btn secondary" download={`triad-${latest.evidence_sha256.slice(2, 14)}.json`} href={`data:application/json;charset=utf-8,${encodeURIComponent(JSON.stringify({ evidence_sha256: latest.evidence_sha256, evidence: latest.evidence }, null, 2))}`}>Download it</a>
+            <a className="btn secondary" download={`triad-${latest.evidence_sha256.slice(2, 14)}.json`} href={`data:application/json;charset=utf-8,${encodeURIComponent(JSON.stringify({ evidence_sha256: latest.evidence_sha256, evidence: latest.evidence, attestation: latest.attestation ?? null }, null, 2))}`}>Download it</a>
           </div>
-          <EvidenceView evidence={latest.evidence} hash={latest.evidence_sha256} compact />
+          <EvidenceView evidence={latest.evidence} hash={latest.evidence_sha256} compact attestation={latest.attestation ?? null} issuer={issuer} />
         </section>
       )}
     </>

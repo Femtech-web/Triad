@@ -7,9 +7,9 @@ import s from './decision.module.css';
 
 // One decision as the person acting on it needs it: the verdict, what it means, what to do, and why.
 // `role` decides who answers the callback: the payer recording the call, or the viewer playing the contact.
-export function Decision({ history, onCallback, busy, role = 'record', atStake, children }: {
-  history: EvidenceFile[]; onCallback?: (outcome: 'confirmed' | 'denied') => void; busy?: boolean; role?: 'record' | 'play';
-  atStake?: { usd: number; paper: boolean } | null; children?: React.ReactNode;
+export function Decision({ history, onCallback, onRetry, onShare, permalink, busy, role = 'record', atStake, children }: {
+  history: EvidenceFile[]; onCallback?: (outcome: 'confirmed' | 'denied') => void; onRetry?: () => void; onShare?: () => void; permalink?: string | null;
+  busy?: boolean; role?: 'record' | 'play'; atStake?: { usd: number; paper: boolean } | null; children?: React.ReactNode;
 }) {
   const evidence = history.at(-1)!;
   const d = evidence.decision;
@@ -61,11 +61,34 @@ export function Decision({ history, onCallback, busy, role = 'record', atStake, 
           </ul>
         </div>
       )}
+      {d.needs.includes('evidence') && onRetry && (
+        <div className={s.retry}>
+          <p>Some checks had no usable answer, usually an outage or a rate limit. Triad can buy just those again; answers it already has are kept.</p>
+          <button type="button" className="btn secondary sm" disabled={busy} onClick={onRetry}>Retry the missing checks</button>
+        </div>
+      )}
+
       <dl className={s.ledger}>
         <div><dt>Intelligence bought</dt><dd>{evidence.cost.purchases} check{evidence.cost.purchases === 1 ? '' : 's'} · {(Number(evidence.cost.telegraphUusdc) / 1e6).toFixed(2)} test USDC</dd></div>
         {atStake && atStake.usd > 0 && <div><dt>{atStake.paper ? 'At stake (paper)' : 'At stake'}</dt><dd>{money(atStake.usd)}</dd></div>}
         {atStake && atStake.usd > 0 && evidence.cost.purchases > 0 && <div><dt>Per $1m at stake</dt><dd>{(Number(evidence.cost.telegraphUusdc) / atStake.usd).toFixed(4)} USDC</dd></div>}
       </dl>
+      {onShare && (
+        <div className={s.share}>
+          {permalink ? (
+            <>
+              <span>Shared at</span>
+              <a className="mono" href={permalink} target="_blank" rel="noreferrer">{typeof window === 'undefined' ? permalink : `${window.location.host}${permalink}`}</a>
+              <button type="button" className="btn ghost sm" onClick={() => void navigator.clipboard?.writeText(`${window.location.origin}${permalink}`)}>Copy link</button>
+            </>
+          ) : (
+            <>
+              <span>Only the verdict, rules, cost and hash appear in the public ledger.</span>
+              <button type="button" className="btn ghost sm" disabled={busy} onClick={onShare}>Share this decision</button>
+            </>
+          )}
+        </div>
+      )}
       {children}
     </div>
   );

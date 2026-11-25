@@ -4,6 +4,8 @@ import { existsSync, lstatSync, readFileSync } from 'node:fs';
 import { join } from 'node:path';
 import { privateKeyToAccount } from 'viem/accounts';
 import type { Hex } from 'viem';
+import { attestationMessage } from '@triad/evidence/canonical';
+import type { Attestation } from '@triad/evidence/canonical';
 import { loadDirectory, loadSdnListCached, TELEGRAPH_TESTNET } from '@triad/intel';
 import type { MinerDirectory, SdnList } from '@triad/intel';
 
@@ -41,6 +43,21 @@ export function releaseOfficerAccount() {
 
 export class LiveUnavailable extends Error {}
 
+// Signs every evidence file's hash so anyone can check it came from Triad; without a key, files go out unsigned.
+const issuerKey = () => evmKey('TRIAD_EVM_ISSUER_KEY', 'evm-issuer.json');
+export const issuerAddress = (): string | null => { const key = issuerKey(); return key ? privateKeyToAccount(key).address : null; };
+const signatures = new Map<string, Attestation>();
+export async function attest(evidenceHash: string): Promise<Attestation | null> {
+  const key = issuerKey();
+  if (!key) return null;
+  const hash = evidenceHash.toLowerCase();
+  if (!signatures.has(hash)) {
+    const account = privateKeyToAccount(key);
+    signatures.set(hash, { scheme: 'eip191', signer: account.address, signature: await account.signMessage({ message: attestationMessage(hash) }) });
+  }
+  return signatures.get(hash)!;
+}
+
 // The seal proves an evidence file came from this server, so a callback or release request can't bring its own answers.
 function sealKey(): Buffer {
   const secret = process.env.TRIAD_SEAL_SECRET ?? (operatorKey() ? `derived:${operatorKey()}` : null);
@@ -74,11 +91,11 @@ export function directory(): Promise<MinerDirectory> {
 
 // Per instance and per client address: enough to stop a loop from draining the testnet wallets, not a quota system.
 const windows = new Map<string, number[]>();
-export function allow(bucket: string, client: string, perHour: number): boolean {
+export function allow(bucket: string, client: string, limit: number, windowMs = 3_600_000): boolean {
   const key = `${bucket}:${client}`;
   const now = Date.now();
-  const recent = (windows.get(key) ?? []).filter((t) => now - t < 3_600_000);
-  if (recent.length >= perHour) { windows.set(key, recent); return false; }
+  const recent = (windows.get(key) ?? []).filter((t) => now - t < windowMs);
+  if (recent.length >= limit) { windows.set(key, recent); return false; }
   recent.push(now);
   windows.set(key, recent);
   return true;

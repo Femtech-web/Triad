@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <link rel="stylesheet" href="style.css" />
+  <title>Triad: your suppliers</title>
+</head>
+<body class="options">
+  <header><img src="icons/32.png" alt="" width="24" height="24" /><b>Triad</b><span>your suppliers</span></header>
+  <main class="stack">
+    <p class="muted">What you already trust for each supplier: their real domain, the account you pay today, and the contact you would call. It stays in this browser and fills in Triad's check when an email claims to be from them.</p>
+    <ul id="list" class="list"></ul>
+    <form id="form" class="card stack">
+      <p class="label" id="formTitle">Add a supplier</p>
+      <div class="grid">
+        <input name="legalName" placeholder="Legal name" required />
+        <input name="country" class="mono" maxlength="2" placeholder="Country (ISO, e.g. CH)" required />
+        <input name="domain" class="mono" placeholder="Real domain, e.g. glencore.com" required />
+        <input name="registrationId" class="mono" placeholder="Company ID (optional)" />
+        <input name="accountHolder" placeholder="Account holder you pay today" required />
+        <input name="accountNumber" class="mono" placeholder="Account number or IBAN you pay today" required />
+        <input name="contactName" placeholder="Contact you trust" required />
+        <input name="contactEmail" class="mono" type="email" placeholder="Their email" required />
+        <input name="contactPhone" class="mono" placeholder="Their phone, +41 …" />
+      </div>
+      <div class="row"><button class="btn" type="submit">Save supplier</button><button class="btn ghost" type="reset">Clear</button></div>
+    </form>
+    <details class="card"><summary>Triad address</summary><input id="baseUrl" class="mono" /></details>
+  </main>
+  <script type="module" src="options.js"></script>
+</body>
+</html>

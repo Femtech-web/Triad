@@ -1,10 +1,13 @@
 import { RULES } from '@triad/core';
 import type { CheckOutcome, CheckRequest, SourceAnswer } from '@triad/core';
-import type { EvidenceFile } from '@triad/evidence/canonical';
+import type { Attestation, EvidenceFile } from '@triad/evidence/canonical';
 import { checkTitle, EFFECT_LABEL, EFFECT_TONE, short, SOLANA_TX, STATUS_LABEL, statusTone, usdc } from '@/lib/format';
 import { Verdict } from './verdict';
 import { VerifyBadge } from './verify-badge';
 import s from './evidence.module.css';
+
+// Telegraph's node keeps every paid answer under its signal hash: the Miner, the Intent, the answer and the payment.
+const SIGNAL = (hash: string) => `https://devnode.telegraphprotocol.com/engine/v1/signal/${hash}`;
 
 function Source({ source }: { source: SourceAnswer }) {
   const p = source.purchase;
@@ -20,7 +23,7 @@ function Source({ source }: { source: SourceAnswer }) {
           <dt>Paid</dt><dd>{usdc(p.amountUusdc)} · {p.rail === 'sepolia-escrow' ? 'Sepolia escrow' : p.rail === 'solana-x402' ? 'Solana x402' : 'Base x402'} · {(p.latencyMs / 1000).toFixed(1)} s</dd>
           {p.minerId && <><dt>Miner</dt><dd className="mono">{p.minerId}</dd></>}
           <dt>Receipt</dt><dd className="mono" title={p.receiptHash ?? ''}>{p.receiptHash ? short(p.receiptHash, 12, 8) : 'none'}</dd>
-          <dt>Signal</dt><dd className="mono" title={p.signalHash ?? ''}>{p.signalHash ? short(p.signalHash, 12, 8) : 'none'}</dd>
+          <dt>Signal</dt><dd>{p.signalHash ? <a className="mono" href={SIGNAL(p.signalHash)} target="_blank" rel="noreferrer" title="Telegraph's own record of this answer">{short(p.signalHash, 12, 8)} ↗</a> : <span className="mono">none</span>}</dd>
           {p.settlementTx && <><dt>Payment</dt><dd><a className="mono" href={SOLANA_TX(p.settlementTx)} target="_blank" rel="noreferrer">{short(p.settlementTx, 10, 6)}</a></dd></>}
         </dl>
       )}
@@ -53,7 +56,7 @@ function Check({ request, outcome }: { request: CheckRequest; outcome: CheckOutc
   );
 }
 
-export function EvidenceView({ evidence, hash, compact }: { evidence: EvidenceFile; hash: string; compact?: boolean }) {
+export function EvidenceView({ evidence, hash, compact, attestation, issuer }: { evidence: EvidenceFile; hash: string; compact?: boolean; attestation?: Attestation | null; issuer?: string | null }) {
   const { decision, plan, outcomes, instruction, changeSet, shipment } = evidence;
   const byId = new Map(outcomes.map((o) => [o.checkId, o]));
   const target = decision.callback.target;
@@ -71,7 +74,7 @@ export function EvidenceView({ evidence, hash, compact }: { evidence: EvidenceFi
         </header>
       )}
 
-      <VerifyBadge evidence={evidence} hash={hash} />
+      <VerifyBadge evidence={evidence} hash={hash} attestation={attestation ?? null} issuer={issuer ?? null} />
 
       <dl className={`fields ${s.meta}`}>
         <dt>Decided</dt><dd>{evidence.generatedAt.slice(0, 19).replace('T', ' ')} UTC under <span className="mono">{decision.policy}</span></dd>

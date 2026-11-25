@@ -4,27 +4,38 @@ import { notFound } from 'next/navigation';
 import { EvidenceView } from '@/components/evidence-view';
 import { decisions, evidenceByHash, releasesFor } from '@/lib/data';
 import { short } from '@/lib/format';
+import { sharedEvidence } from '@/lib/server/ledger';
+import { attest, issuerAddress } from '@/lib/server/runtime';
 import s from '../evidence.module.css';
 
-export const dynamicParams = false;
+// Repository evidence is built ahead; a decision someone shared is read from the store on first visit.
+export const dynamicParams = true;
+export const revalidate = 3600;
 export function generateStaticParams() {
   return decisions().map((d) => ({ hash: d.evidence_sha256 }));
 }
 
+async function find(hash: string) {
+  const stored = evidenceByHash(hash);
+  if (stored) return { ...stored, attestation: await attest(stored.evidence_sha256), sharedAt: null };
+  const shared = await sharedEvidence(hash);
+  return shared ? { ...shared, attestation: shared.attestation ?? (await attest(shared.evidence_sha256)) } : null;
+}
+
 export async function generateMetadata({ params }: { params: Promise<{ hash: string }> }): Promise<Metadata> {
-  const stored = evidenceByHash((await params).hash);
-  return { title: stored ? `${stored.evidence.decision.decision} · ${stored.evidence.provenance.scenario} · Triad` : 'Evidence · Triad' };
+  const stored = await find((await params).hash);
+  return { title: stored ? `${stored.evidence.decision.decision} · ${stored.evidence.provenance.scenario === 'check' ? 'A payment check' : stored.evidence.provenance.scenario} · Triad` : 'Evidence · Triad' };
 }
 
 export default async function EvidencePage({ params }: { params: Promise<{ hash: string }> }) {
-  const stored = evidenceByHash((await params).hash);
+  const stored = await find((await params).hash);
   if (!stored) notFound();
   const released = releasesFor(stored.evidence_sha256);
   const scenario = stored.evidence.provenance.scenario;
   return (
     <section className={`wrap ${s.detail}`}>
-      <p className={s.crumbs}><Link href="/evidence">Evidence</Link> / <span className="mono">{short(stored.evidence_sha256)}</span></p>
-      <EvidenceView evidence={stored.evidence} hash={stored.evidence_sha256} />
+      <p className={s.crumbs}><Link href="/evidence">Evidence</Link> / <span className="mono">{short(stored.evidence_sha256)}</span>{stored.sharedAt && <> · shared {stored.sharedAt.slice(0, 16).replace('T', ' ')} UTC by the person who ran it</>}</p>
+      <EvidenceView evidence={stored.evidence} hash={stored.evidence_sha256} attestation={stored.attestation} issuer={issuerAddress()} />
       <div className={s.actions}>
         <a className="btn secondary" href={`/api/evidence/${stored.evidence_sha256}`} download={`triad-${stored.evidence_sha256.slice(2, 14)}.json`}>Download the file</a>
         {scenario && <Link className="btn secondary" href={`/console?case=${encodeURIComponent(scenario)}`}>Open this case in the attack lab</Link>}

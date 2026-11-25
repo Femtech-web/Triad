@@ -1,17 +1,20 @@
 'use client';
 import { useEffect, useMemo, useState } from 'react';
 import { COUNTRY_NAMES } from '@triad/core';
-import type { EvidenceFile } from '@triad/evidence/canonical';
+import type { CheckOutcome, CheckRequest } from '@triad/core';
+import type { Attestation, EvidenceFile } from '@triad/evidence/canonical';
 import { Decision } from '@/components/decision';
+import { LiveChecks } from '@/components/live-checks';
 import { EvidenceView } from '@/components/evidence-view';
 import { checkInputSchema, toCase } from '@/lib/check-model';
 import type { CheckInput } from '@/lib/check-model';
 import { EXAMPLES } from '@/lib/examples';
 import { checkTitle, RELATION_LABEL, usdc } from '@/lib/format';
 import { preflight } from '@/lib/preflight';
+import { postStream } from '@/lib/stream-client';
 import s from './check.module.css';
 
-interface Issued { evidence: EvidenceFile; evidence_sha256: string; seal?: string }
+interface Issued { evidence: EvidenceFile; evidence_sha256: string; seal?: string; attestation?: Attestation | null }
 type Kind = 'payout' | 'pickup' | 'none';
 interface Form {
   supplier: { legalName: string; country: string; domain: string; registrationId: string };
@@ -38,6 +41,24 @@ function fromInput(i: CheckInput): Form {
     change: { ...EMPTY.change, kind: c.kind, ...(c.kind === 'payout' ? { holder: c.holder, number: c.number } : c.kind === 'pickup' ? { legalName: c.legalName, country: c.country } : {}) },
   };
 }
+// The browser extension opens this page with #prefill=<base64url JSON>: a fragment, so the email never reaches a server
+// until the person presses "Check it". Only known text fields are taken.
+function fromPrefill(hash: string): { form: Form; amount: string } | null {
+  const match = /^#prefill=([A-Za-z0-9_-]+)$/.exec(hash);
+  if (!match) return null;
+  try {
+    const raw = JSON.parse(new TextDecoder().decode(Uint8Array.from(atob(match[1]!.replace(/-/g, '+').replace(/_/g, '/')), (c) => c.charCodeAt(0)))) as Record<string, Record<string, unknown> | string>;
+    const pick = <S extends keyof Form>(section: S): Form[S] => {
+      const given = raw[section];
+      const base = { ...EMPTY[section] } as Record<string, string>;
+      if (given && typeof given === 'object') for (const key of Object.keys(base)) if (typeof given[key] === 'string') base[key] = (given[key] as string).slice(0, 2000);
+      return base as Form[S];
+    };
+    const form = { supplier: pick('supplier'), account: pick('account'), contact: pick('contact'), email: pick('email'), change: pick('change') };
+    if (!['payout', 'pickup', 'none'].includes(form.change.kind)) form.change.kind = 'payout';
+    return { form, amount: typeof raw.amountUsd === 'string' ? raw.amountUsd : '' };
+  } catch { return null; }
+}
 const opt = <K extends string>(key: K, v: string) => (v.trim() ? { [key]: v } : {}) as Partial<Record<K, string>>;
 function toInput(f: Form): CheckInput {
   return {
@@ -56,18 +77,33 @@ async function post<T>(path: string, body: unknown): Promise<T> {
   return data;
 }
 
-export function Check() {
+export function Check({ issuer }: { issuer: string | null }) {
   const [form, setForm] = useState<Form>(EMPTY);
   const [example, setExample] = useState<string | null>(null);
   const [touched, setTouched] = useState<Set<string>>(new Set());
   const [attempted, setAttempted] = useState(false);
   const [history, setHistory] = useState<Issued[]>([]);
-  const [busy, setBusy] = useState<null | 'check' | 'callback'>(null);
+  const [busy, setBusy] = useState<null | 'check' | 'callback' | 'retry' | 'share'>(null);
+  const [livePlan, setLivePlan] = useState<CheckRequest[]>([]);
+  const [landed, setLanded] = useState<Map<string, CheckOutcome>>(new Map());
+  const [permalink, setPermalink] = useState<string | null>(null);
+  const stream = { plan: (p: CheckRequest[]) => setLivePlan(p), outcome: (o: CheckOutcome) => setLanded((m) => new Map(m).set(o.checkId, o)) };
+  const begin = (kind: 'check' | 'retry') => { setBusy(kind); setError(null); setStarted(Date.now()); setNow(Date.now()); setLivePlan([]); setLanded(new Map()); };
   const [error, setError] = useState<string | null>(null);
   const [started, setStarted] = useState(0);
   const [amount, setAmount] = useState('');
   const amountUsd = Number(amount.replace(/[^\d.]/g, ''));
   const [now, setNow] = useState(0);
+
+  const [prefilled, setPrefilled] = useState(false);
+  useEffect(() => {
+    const found = fromPrefill(window.location.hash);
+    if (!found) return;
+    setForm(found.form);
+    setAmount(found.amount);
+    setPrefilled(true);
+    window.history.replaceState(null, '', window.location.pathname);
+  }, []);
 
   useEffect(() => {
     if (!busy) return;
@@ -109,9 +145,10 @@ export function Check() {
   async function run() {
     setAttempted(true);
     if (!parsed.success) return;
-    setBusy('check'); setError(null); setStarted(Date.now()); setNow(Date.now());
+    begin('check');
     try {
-      setHistory([await post<Issued>('/api/check', toInput(form))]);
+      setHistory([await postStream<Issued>('/api/check', toInput(form), stream)]);
+      setPermalink(null);
       if (window.matchMedia('(max-width: 1080px)').matches) setTimeout(() => document.getElementById('check-result')?.scrollIntoView({ behavior: 'smooth', block: 'start' }), 80);
     }
     catch (e) { setError((e as Error).message); }
@@ -121,7 +158,23 @@ export function Check() {
     const latest = history.at(-1);
     if (!latest) return;
     setBusy('callback'); setError(null);
-    try { const next = await post<Issued>('/api/callback', { ...latest, outcome }); setHistory((h) => [...h, next]); }
+    try { const next = await post<Issued>('/api/callback', { ...latest, outcome }); setHistory((h) => [...h, next]); setPermalink(null); }
+    catch (e) { setError((e as Error).message); }
+    finally { setBusy(null); }
+  }
+  async function retry() {
+    const latest = history.at(-1);
+    if (!latest) return;
+    begin('retry');
+    try { const next = await postStream<Issued>('/api/retry', latest, stream); setHistory((h) => [...h, next]); setPermalink(null); }
+    catch (e) { setError((e as Error).message); }
+    finally { setBusy(null); }
+  }
+  async function shareIt() {
+    const latest = history.at(-1);
+    if (!latest) return;
+    setBusy('share'); setError(null);
+    try { setPermalink((await post<{ permalink: string }>('/api/share', latest)).permalink); }
     catch (e) { setError((e as Error).message); }
     finally { setBusy(null); }
   }
@@ -163,6 +216,7 @@ export function Check() {
         <p className="label rise">Check a payment change</p>
         <h1 className={`display rise d1 ${s.title}`}>Is this change safe to act on?</h1>
         <p className="lede rise d2">Tell Triad who you pay and paste the email you received. It checks the sender, buys independent checks on whatever changed, and tells you exactly what to do next.</p>
+        {prefilled && <p className={`rise d3 ${s.prefilled}`}>Filled in from your email by the Triad extension. Check every field against your own records before you run it.</p>}
         <div className={`rise d3 ${s.examples}`}>
           <span className={s.examplesLabel}>Try an example</span>
           <div className="segmented">
@@ -240,20 +294,19 @@ export function Check() {
 
         <aside id="check-result" className={s.side} aria-live="polite">
           <div className={`card ${s.panel}`}>
-            {busy === 'check' ? (
-              <div className={s.running}>
-                <p className="label">Checking</p>
-                <p className={s.runningTitle}>Asking independent sources…</p>
-                <ul className={s.plan}>
-                  {(pre?.plan ?? []).map((c) => <li key={c.id}><span className={s.spinner} aria-hidden="true" />{checkTitle(c.id)}</li>)}
-                </ul>
-                <p className="muted">{elapsed.toFixed(0)} s · usually 10 to 40 seconds</p>
-              </div>
+            {busy === 'check' || busy === 'retry' ? (
+              livePlan.length ? <LiveChecks plan={livePlan} outcomes={landed} elapsed={elapsed} /> : (
+                <div className={s.running}>
+                  <p className="label">{busy === 'retry' ? 'Retrying' : 'Checking'}</p>
+                  <p className={s.runningTitle}>Reading the email against your record…</p>
+                  <p className="muted">{elapsed.toFixed(0)} s</p>
+                </div>
+              )
             ) : latest ? (
               <>
-                <Decision history={history.map((h) => h.evidence)} onCallback={answer} busy={busy === 'callback'} atStake={amountUsd > 0 ? { usd: amountUsd, paper: false } : null} />
+                <Decision history={history.map((h) => h.evidence)} onCallback={answer} onRetry={retry} onShare={shareIt} permalink={permalink} busy={Boolean(busy)} atStake={amountUsd > 0 ? { usd: amountUsd, paper: false } : null} />
                 <div className={s.panelFoot}>
-                  <a className="btn secondary sm" download={`triad-${latest.evidence_sha256.slice(2, 14)}.json`} href={`data:application/json;charset=utf-8,${encodeURIComponent(JSON.stringify({ evidence_sha256: latest.evidence_sha256, evidence: latest.evidence }, null, 2))}`}>Download evidence</a>
+                  <a className="btn secondary sm" download={`triad-${latest.evidence_sha256.slice(2, 14)}.json`} href={`data:application/json;charset=utf-8,${encodeURIComponent(JSON.stringify({ evidence_sha256: latest.evidence_sha256, evidence: latest.evidence, attestation: latest.attestation ?? null }, null, 2))}`}>Download evidence</a>
                   <span className="mono muted">{latest.evidence_sha256.slice(0, 14)}…</span>
                 </div>
               </>
@@ -287,7 +340,7 @@ export function Check() {
               <span><b>The evidence file</b><span className="muted"> · every check, every source, every receipt</span></span>
               <span className="mono muted">{latest.evidence_sha256.slice(0, 18)}…</span>
             </summary>
-            <div className={s.detailsBody}><EvidenceView evidence={latest.evidence} hash={latest.evidence_sha256} compact /></div>
+            <div className={s.detailsBody}><EvidenceView evidence={latest.evidence} hash={latest.evidence_sha256} compact attestation={latest.attestation ?? null} issuer={issuer} /></div>
           </details>
         </section>
       )}

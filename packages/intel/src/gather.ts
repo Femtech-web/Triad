@@ -13,6 +13,8 @@ export interface GatherOptions {
   sdn: SdnList | null;
   concurrency?: number;
   callTimeoutMs?: number;
+  // Called as each check completes, so a caller can show answers as they land.
+  onOutcome?: (outcome: CheckOutcome) => void;
 }
 
 // Which failure explains a check best when no source answered usably.
@@ -66,6 +68,7 @@ export async function gather(plan: CheckRequest[], options: GatherOptions): Prom
     while (next < plan.length) {
       const index = next++;
       outcomes[index] = await gatherOne(plan[index]!, options);
+      options.onOutcome?.(outcomes[index]!);
     }
   };
   await Promise.all(Array.from({ length: Math.min(options.concurrency ?? 3, plan.length) }, worker));

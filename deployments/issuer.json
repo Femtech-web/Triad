@@ -1,0 +1,8 @@
+{
+  "role": "evidence issuer",
+  "scheme": "eip191",
+  "address": "0xE107c20e529d13b8ac6E1Bad05224664dc912dCf",
+  "message": "Triad evidence file\n<evidence sha256, lowercase 0x-hex>",
+  "purpose": "Signs the hash of every evidence file Triad issues, so anyone can check a file came from Triad. Holds no funds and signs nothing else.",
+  "createdAt": "2026-11-25"
+}

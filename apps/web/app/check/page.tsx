@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import { issuerAddress } from '@/lib/server/runtime';
 import { Check } from './check';
 
 export const metadata: Metadata = {
@@ -7,5 +8,5 @@ export const metadata: Metadata = {
 };
 
 export default function CheckPage() {
-  return <Check />;
+  return <Check issuer={issuerAddress()} />;
 }

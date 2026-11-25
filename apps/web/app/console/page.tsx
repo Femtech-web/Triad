@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
 import { consoleCases } from '@/lib/cases';
 import { paperPrices } from '@/lib/data';
-import { LiveUnavailable, operatorAccount, releaseOfficerAccount } from '@/lib/server/runtime';
+import { issuerAddress, LiveUnavailable, operatorAccount, releaseOfficerAccount } from '@/lib/server/runtime';
 import { Console } from './console';
 
 export const metadata: Metadata = { title: 'Attack console · Triad' };
@@ -18,5 +18,5 @@ function liveStatus(): { enabled: boolean; reason: string | null } {
 }
 
 export default function ConsolePage() {
-  return <Console cases={consoleCases()} live={liveStatus()} prices={paperPrices()} />;
+  return <Console cases={consoleCases()} live={liveStatus()} prices={paperPrices()} issuer={issuerAddress()} />;
 }
