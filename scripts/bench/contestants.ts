@@ -57,7 +57,7 @@ export async function askFrontier(config: { baseUrl: string; model: string; apiK
   let response: Response;
   for (let attempt = 0; ; attempt++) {
     response = await fetch(`${config.baseUrl.replace(/\/$/, '')}/chat/completions`, {
-      method: 'POST', redirect: 'error', signal: AbortSignal.timeout(120_000),
+      method: 'POST', redirect: 'error', signal: AbortSignal.timeout(240_000),
       headers: { authorization: `Bearer ${config.apiKey}`, 'content-type': 'application/json' },
       body: JSON.stringify({ model: config.model, response_format: { type: 'json_object' }, messages: [{ role: 'system', content: FRONTIER_SYSTEM }, { role: 'user', content: caseFile }] }),
     });
